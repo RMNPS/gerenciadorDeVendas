@@ -137,22 +137,22 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel5" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="btnClonar" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="salvarButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jPanel4" min="-2" pref="233" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="jPanel4" pref="243" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -254,9 +254,9 @@
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnCalculaVenda" min="-2" pref="41" max="-2" attributes="0"/>
-                              <Component id="btnTamanho2" min="-2" pref="41" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="btnCalculaVenda" pref="60" max="32767" attributes="0"/>
+                              <Component id="btnTamanho2" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -469,41 +469,32 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jLabel1" pref="102" max="32767" attributes="0"/>
+                              <Component id="lblID" max="32767" attributes="0"/>
+                              <Component id="lblValidade" alignment="1" max="32767" attributes="0"/>
+                              <Component id="lblQuantidadeEstoque" alignment="1" max="32767" attributes="0"/>
+                              <Component id="lblTamanho" alignment="1" max="32767" attributes="0"/>
+                              <Component id="lblCor" alignment="1" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txtID" min="-2" pref="177" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="lblID" min="-2" pref="82" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="txtID" min="-2" pref="177" max="-2" attributes="0"/>
+                                  <Component id="cmbCor" min="-2" pref="177" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnCor" min="-2" pref="41" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="lblValidade" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
-                                      <Component id="lblQuantidadeEstoque" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel1" min="-2" pref="82" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="lblCor" alignment="1" max="32767" attributes="0"/>
-                                          <Component id="lblTamanho" alignment="1" max="32767" attributes="0"/>
-                                      </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="txtCodigoBarras" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="cmbTamanho" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtQuantidade" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtValidade" alignment="0" pref="177" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="cmbCor" min="-2" pref="177" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="btnCor" min="-2" pref="41" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="txtCodigoBarras" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="cmbTamanho" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txtQuantidade" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txtValidade" alignment="0" pref="177" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="btnTamanho" min="-2" pref="41" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnTamanho" min="-2" pref="41" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -514,9 +505,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtID" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblID" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblID" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="txtID" alignment="3" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -542,12 +533,10 @@
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblCor" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnCor" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cmbCor" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnCor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbCor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblCor" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -604,6 +593,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblTamanho">
                   <Properties>
+                    <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="text" type="java.lang.String" value="Tamanho"/>
                   </Properties>
                 </Component>
@@ -627,6 +617,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
+                    <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="text" type="java.lang.String" value="C&#xf3;digo de Barras"/>
                   </Properties>
                 </Component>
@@ -666,7 +657,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Component id="lblFoto" pref="322" max="32767" attributes="0"/>
+                          <Component id="lblFoto" pref="312" max="32767" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
