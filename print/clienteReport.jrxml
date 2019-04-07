@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="clienteReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="511" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="c36b2859-784d-4f06-aced-64ede468a5d4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="cliente" class="java.lang.Object"/>
+	<field name="codigoBarras" class="java.lang.String"/>
+	<detail>
+		<band height="215" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="100" height="20" uuid="c2744430-f8b0-404c-8a94-5355819d0d11"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="163">
+			<rectangle radius="10">
+				<reportElement x="252" y="18" width="252" height="144" forecolor="#FF5722" backcolor="#FF5722" uuid="181de21e-6143-4982-95a5-c0d60d5cc1ec"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="0" y="18" width="252" height="144" uuid="48465245-5938-408c-88d8-caac905a6188"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="-36" y="17" width="585" height="1" uuid="f3bd89b4-16e9-4975-8e8d-2c99c6a19770"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="-34" y="162" width="585" height="1" uuid="a7c77e35-d859-4b86-a12f-3f978a39244c"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<componentElement>
+				<reportElement x="52" y="89" width="200" height="50" uuid="bac14333-9321-4d05-9c0d-6f7981a12b3e"/>
+				<jr:EAN13 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{codigoBarras}]]></jr:codeExpression>
+				</jr:EAN13>
+			</componentElement>
+			<textField>
+				<reportElement x="0" y="69" width="252" height="20" uuid="85ead77e-250a-4cf0-8fc9-19f1be953ff2"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}.getId()+" - "+$F{cliente}.getNome()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="267" y="89" width="223" height="1" uuid="2f48d994-d7a4-466c-a141-2338dc673ece"/>
+			</line>
+			<ellipse>
+				<reportElement x="374" y="86" width="7" height="7" uuid="431d19d2-95dc-4a73-baf2-91c14cc57e35"/>
+			</ellipse>
+			<staticText>
+				<reportElement x="267" y="50" width="223" height="36" forecolor="#FFFFFF" uuid="d661f404-9216-45d3-a9aa-107d10bc9020"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="20" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Mercearia Central]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="124" width="223" height="25" uuid="dc228a40-2fd8-4b05-89f9-9d0cc6cd0826"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Rua José Vicente Antônio, 547 - Centro, Passo de Torres
+Fone: (48) 35480-0854]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="93" width="223" height="20" forecolor="#FFFFFF" uuid="cb4fe8a0-010c-4a93-bd09-49bae6a19b09"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Vivaldi" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Sempre perto de você]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
