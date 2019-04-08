@@ -1,0 +1,72 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+
+
+sourceCompatibility = '1.8'
+sourceSets.main.output.resourcesDir = sourceSets.main.output.classesDir
+//[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+//sourceSets.main.groovy.srcDirs += ["src/main/java", "src/main/groovy"]
+
+// NetBeans will automatically add "run" and "debug" tasks relying on the
+// "mainClass" property. You may however define the property prior executing
+// tasks by passing a "-PmainClass=<QUALIFIED_CLASS_NAME>" argument.
+//
+// Note however, that you may define your own "run" and "debug" task if you
+// prefer. In this case NetBeans will not add these tasks but you may rely on
+// your own implementation.
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'gerenciadordevendas.telas.TelaPrincipal'
+}
+
+def defaultEncoding = 'UTF-8'  
+[compileJava, compileTestJava, compileGroovy, compileTestGroovy]*.options*.encoding = 'UTF-8' 
+
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+ext {
+    metamodelPath="$buildDir/generated-sources/metamodel"
+}
+compileJava {
+
+    doFirst {
+        
+        file(metamodelPath).delete()
+        file(metamodelPath).mkdirs()
+    }
+    options.compilerArgs += ['-Aeclipselink.persistencexml=src/main/resources/META-INF/persistence.xml', '-s', metamodelPath ]
+}
+
+repositories {
+    mavenCentral()
+    // You may define additional repositories, or even remove "mavenCentral()".
+    // Read more about repositories here:
+    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
+}
+
+dependencies {
+    // TODO: Add dependencies here ...
+    compile group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.0-alpha-4'
+    compile "net.sourceforge.barbecue:barbecue:1.5-beta1"
+    compile "commons-digester:commons-digester:1.7"
+    compile "com.lowagie:itext:2.1.7"
+    compile "net.sf.jasperreports:jasperreports:6.8.0"
+    compile "net.sf.jasperreports:jasperreports-fonts:6.8.0"
+    compile "org.apache.poi:poi:4.0.1"
+    compile "org.apache.poi:poi-ooxml:4.0.1"
+    compile "javax.persistence:javax.persistence-api:2.2"
+    compile "org.apache.commons:commons-collections4:4.3"
+    compile "org.eclipse.persistence:eclipselink:2.7.1"
+    compile "org.jboss:jandex:2.1.1.Final"
+    compile "com.toedter:jcalendar:1.4"
+    compile "com.google.guava:guava:26.0-jre"
+    compile "commons-beanutils:commons-beanutils:1.9.3"
+    compile "mysql:mysql-connector-java:8.0.15"
+    compile "org.codehaus.groovy:groovy-all:3.0.0-alpha-3"
+    // You can read more about how to add dependency here:
+    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
+    testCompile group: 'junit', name: 'junit', version: '4.10'
+}

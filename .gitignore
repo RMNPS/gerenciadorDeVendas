@@ -4,3 +4,5 @@ build
 impressao
 nbproject
 out
+/target/
+/GerenciadorDeVendas/.nb-gradle/
