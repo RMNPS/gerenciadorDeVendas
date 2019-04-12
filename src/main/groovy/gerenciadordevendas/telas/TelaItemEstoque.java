@@ -38,6 +38,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class TelaItemEstoque extends javax.swing.JDialog {
 
@@ -47,6 +48,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private boolean ordenado = true;
     private boolean custoOrdenado = true;
     private boolean deletarFoto = false;
+    private double quantidadeTotalOriginal;
     
     public TelaItemEstoque(java.awt.Window parent) {
         this(parent, null);
@@ -54,7 +56,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     
     public TelaItemEstoque(java.awt.Window parent, ItemEstoque itemEstoque) {
         super(parent, java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        this.itemEstoque = itemEstoque;
+        
         initComponents();
 
         EntityManager em = JPA.getEM();
@@ -65,9 +67,12 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 //        carregarFornecedoresNaComboBox(em);
 //        carregarProdutosNaComboBox(em);
         em.close();
-
-        preencheCampos(itemEstoque);
-
+        if (itemEstoque == null) {
+            this.itemEstoque = new ItemEstoque();
+        } else {
+            this.itemEstoque = itemEstoque;
+            preencheCampos(itemEstoque);
+        }
         inicializaListeners();
     }
 
@@ -75,7 +80,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         new DecimalDocumentListener(txtCustoTotal, (e) -> calculaCustoUN(e)).inicializa();
         new DecimalDocumentListener(txtCustoUN, (e) -> calculaCustoTotal(e)).inicializa();
         new DecimalDocumentListener(txtQnt, (e) -> atualizaQuantidadeIE(e)).inicializa();
-        new DecimalDocumentListener(txtCodigoBarras, (e) -> atualizaCodigoBarras(e)).inicializa();
+//        new DecimalDocumentListener(txtCodigoBarras, (e) -> atualizaCodigoBarras(e)).inicializa();
         new DecimalDocumentListener(txtValorAprazo, (e) -> calculaMargem(e, txtCustoUN.getText())).inicializa();
         new DecimalDocumentListener(txtMargem).inicializa();
 
@@ -154,8 +159,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         
         Produto p = (Produto) cmbProdutos.getSelectedItem();
         if (p != null) {
-            Double quantidadeTotal = Double.valueOf(txtQuantidade.getText());
-            txtQuantidade.setText("" + (quantidadeTotal + Double.valueOf(text) - itemEstoque.getQuantidade()));
+            txtQuantidade.setText("" + (quantidadeTotalOriginal + Double.valueOf(text) - itemEstoque.getQuantidade()));
         }
 
         if (!txtCustoTotal.getText().isEmpty() && custoOrdenado) {
@@ -200,12 +204,11 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         }
         BigDecimal valorAprazo = new BigDecimal(sValorAprazo);
         BigDecimal custo = new BigDecimal(custoUN);
-        if (custo.compareTo(BigDecimal.ZERO) == 0) {
-            txtMargem.setText("0.00");
+        if (valorAprazo.compareTo(BigDecimal.ZERO) == 0 || custo.compareTo(BigDecimal.ZERO) == 0) {
             return;
         }
         
-        BigDecimal margem = BigDecimal.ONE.subtract(valorAprazo.divide(custo, 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100"))).setScale(2);
+        BigDecimal margem = valorAprazo.divide(custo, 4, BigDecimal.ROUND_HALF_UP).subtract(BigDecimal.ONE).multiply(new BigDecimal("100")).setScale(2);
         txtMargem.setText(margem.toString());
     }
 
@@ -262,12 +265,14 @@ public class TelaItemEstoque extends javax.swing.JDialog {
                 if (quantidade == null) {
                     quantidade = 0d;
                 }
+                quantidadeTotalOriginal = quantidade;
                 txtQuantidade.setText("" + quantidade);
             }
             cmbProdutos.setSelectedItem(ie.getProduto());
             cmbFornecedor.setSelectedItem(ie.getFornecedor());
+            cmbTamanho.setSelectedItem(ie.getTamanho());
+            cmbCor.setSelectedItem(ie.getCor());
             
-
             txtValidade.setDate(ie.getValidade());
             txtQnt.setText("" + ie.getQuantidade());
             if (ie.getCodigoBarras() != null) {
@@ -317,7 +322,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         lblValorParcela = new javax.swing.JLabel();
         txtValorParcela = new javax.swing.JTextField();
         btnCalculaVenda = new javax.swing.JButton();
-        btnTamanho2 = new javax.swing.JButton();
+        btnNumeroParcelas = new javax.swing.JButton();
         btnDesc = new javax.swing.JButton();
         btnClonar = new javax.swing.JButton();
         salvarButton = new javax.swing.JButton();
@@ -440,10 +445,10 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             }
         });
 
-        btnTamanho2.setText("=");
-        btnTamanho2.addActionListener(new java.awt.event.ActionListener() {
+        btnNumeroParcelas.setText("=");
+        btnNumeroParcelas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTamanho2ActionPerformed(evt);
+                btnNumeroParcelasActionPerformed(evt);
             }
         });
 
@@ -491,7 +496,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCalculaVenda, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(btnTamanho2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNumeroParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
@@ -528,7 +533,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNumeroParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNumeroParcelas)
-                    .addComponent(btnTamanho2))
+                    .addComponent(btnNumeroParcelas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtValorParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -705,26 +710,27 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(btnAdicionarFoto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(btnAdicionarFoto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionarFoto)
                     .addComponent(jButton5))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -753,7 +759,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnClonar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -776,17 +782,17 @@ public class TelaItemEstoque extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnClonar)
                             .addComponent(salvarButton))
-                        .addGap(21, 21, 21))
+                        .addGap(0, 11, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 243, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 244, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -966,8 +972,17 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             if (!new File(caminho + "/imagens_produtos/").exists()) {
                 new File(caminho + "/imagens_produtos/").mkdir();
             }
-            Files.copy(caminhoImagem, new File(caminho + "/imagens_produtos/" + caminhoImagem.getName()));
-            itemEstoque.setCaminhoFoto("/imagens_produtos/" + caminhoImagem.getName());
+            String fileExtension = Files.getFileExtension(caminhoImagem.getPath());
+            
+            
+            int id = itemEstoque.getId();
+            if (id == 0) {
+                EntityManager em = JPA.getEM();
+                id = (int) em.createQuery("select t from ItemEstoque t order by t.id desc").setMaxResults(1).getResultStream().findAny().orElse(0);
+                id++;
+            }
+            Files.copy(caminhoImagem, new File(caminho + "/imagens_produtos/" + id + fileExtension));
+            itemEstoque.setCaminhoFoto("/imagens_produtos/" + id + fileExtension);
             lblFoto.setIcon(icon);
             deletarFoto = false;
         } catch (IOException ex) {
@@ -987,9 +1002,9 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         atualizaViaMargem(txtMargem.getText());
     }//GEN-LAST:event_btnCalculaVendaActionPerformed
 
-    private void btnTamanho2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTamanho2ActionPerformed
+    private void btnNumeroParcelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNumeroParcelasActionPerformed
         atualizaNumeroParcelas(txtNumeroParcelas.getText());
-    }//GEN-LAST:event_btnTamanho2ActionPerformed
+    }//GEN-LAST:event_btnNumeroParcelasActionPerformed
 
     private void txtMargemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMargemActionPerformed
         // TODO add your handling code here:
@@ -1063,8 +1078,8 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private javax.swing.JButton btnCor;
     private javax.swing.JButton btnDesc;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnNumeroParcelas;
     private javax.swing.JButton btnTamanho;
-    private javax.swing.JButton btnTamanho2;
     private javax.swing.JComboBox<Cor> cmbCor;
     private javax.swing.JComboBox<Fornecedor> cmbFornecedor;
     private javax.swing.JComboBox<Produto> cmbProdutos;

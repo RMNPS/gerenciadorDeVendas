@@ -6,6 +6,7 @@
 package gerenciadordevendas.telas;
 
 import gerenciadordevendas.JPA;
+import gerenciadordevendas.controller.CodigoBarrasJasperReports;
 import gerenciadordevendas.exception.TransacaoException;
 import gerenciadordevendas.model.FormaPagamento;
 import gerenciadordevendas.telas.listener.DecimalDocumentListener;
@@ -14,6 +15,7 @@ import gerenciadordevendas.telas.listener.MoedaDocumentListener;
 import gerenciadordevendas.telas.listener.ParcelaDocumentListener;
 import gerenciadordevendas.model.Cliente;
 import gerenciadordevendas.model.Conta;
+import gerenciadordevendas.model.ItemEstoque;
 import gerenciadordevendas.model.Parcela;
 import gerenciadordevendas.model.Venda;
 import gerenciadordevendas.model.Vendedor;
@@ -31,12 +33,22 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 
 /**
  *
@@ -1076,11 +1088,25 @@ public class TelaPagamento extends javax.swing.JDialog {
                 em.getTransaction().begin();
                 venda = em.merge(venda);
                 em.getTransaction().commit();
-                em.close();
+                
                 int resposta = JOptionPane.showConfirmDialog(this, "Deseja imprimir o recibo?", "Impressão", JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
-                    
+                    Map<String, Object> parametros = new HashMap<>();
+                    Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x").getResultStream().findAny();
+                    if (matriz.isPresent()) {
+                        parametros.put("FILIAL", null);
+                        try {
+                            JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JREmptyDataSource());
+
+                            JasperPrintManager.printPage(print, 0, true);
+                        } catch (JRException ex) {
+                            Logger.getLogger(CodigoBarrasJasperReports.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Não foi possível imprimir, pois não há nenhuma matriz cadastrada");
+                    }
                 }
+                em.close();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Adicione pelo menos uma parcela para finalizar a venda");

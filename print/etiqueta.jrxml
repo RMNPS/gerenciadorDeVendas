@@ -26,14 +26,14 @@
     + " "
     + ($F{cor} != null ? $F{cor}.nome : "")]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" pattern="">
 				<reportElement x="3" y="20" width="103" height="9" uuid="16db4f21-92ba-4aa7-8dc8-013c5208e2d7">
 					<printWhenExpression><![CDATA[$F{imprimirEmBranco} == false]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA["R\$" + $F{valorAprazo}.setScale(2, RoundingMode.HALF_UP) + " à prazo"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("¤ #,##0.00").format($F{valorAprazo}) + " à prazo"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="3" y="28" width="103" height="9" uuid="3738e5e1-ccac-4195-8cdb-8edc0032d923">
@@ -42,7 +42,7 @@
 				<textElement textAlignment="Center">
 					<font size="7" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{numeroParcelas}+ "x R\$ "+$F{valorParcelaSugerida}.setScale(2, RoundingMode.HALF_UP)]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{numeroParcelas}+ "x "+ new java.text.DecimalFormat("¤ #,##0.00").format($F{valorParcelaSugerida})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="3" y="36" width="103" height="9" uuid="ce0ff3f4-4fc1-4bcc-8a50-63d1680a606a">
@@ -51,7 +51,7 @@
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA["R\$ "+$F{valorAvista}.setScale(2, RoundingMode.HALF_UP)+" à vista"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("¤ #,##0.00").format($F{valorAvista}) +" à vista"]]></textFieldExpression>
 			</textField>
 			<ellipse>
 				<reportElement x="82" y="2" width="24" height="24" uuid="68f29694-7570-4da8-91f4-32080842fecd">

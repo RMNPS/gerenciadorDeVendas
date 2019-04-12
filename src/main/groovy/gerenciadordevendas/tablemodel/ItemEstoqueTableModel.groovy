@@ -30,7 +30,7 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
 
     @Override
     void novo(Window parent) {
-        new TelaItemEstoque(parent, new ItemEstoque()).setVisible(true);
+        new TelaItemEstoque(parent).setVisible(true);
         carregar();
     }
 

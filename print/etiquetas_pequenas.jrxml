@@ -25,7 +25,7 @@
 	</style>
 	<subDataset name="Table Dataset 1" uuid="2f7cb880-4669-47cc-999f-94c0eb674bde"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\gabri_p\\Desktop\\Ramon\\Exemplos\\GerenciadorDeVendasAtualizado\\print\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["./print/"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ITENS" class="java.util.Collection"/>
 	<detail>

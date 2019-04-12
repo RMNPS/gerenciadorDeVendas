@@ -7,6 +7,7 @@
 package gerenciadordevendas
 
 import gerenciadordevendas.model.Conta
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  *
@@ -14,8 +15,10 @@ import gerenciadordevendas.model.Conta
  */
 class TesteGroovy {
     public static void main(String[] args) {
-
-        System.out.println(new BigDecimal("."));
+        for (int i = 0; i < 100; i++) {
+            println(RandomStringUtils.randomAlphanumeric(10));
+        }
+        
     }
 }
 

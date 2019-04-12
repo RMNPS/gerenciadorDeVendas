@@ -32,11 +32,11 @@ public class EtiquetaJasperReports {
     private int posicao;
 
     public void imprimirEtiquetas(List<ItemEstoque> itensAimprimir) {
-        File caminhoGravarArquivo = gerenciadordevendas.FilesWindowOpener.getCaminhoGravarArquivo(new FileNameExtensionFilter("Arquivo PDF (*.pdf)", "pdf"));
+//        File caminhoGravarArquivo = gerenciadordevendas.FilesWindowOpener.getCaminhoGravarArquivo(new FileNameExtensionFilter("Arquivo PDF (*.pdf)", "pdf"));
 //        String out = "./impressao/etiquetas_pequenas.pdf";
-        if (!caminhoGravarArquivo.getAbsolutePath().endsWith(".pdf")) {
-            caminhoGravarArquivo = new File(caminhoGravarArquivo.getAbsolutePath() + ".pdf");
-        }
+//        if (!caminhoGravarArquivo.getAbsolutePath().endsWith(".pdf")) {
+//            caminhoGravarArquivo = new File(caminhoGravarArquivo.getAbsolutePath() + ".pdf");
+//        }
         Map<String, Object> parametros = new HashMap<>();
 
         List<ItemEstoque> itens = new ArrayList<>();
@@ -49,8 +49,8 @@ public class EtiquetaJasperReports {
         parametros.put("ITENS", itens);
         try {
             JasperPrint print = JasperFillManager.fillReport(CAMINHO_JASPER, parametros, new JREmptyDataSource());
-            print.setLeftMargin(0);
-            print.setRightMargin(posicao);
+//            print.setLeftMargin(0);
+//            print.setRightMargin(posicao);
             
             JasperPrintManager.printPage(print, 0, true);
             

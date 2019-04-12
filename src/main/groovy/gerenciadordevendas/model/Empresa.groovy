@@ -8,13 +8,8 @@ package gerenciadordevendas.model
 
 import java.text.Collator
 import javax.persistence.Entity
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 class Empresa extends BaseEntity implements Comparable<Empresa> {
@@ -27,10 +22,12 @@ class Empresa extends BaseEntity implements Comparable<Empresa> {
     String inscricaoMunicipal
     @OneToMany(mappedBy = "empresa")
     List<Endereco> enderecos
+    String email
     String telefone
     String celular
     String observacoes
     String caminhoLogotipo
+    TipoEmpresa tipoEmpresa
 
     @Override
     String toString() { nome }

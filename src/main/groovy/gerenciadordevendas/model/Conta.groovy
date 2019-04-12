@@ -13,7 +13,6 @@ import gerenciadordevendas.avaliacao.AvaliadorConta
 import gerenciadordevendas.exception.TransacaoException
 import java.math.BigDecimal
 import java.util.Collections
-import java.util.HashSet
 import java.util.Set
 import java.util.TreeSet
 import javax.persistence.CascadeType
@@ -50,7 +49,7 @@ class Conta extends BaseEntity {
     Conta(Cliente c) {
         cliente = c;
         vendas = new TreeSet<>();
-        saldo = BigDecimal.ZERO;
+        saldo = 0g;
         limite = BigDecimal.valueOf(Regras.LIMITE_PADRAO_CONTA);
         prazo = Regras.TEMPO_LIMITE_PAGAMENTO_CONTA;
     }
@@ -59,24 +58,6 @@ class Conta extends BaseEntity {
     Set<Venda> getVendas() {
         return Collections.unmodifiableSet(vendas);
     }
-
-    
-
-//    private void changeEstadoVendas(Set<Venda> v, Pagamento p, Estado atual, Estado novo) {
-//
-//        BigDecimal montantePago = p.valor;
-//
-//        for (Venda venda : v) {
-//            if (venda.estado == atual) {
-//                montantePago = montantePago - venda.total;
-//                if (montantePago >= 0) {
-//                    venda.estado = novo;
-//                } else {
-//                    break;
-//                }
-//            }
-//        }
-//    }
 
     void addVenda(Venda v) {
         if (vendas == null) {

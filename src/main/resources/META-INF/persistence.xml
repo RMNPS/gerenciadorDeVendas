@@ -10,6 +10,8 @@
     <class>gerenciadordevendas.model.ClienteAutorizado</class>
     <class>gerenciadordevendas.model.Conta</class>
     <class>gerenciadordevendas.model.Cor</class>
+    <class>gerenciadordevendas.model.Empresa</class>
+    <class>gerenciadordevendas.model.Endereco</class>
     <class>gerenciadordevendas.model.FormaPagamento</class>
     <class>gerenciadordevendas.model.Fornecedor</class>
     <class>gerenciadordevendas.model.ItemEstoque</class>

@@ -9,7 +9,6 @@ import java.awt.Dialog;
 import gerenciadordevendas.model.BaseEntity;
 import gerenciadordevendas.model.Tamanho;
 import java.lang.reflect.ParameterizedType;
-import javax.swing.JOptionPane;
 
 public class TelaItemNomeavel<T extends BaseEntity> extends javax.swing.JDialog {
 
