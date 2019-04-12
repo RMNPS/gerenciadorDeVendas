@@ -35,11 +35,8 @@ class Cliente extends BaseEntity implements Comparable<Cliente> {
     String ufRg
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     Conta conta
-    String endereco
-    String bairro
-    String cidade
-    String cep
-    UF uf
+    @OneToMany(mappedBy = "cliente")
+    List<Endereco> enderecos
     String telefone
     String celular
     String observacoes

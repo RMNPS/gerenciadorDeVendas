@@ -18,17 +18,20 @@ public final class FilesWindowOpener {
     private FilesWindowOpener() {
     }
 
-    public static File getCaminhoSelecionarImagem() {
-        JFileChooser fileChooser = new JFileChooser();
+    public static File getCaminhoSelecionarImagem(String caminhoPadrao) {
+        JFileChooser fileChooser = caminhoPadrao == null ? new JFileChooser() : new JFileChooser(caminhoPadrao);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Imagem PNG", "png"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Imagem Jpeg", "jpeg" ,"jpg"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Imagem PNG (*.png)", "png"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Imagem Jpeg (*.jpeg, *.jpg)", "jpeg" ,"jpg"));
 
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             return fileChooser.getSelectedFile();
         }
         return null;
+    }
+    public static File getCaminhoSelecionarImagem() {
+       return getCaminhoSelecionarImagem(null);
     }
     
     public static File getCaminhoSelecionarArquivo(FileNameExtensionFilter extensionFilter) {

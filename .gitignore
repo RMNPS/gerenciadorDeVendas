@@ -10,3 +10,4 @@ nbproject
 out
 /target/
 /GerenciadorDeVendas/.nb-gradle/
+.gradle/

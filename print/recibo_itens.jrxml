@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo_itens" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6a595fec-161e-4dd0-b086-d3caaa1e7db9">
+	<property name="ireport.zoom" value="1.1000000000000003"/>
+	<property name="ireport.x" value="9"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#6B91D5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFD7E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="Table Dataset 1" uuid="1c9f6ed5-316b-4269-a907-ce58f3441cd1"/>
+	<subDataset name="dataset1" uuid="3de455af-e914-49d3-bea2-f2746cc4c913"/>
+	<parameter name="SEQUENCIA" class="java.lang.Integer"/>
+	<parameter name="TOTAL_ITEM" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[$F{quantidade} * $F{valorAprazo}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBTOTAL" class="java.math.BigDecimal"/>
+	<parameter name="TOTAL" class="java.math.BigDecimal"/>
+	<field name="sequencia" class="java.lang.String"/>
+	<field name="codigoBarras" class="java.lang.String"/>
+	<field name="itemEstoque.produto.nome" class="java.lang.String"/>
+	<field name="tamanho.nome" class="java.lang.String"/>
+	<field name="cor.nome" class="java.lang.String"/>
+	<field name="quantidade" class="java.lang.Integer"/>
+	<field name="valorAprazo" class="java.math.BigDecimal"/>
+	<field name="Total" class="java.lang.String"/>
+	<variable name="QNT_TOTAL" class="java.lang.String" calculation="Sum"/>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="28" height="20" backcolor="#CCCCCC" uuid="331a7441-b591-463f-8858-8cbafb2a748c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Seq.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="29" y="0" width="96" height="20" backcolor="#CCCCCC" uuid="04a49be7-8423-4c02-a327-218ecdb049f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Código de Barras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="126" y="0" width="176" height="20" backcolor="#CCCCCC" uuid="52da9fa5-93a4-415d-a98d-71262dba8994"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="303" y="0" width="34" height="20" backcolor="#CCCCCC" uuid="3990a7da-641c-4c99-9f29-50bf65a47886"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[TAM.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="338" y="0" width="69" height="20" backcolor="#CCCCCC" uuid="7b938143-4d20-48bb-a6e2-3bce62b6767a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="408" y="0" width="26" height="20" backcolor="#CCCCCC" uuid="d6fa2a88-89ee-41f6-8f1f-5a5e96fc65ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[QNT.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="435" y="0" width="58" height="20" backcolor="#CCCCCC" uuid="f412e876-04c3-43d1-9dac-31db152ed60a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor UN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="495" y="0" width="58" height="20" backcolor="#CCCCCC" uuid="a11d0f96-c409-4b1e-b20a-0ae01500fa55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total UN]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="28" height="20" uuid="7fbbfe63-a330-4d5d-a2b4-8383ef9c045d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="0" width="96" height="20" uuid="49982f8d-7090-4fa6-9d42-5655169c1a66"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{codigoBarras}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="0" width="176" height="20" uuid="5d2904b2-4e51-4591-b870-9decc1c4ff28"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{itemEstoque.produto.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="303" y="0" width="34" height="20" uuid="bb63275c-9883-4949-8332-528e0f9c1e60"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tamanho.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="0" width="69" height="20" uuid="ddaa2be0-9251-4f0a-977e-cd907cf42704"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cor.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="408" y="0" width="26" height="20" uuid="4c88c611-320c-46c2-8575-bc85a21cf28a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="435" y="0" width="58" height="20" uuid="e2f9dd6f-819f-484b-a7e4-70f97d5edaef"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{valorAprazo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="495" y="0" width="58" height="20" uuid="8ea5cb00-9eef-4f39-88ee-bef1adec88c0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TOTAL_ITEM}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="57">
+			<textField>
+				<reportElement mode="Opaque" x="408" y="1" width="26" height="20" backcolor="#CCCCCC" uuid="fa0b4438-6b11-473e-9347-6d3b92747f68"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$V{QNT_TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="338" y="1" width="69" height="20" backcolor="#CCCCCC" uuid="0fe14071-bd8a-462d-8242-a65eb0bec214"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[QNT. Total:]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement mode="Opaque" x="495" y="1" width="58" height="20" backcolor="#CCCCCC" uuid="f1fd1074-ce4f-4c33-943f-d64ace38e632"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{SUBTOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="435" y="1" width="58" height="20" backcolor="#CCCCCC" uuid="8f39fb5b-6a95-46cc-b6af-d5666236767f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Subtotal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="254" y="23" width="180" height="20" backcolor="#FFCCCC" uuid="91894695-8c90-445e-a247-0aced545973a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total da Pedido (com desconto):]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="436" y="23" width="117" height="20" backcolor="#FFCCCC" uuid="a2eec247-672d-4230-99d6-120680cec83c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

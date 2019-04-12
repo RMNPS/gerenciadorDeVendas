@@ -137,7 +137,7 @@ public class TelaDados extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dados do Negócio");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("./icons/briefcase-outline.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/briefcase-outline.png")));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

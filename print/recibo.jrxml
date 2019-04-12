@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="511" leftMargin="42" rightMargin="42" topMargin="56" bottomMargin="56" uuid="accac65e-43c8-4863-9513-7964efdea660">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PRIMEIRO_ENDERECO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$F{enderecos}.isEmpty() ?  "" : $F{enderecos}.get(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\gabri_p\\Desktop\\Ramon\\Exemplos\\GerenciadorDeVendas\\print\\"]]></defaultValueExpression>
+	</parameter>
+	<field name="nome" class="java.lang.String"/>
+	<field name="enderecos" class="java.util.Collection"/>
+	<field name="cnpj" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="celular" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="149" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="11" width="100" height="100" uuid="4063abca-ee05-4221-b31a-55fcf7fea754"/>
+			</image>
+			<textField>
+				<reportElement x="111" y="11" width="400" height="60" uuid="68c306df-1982-4368-a8d8-f84748a958f1"/>
+				<textElement verticalAlignment="Top">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="119" width="511" height="20" uuid="b43a2720-a699-4e02-9b82-b4a61fbe5a07"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PRIMEIRO_ENDERECO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="271" y="93" width="110" height="20" uuid="8571c283-9fd6-492b-88c2-90e69900db47"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="93" width="110" height="20" uuid="ffae3745-8c7c-4b5c-92de-549d317e7ea0"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="381" y="93" width="20" height="20" uuid="56878f25-e192-4cbd-a624-795444986009"/>
+				<imageExpression><![CDATA["./icons/whats-icon.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="1" width="511" height="1" uuid="c838b8c1-d8f9-4014-882a-e7dec49fc45b"/>
+			</line>
+			<textField>
+				<reportElement x="271" y="70" width="240" height="20" uuid="8cec2540-1569-40ac-96f2-ed1e317d3647"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CNPJ: " +$F{cnpj}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="148" width="511" height="1" uuid="3df65c2b-ba2b-44ec-b5b0-f6a192fd823f"/>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="13" width="511" height="112" uuid="e102a7dc-9315-4ed9-8d88-88e9d4b8c7b6"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "recibo_itens.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="391" y="0" width="80" height="20" uuid="35af6247-d941-453d-a404-ffdd40cd6250"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="471" y="0" width="40" height="20" uuid="46de04ea-32ac-412a-8313-07d3984e00ee"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

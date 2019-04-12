@@ -21,10 +21,10 @@
     <class>gerenciadordevendas.model.Vendedor</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sysvendas?zeroDateTimeBehavior=convertToNull&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3746/sysvendas?zeroDateTimeBehavior=convertToNull&amp;useTimezone=true&amp;serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.password" value="pzEuzQlMq0_c"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
       <property name="javax.persistence.create-database-schemas" value="true"/>
       

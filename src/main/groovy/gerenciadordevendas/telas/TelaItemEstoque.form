@@ -257,8 +257,9 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="btnCalculaVenda" pref="60" max="32767" attributes="0"/>
                               <Component id="btnTamanho2" max="32767" attributes="0"/>
+                              <Component id="btnDesc" alignment="0" pref="60" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="27" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -290,6 +291,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtValorAprazo" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblValorAprazo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnDesc" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -424,6 +426,15 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTamanho2ActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnDesc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="desc"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Aplicar desconto padr&#xe3;o"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDescActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -689,7 +700,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/gerenciadordevendas/telas/icons/baseline_photo_black_24dp.png"/>
+                      <Image iconType="3" name="/icons/baseline_photo_black_24dp.png"/>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">

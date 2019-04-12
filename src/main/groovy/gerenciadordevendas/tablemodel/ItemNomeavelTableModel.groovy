@@ -37,7 +37,6 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
     
     @Override
     protected String getJPQL() {
-        println(""+ classe.getSimpleName())
         return "Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE";
     }
 
@@ -49,6 +48,9 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
     @Override
     void novo(Window parent) {
         String nome = JOptionPane.showInputDialog(null, "Insira o nome");
+        if (nome == null || nome.trim().isEmpty() || nome.equals("Insira o nome")) {
+            return;
+        }
         def nomeavel = classe.newInstance()
         nomeavel.nome = nome;
         
@@ -80,7 +82,9 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
             .setParameter("nome", selecionada.nome).getSingleResult();
             
             String novoNome = JOptionPane.showInputDialog(null, entidade.nome);
-            
+            if (novoNome == null) {
+                return;
+            }
             boolean naoContem = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE and e.nome = :nome")
             .setParameter("nome", novoNome).getResultList().isEmpty();
             if (naoContem) {

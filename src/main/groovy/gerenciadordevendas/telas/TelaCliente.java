@@ -52,12 +52,9 @@ public class TelaCliente extends javax.swing.JDialog {
             txtRg.setText(c.getRg());
             txtUfRg.setText(c.getUfRg());
             txtTelefone.setText(c.getTelefone());
-            txtLogradouro.setText(c.getEndereco());
-            cidadeTextField.setText(c.getCidade());
+            
             txtCelular.setText(c.getCelular());
-            bairroTextField.setText(c.getBairro());
-            txtCep.setText(c.getCep());
-            ufComboBox.setSelectedItem(Optional.ofNullable(c.getUf()).orElse(UF.SC));
+
             observacoesTextPane.setText(c.getObservacoes());
         }
     }
@@ -437,8 +434,6 @@ public class TelaCliente extends javax.swing.JDialog {
             cliente = new Cliente();
         }
         cliente.setNome(nomeTextField.getText());
-        cliente.setBairro(bairroTextField.getText());
-        cliente.setEndereco(txtLogradouro.getText());
         FormatadorTelefone formatadorTelefone = new FormatadorTelefone();
         try {
             cliente.setTelefone(formatadorTelefone.formatar("Telefone", txtTelefone.getText()));
@@ -447,9 +442,6 @@ public class TelaCliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        cliente.setCidade(cidadeTextField.getText());
-        cliente.setCep(txtCep.getText());
-        cliente.setUf((UF) ufComboBox.getSelectedItem());
         cliente.setCpf(txtCpf.getText());
         cliente.setRg(txtRg.getText());
         cliente.setUfRg(txtUfRg.getText());

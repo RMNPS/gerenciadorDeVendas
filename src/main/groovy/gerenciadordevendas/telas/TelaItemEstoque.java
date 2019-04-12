@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import gerenciadordevendas.EntityService;
 import gerenciadordevendas.FilesWindowOpener;
 import gerenciadordevendas.JPA;
+import gerenciadordevendas.Regras;
 import gerenciadordevendas.exception.FormatacaoException;
 import gerenciadordevendas.formatador.Formatador;
 import gerenciadordevendas.model.Fornecedor;
@@ -317,6 +318,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         txtValorParcela = new javax.swing.JTextField();
         btnCalculaVenda = new javax.swing.JButton();
         btnTamanho2 = new javax.swing.JButton();
+        btnDesc = new javax.swing.JButton();
         btnClonar = new javax.swing.JButton();
         salvarButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -445,6 +447,14 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             }
         });
 
+        btnDesc.setText("desc");
+        btnDesc.setToolTipText("Aplicar desconto padrão");
+        btnDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -481,8 +491,9 @@ public class TelaItemEstoque extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCalculaVenda, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(btnTamanho2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnTamanho2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,7 +518,8 @@ public class TelaItemEstoque extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtValorAprazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblValorAprazo))
+                    .addComponent(lblValorAprazo)
+                    .addComponent(btnDesc))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtValorAvista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -671,7 +683,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         lblFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerenciadordevendas/telas/icons/baseline_photo_black_24dp.png"))); // NOI18N
+        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/baseline_photo_black_24dp.png"))); // NOI18N
         lblFoto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnAdicionarFoto.setText("Adicionar");
@@ -855,9 +867,9 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
     private void preecheItemEstoque(ItemEstoque item) throws IOException, FormatacaoException {
         item.setProduto((Produto) Formatador.notNull("Produto", (Produto) cmbProdutos.getSelectedItem()));
-        item.setFornecedor((Fornecedor) Formatador.notNull("Fornecedor", (Fornecedor) cmbFornecedor.getSelectedItem()));
-        item.setCor((Cor) Formatador.notNull(lblCor.getText(), (Cor) cmbCor.getSelectedItem()));
-        item.setTamanho((Tamanho) Formatador.notNull(lblTamanho.getText(), (Tamanho) cmbTamanho.getSelectedItem()));
+        item.setFornecedor((Fornecedor) cmbFornecedor.getSelectedItem());
+        item.setCor((Cor) cmbCor.getSelectedItem());
+        item.setTamanho( (Tamanho) cmbTamanho.getSelectedItem());
         item.setValidade(txtValidade.getDate());
         
         item.setQuantidade(Formatador.formatDouble(lblQuantidade.getText(), txtQnt.getText()));
@@ -940,15 +952,16 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     }//GEN-LAST:event_txtMargemFocusLost
 
     private void btnAdicionarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarFotoActionPerformed
-        File caminhoImagem = FilesWindowOpener.getCaminhoSelecionarImagem();
+        File caminhoImagem = FilesWindowOpener.getCaminhoSelecionarImagem(Regras.ULTIMO_CAMINHO_IMAGEM);
         if (caminhoImagem == null) {
             return;
         }
+        Regras.ULTIMO_CAMINHO_IMAGEM = caminhoImagem.getAbsolutePath();
         ImageIcon icon = new ImageIcon(caminhoImagem.getAbsolutePath());
         icon.setImage(icon.getImage().getScaledInstance(332, 257, 100));
        
         String caminho = Paths.get("").toAbsolutePath().toString();
-
+        
         try {
             if (!new File(caminho + "/imagens_produtos/").exists()) {
                 new File(caminho + "/imagens_produtos/").mkdir();
@@ -966,7 +979,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         deletarFoto = true;
-        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerenciadordevendas/telas/icons/baseline_photo_black_24dp.png")));
+        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/baseline_photo_black_24dp.png")));
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -984,22 +997,22 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
     private void btnTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTamanhoActionPerformed
         Optional<Tamanho> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( (Tamanho) cmbTamanho.getSelectedItem(), Tamanho.class)).getItemSelecionado();
-        if (itemSelecionado.isPresent()) {
-            if(((DefaultComboBoxModel) cmbTamanho.getModel()).getIndexOf(itemSelecionado.get()) == -1) {
-                cmbTamanho.addItem(itemSelecionado.get());
-            }
-            cmbTamanho.setSelectedItem(itemSelecionado.get());
-        }
+        EntityManager em = JPA.getEM();
+        TelaUtil.carregarObjetosNaComboBox(em, cmbTamanho, Tamanho.class);
+        em.close();
+        
+        cmbTamanho.setSelectedItem(itemSelecionado.orElse((Tamanho) cmbTamanho.getSelectedItem()));
+
     }//GEN-LAST:event_btnTamanhoActionPerformed
 
     private void btnCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorActionPerformed
         Optional<Cor> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( (Cor) cmbCor.getSelectedItem(), Cor.class)).getItemSelecionado();
-        if (itemSelecionado.isPresent()) {
-            if(((DefaultComboBoxModel) cmbCor.getModel()).getIndexOf(itemSelecionado.get()) == -1) {
-                cmbCor.addItem(itemSelecionado.get());
-            }
-            cmbCor.setSelectedItem(itemSelecionado.get());
-        }
+        EntityManager em = JPA.getEM();
+        TelaUtil.carregarObjetosNaComboBox(em, cmbCor, Cor.class);
+        em.close();
+
+        cmbCor.setSelectedItem(itemSelecionado.orElse((Cor) cmbCor.getSelectedItem()));
+
     }//GEN-LAST:event_btnCorActionPerformed
 
     private void txtCodigoBarrasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoBarrasFocusGained
@@ -1011,9 +1024,27 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         codigoBarrasExiste();
     }//GEN-LAST:event_txtCodigoBarrasFocusLost
 
+    private void btnDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescActionPerformed
+        String sValorAprazo = txtValorAprazo.getText();
+        if (sValorAprazo.isEmpty()) {
+            return;
+        }
+        BigDecimal valorAprazo = new BigDecimal(sValorAprazo);
+        txtValorAvista.setText(formata(valorAprazo
+                .subtract(valorAprazo.multiply(Regras.DESCONTO_A_VISTA.divide(new BigDecimal("100"))))));
+    }//GEN-LAST:event_btnDescActionPerformed
+
+    String formata(String valor) {
+        return formata(new BigDecimal(valor));
+    }
+    
+    String formata(BigDecimal valor) {
+        return valor.setScale(2, RoundingMode.HALF_UP).toPlainString();
+    }
+    
     private boolean codigoBarrasExiste() {
-        if (!txtCodigoBarras.getText().isEmpty()) {
-            boolean existe = JPA.getEM()
+        if (!txtCodigoBarras.getText().isEmpty() && !txtCodigoBarras.getText().equals(itemEstoque.getCodigoBarras())) {
+            boolean existe = !JPA.getEM()
                     .createQuery("SELECT e FROM ItemEstoque e WHERE e.codigoBarras = :codigo")
                     .setParameter("codigo", txtCodigoBarras.getText()).setMaxResults(1).getResultList().isEmpty();
             if (existe) {
@@ -1030,6 +1061,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private javax.swing.JButton btnCalculaVenda;
     private javax.swing.JButton btnClonar;
     private javax.swing.JButton btnCor;
+    private javax.swing.JButton btnDesc;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnTamanho;
     private javax.swing.JButton btnTamanho2;

@@ -38,6 +38,13 @@ final class Regras {
     public static BigDecimal LIMITE_PORCENTAGEM_DESCONTO = 95g;
     
     
+    public static String ULTIMO_CAMINHO_IMAGEM = null;
+    
+    
+    
+    public static BigDecimal DESCONTO_A_VISTA = 5g
+    
+    
     static final void load(){
         Properties props = new Properties();
         FileInputStream file;

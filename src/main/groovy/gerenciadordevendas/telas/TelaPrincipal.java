@@ -1,5 +1,6 @@
 package gerenciadordevendas.telas;
 
+import gerenciadordevendas.InicializadorBaseDeDados;
 import gerenciadordevendas.JPA;
 import gerenciadordevendas.Regras;
 import gerenciadordevendas.telas.util.DataCreator;
@@ -15,6 +16,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     TelaEstoque telaEstoque;
     
     public TelaPrincipal() {
+        new InicializadorBaseDeDados().incializar();
         initComponents();
         new DataCreator().create();
         Regras.load();
@@ -76,6 +78,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         fornecedoresButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_person_outline_black_24dp_2x.png"))); // NOI18N
         fornecedoresButton.setText("Fornecedores");
         fornecedoresButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        fornecedoresButton.setMaximumSize(new java.awt.Dimension(81, 75));
+        fornecedoresButton.setMinimumSize(new java.awt.Dimension(81, 75));
+        fornecedoresButton.setPreferredSize(new java.awt.Dimension(81, 75));
         fornecedoresButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         fornecedoresButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,7 +90,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 1;
+        gridBagConstraints.ipadx = 19;
         gridBagConstraints.ipady = 25;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(41, 170, 137, 0);
@@ -130,6 +135,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         configButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_settings_black_24dp_2x.png"))); // NOI18N
         configButton.setText("Configurações");
         configButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        configButton.setMaximumSize(new java.awt.Dimension(81, 75));
+        configButton.setMinimumSize(new java.awt.Dimension(81, 75));
+        configButton.setPreferredSize(new java.awt.Dimension(81, 75));
         configButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         configButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +148,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 19;
         gridBagConstraints.ipady = 25;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(41, 78, 137, 169);

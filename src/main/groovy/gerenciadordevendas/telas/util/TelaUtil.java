@@ -27,8 +27,7 @@ public class TelaUtil {
         cmb.removeAllItems();
 
         List<T> objetos = EntityService.getList(em, classe);
-        
-        Collections.sort(objetos);
+        cmb.insertItemAt(null, 0);
         for (T objeto : objetos) {
             cmb.addItem(objeto);
         }
