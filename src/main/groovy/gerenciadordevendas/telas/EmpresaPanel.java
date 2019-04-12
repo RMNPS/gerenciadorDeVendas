@@ -7,6 +7,7 @@ package gerenciadordevendas.telas;
 
 import com.google.common.io.Files;
 import gerenciadordevendas.FilesWindowOpener;
+import gerenciadordevendas.JPA;
 import gerenciadordevendas.Regras;
 import gerenciadordevendas.formatador.Formatador;
 import gerenciadordevendas.model.Empresa;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -277,11 +279,20 @@ public class EmpresaPanel extends javax.swing.JPanel {
         String caminho = Paths.get("").toAbsolutePath().toString();
 
         try {
-            if (!new File(caminho + "/imagens_produtos/").exists()) {
-                new File(caminho + "/imagens_produtos/").mkdir();
+            if (!new File(caminho + "/logos_empresas/").exists()) {
+                new File(caminho + "/logos_empresas/").mkdir();
             }
-            Files.copy(caminhoImagem, new File(caminho + "/imagens_produtos/" + caminhoImagem.getName()));
-            empresa.setCaminhoLogotipo("/imagens_produtos/" + caminhoImagem.getName());
+            String fileExtension = Files.getFileExtension(caminhoImagem.getPath());
+
+            int id = empresa.getId();
+            if (id == 0) {
+                EntityManager em = JPA.getEM();
+                id = (int) em.createQuery("select t from Empresa t order by t.id desc").setMaxResults(1).getResultStream().findAny().orElse(0);
+                id++;
+            }
+            
+            Files.copy(caminhoImagem, new File(caminho + "/logos_empresas/" + id + fileExtension));
+            empresa.setCaminhoLogotipo("/logos_empresas/" + + id + fileExtension);
             lblFoto.setIcon(icon);
             deletarFoto = false;
         } catch (IOException ex) {

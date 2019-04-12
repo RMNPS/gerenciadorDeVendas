@@ -973,8 +973,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
                 new File(caminho + "/imagens_produtos/").mkdir();
             }
             String fileExtension = Files.getFileExtension(caminhoImagem.getPath());
-            
-            
+
             int id = itemEstoque.getId();
             if (id == 0) {
                 EntityManager em = JPA.getEM();
