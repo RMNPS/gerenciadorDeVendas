@@ -31,7 +31,7 @@ class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id
-    @Column(insertable = true, updatable = false)
+//    @Column(insertable = true, updatable = true)
     String uuid
     boolean deleted
     @Column(insertable = true, updatable = false)

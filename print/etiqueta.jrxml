@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiqueta" language="groovy" columnCount="5" printOrder="Horizontal" pageWidth="569" pageHeight="60" whenNoDataType="AllSectionsNoDetail" columnWidth="108" columnSpacing="7" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Empty" uuid="2b99b43c-0079-47ff-8f2a-bf1f8e20324d">
-	<property name="ireport.zoom" value="2.593742460100003"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiqueta" language="groovy" columnCount="5" printOrder="Horizontal" pageWidth="570" pageHeight="60" whenNoDataType="AllSectionsNoDetail" columnWidth="105" columnSpacing="11" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Empty" uuid="2b99b43c-0079-47ff-8f2a-bf1f8e20324d">
+	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="style1" fill="Solid" scaleImage="FillFrame" hAlign="Center" vAlign="Middle" fontSize="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
@@ -16,7 +16,7 @@
 	<detail>
 		<band height="60" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="3" y="2" width="77" height="19" uuid="cfb75e4d-2558-4143-99d0-f17fa97e1431">
+				<reportElement x="2" y="4" width="77" height="19" uuid="cfb75e4d-2558-4143-99d0-f17fa97e1431">
 					<printWhenExpression><![CDATA[$F{imprimirEmBranco} == false]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -27,7 +27,7 @@
     + ($F{cor} != null ? $F{cor}.nome : "")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="">
-				<reportElement x="3" y="20" width="103" height="9" uuid="16db4f21-92ba-4aa7-8dc8-013c5208e2d7">
+				<reportElement x="2" y="22" width="103" height="9" uuid="16db4f21-92ba-4aa7-8dc8-013c5208e2d7">
 					<printWhenExpression><![CDATA[$F{imprimirEmBranco} == false]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -36,7 +36,7 @@
 				<textFieldExpression><![CDATA[new java.text.DecimalFormat("¤ #,##0.00").format($F{valorAprazo}) + " à prazo"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="3" y="28" width="103" height="9" uuid="3738e5e1-ccac-4195-8cdb-8edc0032d923">
+				<reportElement x="2" y="30" width="103" height="9" uuid="3738e5e1-ccac-4195-8cdb-8edc0032d923">
 					<printWhenExpression><![CDATA[$F{imprimirEmBranco} == false]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -45,7 +45,7 @@
 				<textFieldExpression><![CDATA[$F{numeroParcelas}+ "x "+ new java.text.DecimalFormat("¤ #,##0.00").format($F{valorParcelaSugerida})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="3" y="36" width="103" height="9" uuid="ce0ff3f4-4fc1-4bcc-8a50-63d1680a606a">
+				<reportElement x="2" y="38" width="103" height="9" uuid="ce0ff3f4-4fc1-4bcc-8a50-63d1680a606a">
 					<printWhenExpression><![CDATA[$F{imprimirEmBranco} == false]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -54,7 +54,7 @@
 				<textFieldExpression><![CDATA[new java.text.DecimalFormat("¤ #,##0.00").format($F{valorAvista}) +" à vista"]]></textFieldExpression>
 			</textField>
 			<ellipse>
-				<reportElement x="82" y="2" width="24" height="24" uuid="68f29694-7570-4da8-91f4-32080842fecd">
+				<reportElement x="79" y="5" width="25" height="25" uuid="68f29694-7570-4da8-91f4-32080842fecd">
 					<printWhenExpression><![CDATA[$F{imprimirEmBranco} == false]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
@@ -62,16 +62,16 @@
 				</graphicElement>
 			</ellipse>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="81" y="1" width="26" height="25" uuid="47fe526b-134b-4cf4-88c9-defccb32a6e0">
+				<reportElement x="79" y="4" width="27" height="25" uuid="47fe526b-134b-4cf4-88c9-defccb32a6e0">
 					<printWhenExpression><![CDATA[$F{imprimirEmBranco} == false]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tamanho} != null ? $F{tamanho}.nome : "#"]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement style="style1" x="3" y="45" width="103" height="11" uuid="7a33b12a-cbc6-419c-a47d-26b378c749cf"/>
+				<reportElement style="style1" x="2" y="47" width="103" height="11" uuid="7a33b12a-cbc6-419c-a47d-26b378c749cf"/>
 				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false">
 					<jr:codeExpression><![CDATA[$F{codigoBarras}]]></jr:codeExpression>
 				</jr:barbecue>

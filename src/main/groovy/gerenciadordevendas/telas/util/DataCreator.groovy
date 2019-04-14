@@ -29,6 +29,7 @@ public class DataCreator {
                 forma.uuid = "4b81a971-5407-491f-b707-b49fab327372"
                 forma.descricao = "Cartão de Crédito à vista"
                 forma.taxa = 3.19g
+                println(forma.uuid)
                 em.merge(forma)    
             })
         

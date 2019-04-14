@@ -3,7 +3,7 @@ apply plugin: 'groovy'
 
 
 sourceCompatibility = '1.8'
-sourceSets.main.output.resourcesDir = sourceSets.main.output.classesDir
+sourceSets.main.output.resourcesDir = sourceSets.main.java.outputDir
 //[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 //sourceSets.main.groovy.srcDirs += ["src/main/java", "src/main/groovy"]
 

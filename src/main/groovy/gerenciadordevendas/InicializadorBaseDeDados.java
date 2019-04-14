@@ -15,7 +15,7 @@ import java.net.Socket;
  */
 public class InicializadorBaseDeDados {
     public void incializar() {
-        String command = "./mysql/MySQLServer8.0.13/bin/mysqld.exe --disable-log-bin --console";
+        String command = "./mysql/initMysql.bat";
         new File(command).exists();
         
         if (!isServerUp()) {

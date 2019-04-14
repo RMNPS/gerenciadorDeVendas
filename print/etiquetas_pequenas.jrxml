@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiquetas_pequenas" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="569" leftMargin="13" rightMargin="13" topMargin="30" bottomMargin="30" uuid="9ea47e75-d4af-4538-8524-e13ff5ccc2e2">
-	<property name="ireport.zoom" value="1.0000000000000002"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiquetas_pequenas" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="570" leftMargin="15" rightMargin="10" topMargin="30" bottomMargin="30" uuid="9ea47e75-d4af-4538-8524-e13ff5ccc2e2">
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -28,13 +28,13 @@
 		<defaultValueExpression><![CDATA["./print/"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ITENS" class="java.util.Collection"/>
-	<detail>
-		<band height="60" splitType="Stretch">
+	<summary>
+		<band height="60">
 			<subreport>
-				<reportElement x="0" y="0" width="569" height="60" uuid="c573ec67-2a6f-4416-8230-05220947234b"/>
+				<reportElement x="0" y="0" width="570" height="60" uuid="c573ec67-2a6f-4416-8230-05220947234b"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{ITENS})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "etiqueta.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-	</detail>
+	</summary>
 </jasperReport>

@@ -20,11 +20,11 @@ public class EntityService {
                 .getResultList();
     }
 
-   public static String getLastID(EntityManager em, Class<?> classe) {
+   public static String getLastIDplus1(EntityManager em, Class<?> classe) {
         List<Integer> lista = em.createQuery("SELECT e.id FROM "+classe.getSimpleName()+" e order by e.id desc").setMaxResults(1).getResultList();
         String id = "";
         if (!lista.isEmpty()) {
-            id = ""+ lista.get(0);
+            id = ""+ (lista.get(0) + 1);
         }
         return id;
     } 

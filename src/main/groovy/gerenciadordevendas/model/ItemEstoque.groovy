@@ -55,6 +55,7 @@ class ItemEstoque extends BaseEntity {
     
     static ItemEstoque newItemEmBranco() {
         ItemEstoque ie = new ItemEstoque();
+        ie.quantidade = 1;
         ie.imprimirEmBranco = true;
         return ie;
     }

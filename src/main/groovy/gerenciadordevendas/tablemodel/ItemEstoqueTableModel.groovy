@@ -25,7 +25,7 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
     @Override
     final void setJTable(JTable table) {
         super.table = table;
-        setJTableColumnsWidth(800, 8, 8, 33, 23, 4, 4, 12, 12, 8, 8, 8, 8);
+        setJTableColumnsWidth(800, 8, 8, 41, 23, 4, 4, 12, 12, 8, 8, 8);
     }
 
     @Override
@@ -83,7 +83,7 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
             case ColunasItemEstoque.PRECO_A_VISTA:      return df.format(ie.valorAvista ?: 0g)
             case ColunasItemEstoque.NUMERO_PARCELAS:    return ie.numeroParcelas
             case ColunasItemEstoque.PRECO_PARCELA:      return df.format(ie.valorParcelaSugerida ?: 0g)
-            case ColunasItemEstoque.VALIDADE:           return sdf.format(ie.validade)
+//            case ColunasItemEstoque.VALIDADE:           return ie.validade ? sdf.format(ie.validade) : ""
             default:                                    return null;
         }
     }

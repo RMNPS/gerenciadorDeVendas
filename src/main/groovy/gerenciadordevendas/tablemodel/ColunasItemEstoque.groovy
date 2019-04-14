@@ -22,7 +22,7 @@ enum ColunasItemEstoque {
         PRECO_A_VISTA('R$ Venda à Vista'),
         NUMERO_PARCELAS('Nº Parcelas'),
         PRECO_PARCELA('R$ Parcela'),
-        VALIDADE("Validade");
+//        VALIDADE("Validade");
 
         String nome;
 

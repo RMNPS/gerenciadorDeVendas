@@ -6,6 +6,7 @@ import gerenciadordevendas.tablemodel.ItemEstoqueTableModel;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class TelaEstoque extends javax.swing.JFrame {
     
@@ -155,7 +156,18 @@ public class TelaEstoque extends javax.swing.JFrame {
 
     private void btnImprimirEtiquetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirEtiquetasActionPerformed
         List<ItemEstoque> itens = model.getSelectedObjects();
+        if (itens.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecione ao menos um item");
+            return;
+        }
+        String posicao = JOptionPane.showInputDialog(this, "Informe a posição inicial da etiqueta", 1);
+//        for (int i = 0; i < 65; i++) {
+//            itens.add(itens.get(0));
+//            
+//        }
+        
         EtiquetaJasperReports etiquetaJasperReports = new EtiquetaJasperReports();
+        etiquetaJasperReports.setPosicao(Integer.valueOf(posicao));
         etiquetaJasperReports.imprimirEtiquetas(itens);
     }//GEN-LAST:event_btnImprimirEtiquetasActionPerformed
 
