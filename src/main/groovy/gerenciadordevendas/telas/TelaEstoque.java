@@ -160,15 +160,7 @@ public class TelaEstoque extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Selecione ao menos um item");
             return;
         }
-        String posicao = JOptionPane.showInputDialog(this, "Informe a posição inicial da etiqueta", 1);
-//        for (int i = 0; i < 65; i++) {
-//            itens.add(itens.get(0));
-//            
-//        }
-        
-        EtiquetaJasperReports etiquetaJasperReports = new EtiquetaJasperReports();
-        etiquetaJasperReports.setPosicao(Integer.valueOf(posicao));
-        etiquetaJasperReports.imprimirEtiquetas(itens);
+        new TelaImprimirEtiquetas(itens).setVisible(true);
     }//GEN-LAST:event_btnImprimirEtiquetasActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed

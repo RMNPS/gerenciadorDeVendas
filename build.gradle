@@ -21,8 +21,6 @@ if (!hasProperty('mainClass')) {
 def defaultEncoding = 'UTF-8'  
 [compileJava, compileTestJava, compileGroovy, compileTestGroovy]*.options*.encoding = 'UTF-8' 
 
-
-
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -49,23 +47,25 @@ repositories {
 
 dependencies {
     // TODO: Add dependencies here ...
-    compile group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.0-alpha-4'
-    compile "net.sourceforge.barbecue:barbecue:1.5-beta1"
-    compile "commons-digester:commons-digester:1.7"
-    compile "com.lowagie:itext:2.1.7"
-    compile "net.sf.jasperreports:jasperreports:6.8.0"
-    compile "net.sf.jasperreports:jasperreports-fonts:6.8.0"
-    compile "org.apache.poi:poi:4.0.1"
-    compile "org.apache.poi:poi-ooxml:4.0.1"
-    compile "javax.persistence:javax.persistence-api:2.2"
-    compile "org.apache.commons:commons-collections4:4.3"
-    compile "org.eclipse.persistence:eclipselink:2.7.1"
-    compile "org.jboss:jandex:2.1.1.Final"
-    compile "com.toedter:jcalendar:1.4"
-    compile "com.google.guava:guava:26.0-jre"
-    compile "commons-beanutils:commons-beanutils:1.9.3"
-    compile "mysql:mysql-connector-java:8.0.15"
-    compile "org.codehaus.groovy:groovy-all:3.0.0-alpha-3"
+    
+//    implementation group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.0-alpha-4'
+    implementation "net.sourceforge.barbecue:barbecue:1.5-beta1"
+    implementation "commons-digester:commons-digester:1.7"
+    implementation "com.lowagie:itext:2.1.7"
+    implementation "net.sf.jasperreports:jasperreports:6.8.0"
+    implementation "net.sf.jasperreports:jasperreports-fonts:6.8.0"
+    implementation "org.apache.poi:poi:4.0.1"
+    implementation "org.apache.poi:poi-ooxml:4.0.1"
+    implementation "javax.persistence:javax.persistence-api:2.2"
+    implementation "org.apache.commons:commons-collections4:4.3"
+    implementation "org.eclipse.persistence:eclipselink:2.7.1"
+    implementation "org.jboss:jandex:2.1.1.Final"
+    implementation "com.toedter:jcalendar:1.4"
+    implementation "com.google.guava:guava:26.0-jre"
+    implementation "commons-beanutils:commons-beanutils:1.9.3"
+    implementation "mysql:mysql-connector-java:8.0.15"
+    implementation "org.codehaus.groovy:groovy-all:3.0.0-alpha-3"
+    implementation 'ch.vorburger.mariaDB4j:mariaDB4j:2.4.0'
     // You can read more about how to add dependency here:
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
     testCompile group: 'junit', name: 'junit', version: '4.10'

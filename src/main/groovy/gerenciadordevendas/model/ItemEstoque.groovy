@@ -14,7 +14,7 @@ import javax.persistence.*
 
 @ToString
 @Entity
-class ItemEstoque extends BaseEntity {
+class ItemEstoque extends BaseEntity implements EntidadeComImagem {
 
     @ManyToOne
     @JoinColumn(name = "produto")
@@ -35,7 +35,7 @@ class ItemEstoque extends BaseEntity {
     int numeroParcelas
     @Column(precision = 12, scale = 2)
     BigDecimal valorParcelaSugerida
-    String caminhoFoto
+    String imagem
     @ManyToOne
     @JoinColumn(name = "cor")
     Cor cor

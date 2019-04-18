@@ -15,7 +15,6 @@ import gerenciadordevendas.telas.listener.MoedaDocumentListener;
 import gerenciadordevendas.telas.listener.ParcelaDocumentListener;
 import gerenciadordevendas.model.Cliente;
 import gerenciadordevendas.model.Conta;
-import gerenciadordevendas.model.ItemEstoque;
 import gerenciadordevendas.model.Parcela;
 import gerenciadordevendas.model.Venda;
 import gerenciadordevendas.model.Vendedor;
@@ -27,7 +26,6 @@ import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -64,7 +62,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         initComponents();
         this.venda = venda;
         new DecimalDocumentListener(txtPorcentagemDesconto, (e) -> atualizaDesconto(e)).inicializa();
-        new DecimalDocumentListener(txtDescontoReal, (e) -> atualizaDesconto(e)).inicializa();
+        new MoedaDocumentListener(txtDescontoReal, (e) -> atualizaDesconto(e)).inicializa();
         new DecimalDocumentListener(txtValorRecebido, (e) -> atualizaTroco(e)).inicializa();
         new MoedaDocumentListener(txtValorParcela).inicializa();
         new ParcelaDocumentListener(((JSpinner.DefaultEditor) SpinnerParcela.getEditor()).getTextField(), (e) -> atualizaParcelas(e)).inicializa();
@@ -72,6 +70,7 @@ public class TelaPagamento extends javax.swing.JDialog {
 
         EntityManager em = JPA.getEM();
         TelaUtil.carregarObjetosNaComboBox(em, cmbForma, FormaPagamento.class);
+        cmbForma.removeItemAt(0);
         TelaUtil.carregarObjetosNaComboBox(em, cmbCliente, Cliente.class);
         TelaUtil.carregarObjetosNaComboBox(em, cmbVendedor, Vendedor.class);
         em.close();
@@ -108,7 +107,7 @@ public class TelaPagamento extends javax.swing.JDialog {
             txtValorRecebido.setBackground(Color.YELLOW);
         }
 
-        txtTroco.setText(valorRecebido.subtract(venda.getTotal()).setScale(2, RoundingMode.HALF_UP).toString());
+        txtTroco.setText(valorRecebido.subtract(venda.getTotal().setScale(2)).setScale(2).toString());
     }
 
     private void atualizaDesconto(String e) {
@@ -1014,13 +1013,9 @@ public class TelaPagamento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void radioPorcentagemDescontoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioPorcentagemDescontoItemStateChanged
-        if (radioPorcentagemDesconto.isSelected()) {
-            txtPorcentagemDesconto.setEnabled(true);
-            txtDescontoReal.setEnabled(false);
-        } else {
-            txtPorcentagemDesconto.setEnabled(false);
-            txtDescontoReal.setEnabled(true);
-        }
+        boolean isPorcentagem = radioPorcentagemDesconto.isSelected();
+        txtPorcentagemDesconto.setEditable(isPorcentagem);
+        txtDescontoReal.setEditable(!isPorcentagem);
     }//GEN-LAST:event_radioPorcentagemDescontoItemStateChanged
 
     private void umaParcelaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_umaParcelaItemStateChanged

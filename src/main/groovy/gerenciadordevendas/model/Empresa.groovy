@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 @Entity
-class Empresa extends BaseEntity implements Comparable<Empresa> {
+class Empresa extends BaseEntity implements Comparable<Empresa>, EntidadeComImagem  {
     
     private static final Collator collator = Collator.getInstance();
     
@@ -26,8 +26,9 @@ class Empresa extends BaseEntity implements Comparable<Empresa> {
     String telefone
     String celular
     String observacoes
-    String caminhoLogotipo
+    String imagem
     TipoEmpresa tipoEmpresa
+    String observacoes
 
     @Override
     String toString() { nome }

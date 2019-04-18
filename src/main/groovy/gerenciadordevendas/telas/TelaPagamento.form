@@ -489,26 +489,18 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="radioCrediario" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="radioCrediario" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="radioDeposito" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="radioCreditoParcelado" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="radioCreditoAvista" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="radioDinheiro" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="radioDebito" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="radioCheque" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="radioMultiplo" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="radioCreditoParcelado" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radioCreditoAvista" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radioDinheiro" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radioDebito" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radioCheque" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radioMultiplo" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="26" max="32767" attributes="0"/>
                           </Group>
@@ -728,7 +720,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="panelParcelas" min="-2" pref="439" max="-2" attributes="0"/>
+                                  <Component id="panelParcelas" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel9" max="32767" attributes="0"/>
                               </Group>
@@ -772,7 +764,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="panelForma" pref="401" max="32767" attributes="0"/>
+                                  <Component id="panelForma" pref="377" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
@@ -785,13 +777,13 @@
                                           <Group type="102" attributes="0">
                                               <Component id="lblIntervalo" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="txtIntervalo" max="32767" attributes="0"/>
+                                              <Component id="txtIntervalo" pref="111" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
                                               <Component id="cmbIntervalo" min="-2" pref="158" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="txtIniciarEm" max="32767" attributes="0"/>
@@ -928,7 +920,7 @@
                                       </Group>
                                       <Component id="btnAdicionar" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="33" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>

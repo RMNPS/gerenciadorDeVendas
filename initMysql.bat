@@ -1,0 +1,1 @@
+"mysql\bin\mysqld.exe" --disable-log-bin --console
