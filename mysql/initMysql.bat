@@ -1,1 +1,0 @@
-"MySQLServer8.0.13\bin\mysqld.exe" --disable-log-bin --console

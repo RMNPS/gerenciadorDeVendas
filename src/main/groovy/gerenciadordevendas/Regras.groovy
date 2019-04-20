@@ -61,6 +61,7 @@ final class Regras {
         LIMITE_DINHEIRO = Double.parseDouble(props.getProperty("limite_dinheiro"));	
         TEMPO_LIMITE_PAGAMENTO_CONTA = Integer.parseInt(props.getProperty("tempo_limite_pagamento_conta"));	
         LIMITE_PORCENTAGEM_DESCONTO = new BigDecimal(props.getProperty("limite_porcentagem_desconto")?: 95);
+        DESCONTO_A_VISTA =  new BigDecimal(props.getProperty("desconto_a_vista")?: 95);
     }
     
     static final void save(){
@@ -78,6 +79,7 @@ final class Regras {
         props.setProperty("limite_dinheiro", ""+ LIMITE_DINHEIRO);
         props.setProperty("tempo_limite_pagamento_conta", ""+ TEMPO_LIMITE_PAGAMENTO_CONTA);
         props.setProperty("limite_porcentagem_desconto", ""+LIMITE_PORCENTAGEM_DESCONTO);
+        props.setProperty("desconto_a_vista", ""+DESCONTO_A_VISTA);
         
         try {
             props.store(new FileOutputStream("./properties/regras.properties"), null);

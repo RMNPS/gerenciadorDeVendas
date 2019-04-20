@@ -71,7 +71,9 @@
 				<textFieldExpression><![CDATA[$F{tamanho} != null ? $F{tamanho}.nome : "#"]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement style="style1" x="2" y="47" width="103" height="11" uuid="7a33b12a-cbc6-419c-a47d-26b378c749cf"/>
+				<reportElement style="style1" x="2" y="47" width="103" height="11" uuid="7a33b12a-cbc6-419c-a47d-26b378c749cf">
+					<printWhenExpression><![CDATA[$F{imprimirEmBranco} == false && !$F{codigoBarras}.isEmpty()]]></printWhenExpression>
+				</reportElement>
 				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false">
 					<jr:codeExpression><![CDATA[$F{codigoBarras}]]></jr:codeExpression>
 				</jr:barbecue>

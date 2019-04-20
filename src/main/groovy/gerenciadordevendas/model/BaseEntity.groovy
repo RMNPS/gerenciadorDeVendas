@@ -44,10 +44,6 @@ class BaseEntity implements Serializable {
         this.id = id
     }
 
-    protected void setUuid(String uuid) {
-        this.uuid = uuid
-    }
-
     void setDataCriacao(Timestamp dataCriacao) {
         this.dataCriacao = dataCriacao
     }
