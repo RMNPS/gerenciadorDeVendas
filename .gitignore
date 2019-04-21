@@ -13,4 +13,5 @@ out
 /GerenciadorDeVendas/.nb-gradle/
 .gradle/
 mysql\
+data
 mysql/MySQLServer8.0.13/Data/#innodb_temp/temp_1.ibt
