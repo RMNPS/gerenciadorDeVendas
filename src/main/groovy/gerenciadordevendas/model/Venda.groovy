@@ -61,7 +61,7 @@ class Venda extends RegistroDeFluxo {
         this.subTotal = 0
         this.estado = Estado.ABERTA;
         this.conta = Objects.requireNonNull(conta)
-        this.vendedor = Objects.requireNonNull(vendedor)
+        this.vendedor = vendedor
     }
 
     List<ItemVenda> getListaProdutos() {

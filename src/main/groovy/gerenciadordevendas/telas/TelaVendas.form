@@ -196,7 +196,7 @@
               <Color blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="99999999"/>
+            <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
@@ -268,7 +268,7 @@
               <Color blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="R$ 1000000,00"/>
+            <Property name="text" type="java.lang.String" value="R$ 0,00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">

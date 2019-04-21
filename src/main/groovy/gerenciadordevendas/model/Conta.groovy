@@ -105,6 +105,7 @@ class Conta extends BaseEntity {
                 padrao = new Conta();
                 padrao.limite = null;
                 padrao.vendas = new TreeSet<>();
+                padrao.saldo = 0g;
                 padrao.setUuid("1335a2f0-4aaa-401e-b2d4-02240a0474bf");
 
                 em.merge(padrao);

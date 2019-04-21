@@ -5,10 +5,13 @@ import gerenciadordevendas.JPA;
 import gerenciadordevendas.Regras;
 import gerenciadordevendas.telas.util.DataCreator;
 import gerenciadordevendas.model.Cliente;
+import gerenciadordevendas.model.Empresa;
+import gerenciadordevendas.model.TipoEmpresa;
 import gerenciadordevendas.model.Vendedor;
 import gerenciadordevendas.tablemodel.ClienteTableModel;
 import gerenciadordevendas.tablemodel.FornecedorTableModel;
 import java.awt.Toolkit;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 
 public class TelaPrincipal extends javax.swing.JFrame {
@@ -30,6 +33,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
             em.merge(Vendedor.padrao());
             em.getTransaction().commit();
         }
+//        Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x")
+//                .setParameter("x", TipoEmpresa.MATRIZ)
+//                .getResultStream().findAny();
+//        if (!matriz.isPresent()) {
+//            Empresa empresa = new Empresa();
+//            empresa.setTipoEmpresa(TipoEmpresa.MATRIZ);
+//            TelaEmpresa telaEmpresa = new TelaEmpresa();
+//            telaEmpresa.setEmpresa(empresa);
+//            telaEmpresa.setVisible(true);
+//        }
         em.close();
         
     }
@@ -53,6 +66,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -148,7 +164,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 19;
+        gridBagConstraints.ipadx = 25;
         gridBagConstraints.ipady = 25;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(41, 78, 137, 169);
@@ -166,7 +182,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 19;
+        gridBagConstraints.ipadx = 25;
         gridBagConstraints.ipady = 25;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(41, 80, 137, 0);
@@ -212,6 +228,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        EntityManager em = JPA.getEM();
+        Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x")
+                .setParameter("x", TipoEmpresa.MATRIZ)
+                .getResultStream().findAny();
+        em.close();
+        if (!matriz.isPresent()) {
+            Empresa empresa = new Empresa();
+            empresa.setTipoEmpresa(TipoEmpresa.MATRIZ);
+            TelaEmpresa telaEmpresa = new TelaEmpresa(this, "Informe os dados da Matriz da sua Empresa");
+            telaEmpresa.setEmpresa(empresa);
+            telaEmpresa.setVisible(true);
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

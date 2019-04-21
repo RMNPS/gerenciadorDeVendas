@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
  */
 //@NamedQuery(name = "Cliente.buscarTodos", query = "SELECT e FROM Cliente e")
 @Entity
-class Cliente extends BaseEntity implements Comparable<Cliente> {
+class Cliente extends BaseEntity implements Comparable<Cliente>, EntidadeComImagem {
     
     private static final Collator collator = Collator.getInstance();
         
@@ -42,6 +42,7 @@ class Cliente extends BaseEntity implements Comparable<Cliente> {
     String observacoes
     @OneToMany(mappedBy = "cliente")
     Set<ClienteAutorizado> autorizados
+    String imagem
 
     Cliente() {  conta = new Conta(this) }
 

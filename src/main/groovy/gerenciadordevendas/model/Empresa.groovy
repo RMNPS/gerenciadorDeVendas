@@ -28,7 +28,6 @@ class Empresa extends BaseEntity implements Comparable<Empresa>, EntidadeComImag
     String observacoes
     String imagem
     TipoEmpresa tipoEmpresa
-    String observacoes
 
     @Override
     String toString() { nome }

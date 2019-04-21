@@ -27,7 +27,6 @@ public class TelaVendas extends javax.swing.JFrame {
 
     private final VendaTableModel model = new VendaTableModel();
     private String descAux = null;
-    private boolean iniciarNovaVenda = false;
 
     public TelaVendas() {
         initComponents();
@@ -119,7 +118,7 @@ public class TelaVendas extends javax.swing.JFrame {
         qntLabel.setFont(new java.awt.Font("Noto Sans", 0, 22)); // NOI18N
         qntLabel.setForeground(java.awt.Color.white);
         qntLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        qntLabel.setText("99999999");
+        qntLabel.setText("0");
 
         produtosVendaTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         produtosVendaTable.setModel(model);
@@ -146,7 +145,7 @@ public class TelaVendas extends javax.swing.JFrame {
         valorUnLabel.setFont(new java.awt.Font("Noto Sans", 0, 22)); // NOI18N
         valorUnLabel.setForeground(java.awt.Color.white);
         valorUnLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        valorUnLabel.setText("R$ 1000000,00");
+        valorUnLabel.setText("R$ 0,00");
 
         jLabel6.setFont(new java.awt.Font("Noto Sans", 0, 16)); // NOI18N
         jLabel6.setForeground(java.awt.Color.white);

@@ -16,6 +16,7 @@ import gerenciadordevendas.telas.listener.ParcelaDocumentListener;
 import gerenciadordevendas.model.Cliente;
 import gerenciadordevendas.model.Conta;
 import gerenciadordevendas.model.Parcela;
+import gerenciadordevendas.model.TipoEmpresa;
 import gerenciadordevendas.model.Venda;
 import gerenciadordevendas.model.Vendedor;
 import gerenciadordevendas.tablemodel.ParcelaTableModel;
@@ -356,6 +357,11 @@ public class TelaPagamento extends javax.swing.JDialog {
         popupTabela.add(mnuEditar);
 
         mnuRemover.setText("Remover");
+        mnuRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRemoverActionPerformed(evt);
+            }
+        });
         popupTabela.add(mnuRemover);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -601,21 +607,16 @@ public class TelaPagamento extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                            .addComponent(radioCrediario)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(radioCrediario, javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel5Layout.createSequentialGroup()
                             .addComponent(radioDeposito)
                             .addGap(100, 100, 100)))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(radioCreditoParcelado)
-                            .addComponent(radioCreditoAvista)
-                            .addComponent(radioDinheiro)
-                            .addComponent(radioDebito)
-                            .addComponent(radioCheque)
-                            .addComponent(radioMultiplo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(radioCreditoParcelado)
+                    .addComponent(radioCreditoAvista)
+                    .addComponent(radioDinheiro)
+                    .addComponent(radioDebito)
+                    .addComponent(radioCheque)
+                    .addComponent(radioMultiplo))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -678,22 +679,19 @@ public class TelaPagamento extends javax.swing.JDialog {
                             .addGroup(tabDadosGeraisLayout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(31, 31, 31)))
-                        .addGroup(tabDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(tabDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmbCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbVendedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(208, Short.MAX_VALUE))
+                        .addComponent(btnTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabDadosGeraisLayout.createSequentialGroup()
-                        .addGroup(tabDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(tabDadosGeraisLayout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18))
         );
         tabDadosGeraisLayout.setVerticalGroup(
             tabDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -800,7 +798,7 @@ public class TelaPagamento extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelParcelasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelForma, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                    .addComponent(panelForma, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
                     .addGroup(panelParcelasLayout.createSequentialGroup()
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelParcelasLayout.createSequentialGroup()
@@ -812,11 +810,11 @@ public class TelaPagamento extends javax.swing.JDialog {
                             .addGroup(panelParcelasLayout.createSequentialGroup()
                                 .addComponent(lblIntervalo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtIntervalo)))
+                                .addComponent(txtIntervalo, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(0, 12, Short.MAX_VALUE)
                                 .addComponent(cmbIntervalo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtIniciarEm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(40, 40, 40))
@@ -932,7 +930,7 @@ public class TelaPagamento extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(tabParcelamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(tabParcelamentoLayout.createSequentialGroup()
-                        .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panelParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 787, Short.MAX_VALUE))
@@ -1087,13 +1085,15 @@ public class TelaPagamento extends javax.swing.JDialog {
                 int resposta = JOptionPane.showConfirmDialog(this, "Deseja imprimir o recibo?", "Impressão", JOptionPane.YES_NO_OPTION);
                 if (resposta == JOptionPane.YES_OPTION) {
                     Map<String, Object> parametros = new HashMap<>();
-                    Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x").getResultStream().findAny();
+                    Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x")
+                            .setParameter("x", TipoEmpresa.MATRIZ)
+                            .getResultStream().findAny();
                     if (matriz.isPresent()) {
-                        parametros.put("FILIAL", null);
+                        parametros.put("FILIAL", matriz.get());
                         try {
                             JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JREmptyDataSource());
 
-                            JasperPrintManager.printPage(print, 0, true);
+                            JasperPrintManager.printReport(print, true);
                         } catch (JRException ex) {
                             Logger.getLogger(CodigoBarrasJasperReports.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -1174,6 +1174,21 @@ public class TelaPagamento extends javax.swing.JDialog {
             }
         });
     }//GEN-LAST:event_tblParcelasMouseReleased
+
+    private void mnuRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRemoverActionPerformed
+        int row = tblParcelas.getSelectedRow();
+        if (row > -1) {
+
+            model.remover(this);
+
+            BigDecimal jaPago = model.getTotalParcelas();
+            BigDecimal restante = model.getSaldo();
+            txtRestanteParcelamento.setText(restante.toString());
+            txtValorParcela.setText(restante.toString());
+            txtJaPagoParcelamento.setText(jaPago.toString());
+
+        }
+    }//GEN-LAST:event_mnuRemoverActionPerformed
 
     /**
      * @param args the command line arguments

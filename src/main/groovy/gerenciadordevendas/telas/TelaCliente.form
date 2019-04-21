@@ -50,43 +50,51 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jPanel1" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="enderecoPanel1" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="enderecoPanel1" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel4" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="panelAdicionarImagem" max="32767" attributes="0"/>
+                              <Component id="jPanel4" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <Component id="btnExcluir" min="-2" pref="87" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnSalvar" min="-2" pref="87" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
-                          <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                      </Group>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
+                          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="enderecoPanel1" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                          <Component id="panelAdicionarImagem" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel4" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="btnSalvar" min="-2" max="-2" attributes="0"/>
                       <Component id="btnExcluir" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnSalvar" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="35" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -108,67 +116,55 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lblConta" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNome" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblTelefone" alignment="1" min="-2" pref="152" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" min="-2" pref="152" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="txtUfRg" min="-2" pref="134" max="-2" attributes="0"/>
+                                  <Component id="txtTelefone" alignment="1" min="-2" pref="134" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="372" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblConta" max="32767" attributes="0"/>
+                                  <Component id="lblNome" pref="152" max="32767" attributes="0"/>
+                                  <Component id="lblCPF" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="btnConta" pref="439" max="32767" attributes="0"/>
-                                      <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
-                                      <Component id="lblCatoes" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="btnConta" pref="132" max="32767" attributes="0"/>
+                                          <Component id="txtCpf" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="lblCatoes" max="32767" attributes="0"/>
+                                          <Component id="lblDataNascimento" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="lblCelular" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="lblRG" min="-2" pref="153" max="-2" attributes="0"/>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnCartoes" min="-2" pref="125" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txtDataNascimento" min="-2" pref="175" max="-2" attributes="0"/>
+                                          <Component id="txtCelular" min="-2" pref="175" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="txtRg" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="btnCartoes" alignment="0" pref="171" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                                   <Component id="nomeTextField" max="32767" attributes="0"/>
                               </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                                      <Component id="lblCPF" min="-2" pref="87" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtCpf" min="-2" pref="125" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtUfRg" min="-2" pref="125" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="lblTelefone" min="-2" pref="100" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtTelefone" min="-2" pref="125" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblRG" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtRg" min="-2" pref="125" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblDataNascimento" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtDataNascimento" min="-2" pref="125" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblCelular" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtCelular" min="-2" pref="125" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -181,38 +177,56 @@
                           <Component id="nomeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblCatoes" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnCartoes" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblConta" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnConta" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtRg" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblRG" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblCPF" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblConta" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnConta" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblCPF" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="14" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel5" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="txtUfRg" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblDataNascimento" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblTelefone" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="txtTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblCelular" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblCatoes" alignment="3" max="32767" attributes="0"/>
+                                  <Component id="btnCartoes" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="lblRG" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                                          <Component id="txtRg" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="lblDataNascimento" min="-2" pref="26" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="txtDataNascimento" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblCelular" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="txtCelular" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="txtDataNascimento" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -284,11 +298,13 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblCelular">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="11"/>
                 <Property name="text" type="java.lang.String" value="Celular"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblCatoes">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="11"/>
                 <Property name="text" type="java.lang.String" value="Cart&#xf5;es"/>
               </Properties>
             </Component>
@@ -302,6 +318,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblConta">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="11"/>
                 <Property name="text" type="java.lang.String" value="Conta"/>
               </Properties>
             </Component>
@@ -346,9 +363,9 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="517" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -356,8 +373,8 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="156" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="100" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -394,6 +411,22 @@
           </Events>
         </Component>
         <Component class="gerenciadordevendas.telas.EnderecoPanel" name="enderecoPanel1">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder title="Endere&#xe7;os"/>
+              </Border>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="gerenciadordevendas.telas.PanelAdicionarImagem" name="panelAdicionarImagem">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

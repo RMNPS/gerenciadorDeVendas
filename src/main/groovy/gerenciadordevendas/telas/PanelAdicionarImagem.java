@@ -111,7 +111,7 @@ public class PanelAdicionarImagem extends javax.swing.JPanel {
 
         Regras.ULTIMO_CAMINHO_IMAGEM = caminhoImagem;
         ImageIcon icon = new ImageIcon(caminhoImagem);
-        icon.setImage(icon.getImage().getScaledInstance(332, 257, 100));
+        icon.setImage(icon.getImage().getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), 100));
         lblFoto.setIcon(icon);
     }
 

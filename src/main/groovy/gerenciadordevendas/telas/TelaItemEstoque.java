@@ -937,8 +937,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             return;
         }
         BigDecimal valorAprazo = new BigDecimal(sValorAprazo);
-        txtValorAvista.setText(formata(valorAprazo
-                .subtract(valorAprazo.multiply(Regras.DESCONTO_A_VISTA.divide(new BigDecimal("100"))))));
+        txtValorAvista.setText(formata(valorAprazo.multiply(Regras.DESCONTO_A_VISTA.divide(new BigDecimal("100")))));
     }//GEN-LAST:event_btnDescActionPerformed
 
     String formata(String valor) {

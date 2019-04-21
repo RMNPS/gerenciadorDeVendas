@@ -21,56 +21,56 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Component id="lblNumero" min="-2" pref="55" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtNumero" min="-2" pref="120" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="lblComplemento" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtComplemento" max="32767" attributes="0"/>
-          </Group>
           <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="lblEnderecos" alignment="1" max="32767" attributes="0"/>
                   <Component id="lblLogradouro" alignment="1" max="32767" attributes="0"/>
                   <Component id="jLabel7" alignment="1" max="32767" attributes="0"/>
-                  <Component id="lblCidade" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Component id="lblNumero" max="32767" attributes="0"/>
+                  <Component id="lblCidade" alignment="1" min="-2" pref="82" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bairroTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cidadeTextField" alignment="0" pref="334" max="32767" attributes="0"/>
+                          <Component id="bairroTextField" max="32767" attributes="0"/>
+                          <Component id="cidadeTextField" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="ufComboBox" max="32767" attributes="0"/>
+                              <Component id="ufComboBox" min="-2" pref="128" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtCep" min="-2" pref="125" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="txtNumero" min="-2" pref="151" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblComplemento" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="txtComplemento" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="txtLogradouro" alignment="0" max="32767" attributes="0"/>
                           <Component id="cmbEnderecos" alignment="0" pref="339" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnAdicionarEndereco" pref="155" max="32767" attributes="0"/>
+                          <Component id="btnAdicionarEndereco" max="32767" attributes="0"/>
                           <Component id="btnRemoverEndereco" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -83,10 +83,12 @@
                   <Component id="btnAdicionarEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblLogradouro" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtLogradouro" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnRemoverEndereco" alignment="1" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblLogradouro" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtLogradouro" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="btnRemoverEndereco" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -109,6 +111,7 @@
                   <Component id="lblCidade" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cidadeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -196,9 +199,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="cidadeTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Passo de Torres"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
@@ -210,7 +210,7 @@
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
           <Format format="#####-###" subtype="-1" type="5"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="88980-000"/>
+        <Property name="text" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnRemoverEndereco">

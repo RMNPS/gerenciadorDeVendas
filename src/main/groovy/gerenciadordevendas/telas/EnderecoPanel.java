@@ -29,16 +29,16 @@ public class EnderecoPanel extends javax.swing.JPanel {
 
     private List<Endereco> enderecos = new ArrayList<>();
     private Endereco enderecoAtual;
+    private boolean executarListener = false;
 
     public EnderecoPanel() {
         initComponents();
-        cmbEnderecos.setVisible(false);
-        lblEnderecos.setVisible(false);
+        cmbEnderecos.setEnabled(false);
     }
 
     public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
-        this.enderecoAtual = enderecos.isEmpty() ? null : enderecos.get(0);
+        this.enderecos = enderecos == null ? new ArrayList<Endereco>(): enderecos;
+        this.enderecoAtual = this.enderecos.isEmpty() ? null : this.enderecos.get(0);
         
         inicializar();
     }
@@ -56,6 +56,13 @@ public class EnderecoPanel extends javax.swing.JPanel {
         addDocumentListener(cidadeTextField, new TextoListener(40));
 
         preencheCampos();
+        if (enderecos.size() > 1) {
+            cmbEnderecos.removeAllItems();
+            Collections.sort(enderecos);
+            for (Endereco endereco : enderecos) {
+                cmbEnderecos.addItem(endereco);
+            }
+        }
     }
 
     public EnderecoPanel liberarAdicionar() {
@@ -78,18 +85,13 @@ public class EnderecoPanel extends javax.swing.JPanel {
             enderecos.add(enderecoAtual);
         }
         txtLogradouro.setText(enderecoAtual.getLogradouro());
-        txtNumero.setText("" + enderecoAtual.getNumero());
+        txtNumero.setText((enderecoAtual.getNumero() == null ? "" : ("" + enderecoAtual.getNumero())));
         txtComplemento.setText(enderecoAtual.getComplemento());
         cidadeTextField.setText(enderecoAtual.getCidade());
         bairroTextField.setText(enderecoAtual.getBairro());
         txtCep.setText(enderecoAtual.getCep());
         ufComboBox.setSelectedItem(Optional.ofNullable(enderecoAtual.getUf()).orElse(UF.SC));
 
-        cmbEnderecos.removeAllItems();
-        Collections.sort(enderecos);
-        for (Endereco endereco : enderecos) {
-            cmbEnderecos.addItem(endereco);
-        }
         if (enderecos.size() > 1) {
             cmbEnderecos.setEnabled(true);
         }
@@ -160,8 +162,6 @@ public class EnderecoPanel extends javax.swing.JPanel {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Bairro");
 
-        cidadeTextField.setText("Passo de Torres");
-
         jLabel9.setText("UF");
 
         try {
@@ -169,7 +169,7 @@ public class EnderecoPanel extends javax.swing.JPanel {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCep.setText("88980-000");
+        txtCep.setText("");
 
         btnRemoverEndereco.setText("Remover Endereço");
         btnRemoverEndereco.addActionListener(new java.awt.event.ActionListener() {
@@ -182,45 +182,45 @@ public class EnderecoPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(lblNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblComplemento)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtComplemento))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(lblEnderecos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblLogradouro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bairroTextField)
-                            .addComponent(cidadeTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
+                            .addComponent(cidadeTextField))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ufComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(ufComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblComplemento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtComplemento))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtLogradouro, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmbEnderecos, javax.swing.GroupLayout.Alignment.LEADING, 0, 339, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAdicionarEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                            .addComponent(btnRemoverEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(btnAdicionarEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnRemoverEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,10 +230,11 @@ public class EnderecoPanel extends javax.swing.JPanel {
                     .addComponent(lblEnderecos)
                     .addComponent(btnAdicionarEndereco))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblLogradouro)
-                    .addComponent(txtLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRemoverEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblLogradouro)
+                        .addComponent(txtLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRemoverEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblComplemento)
@@ -251,7 +252,8 @@ public class EnderecoPanel extends javax.swing.JPanel {
                     .addComponent(jLabel9)
                     .addComponent(ufComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCidade)
-                    .addComponent(cidadeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cidadeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -260,6 +262,13 @@ public class EnderecoPanel extends javax.swing.JPanel {
         validar();
         enderecoAtual = null;
         preencheCampos();
+
+        cmbEnderecos.removeAllItems();
+        Collections.sort(enderecos);
+        for (Endereco endereco : enderecos) {
+            cmbEnderecos.addItem(endereco);
+        }
+
     }//GEN-LAST:event_btnAdicionarEnderecoActionPerformed
 
     private void cmbEnderecosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEnderecosItemStateChanged
@@ -269,21 +278,25 @@ public class EnderecoPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cmbEnderecosItemStateChanged
 
     private void btnRemoverEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverEnderecoActionPerformed
-        if (enderecos.size() < 2) {
-            JOptionPane.showMessageDialog(this, "Deve existir ao menos um endereço");
-        }
+//        if (enderecos.size() < 2) {
+//            JOptionPane.showMessageDialog(this, "Deve existir ao menos um endereço");
+//        }
         int resposta = JOptionPane.showConfirmDialog(this, "Esta operação não pode ser desfeita.\nVocê tem certeza?", null, JOptionPane.YES_NO_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             EntityManager em = JPA.getEM();
-            enderecoAtual.setDeleted(true);
-            em.getTransaction().begin();
-            em.merge(enderecoAtual);
-            em.close();
-            em.getTransaction().commit();
-            enderecos.remove(enderecoAtual);
-            if (enderecos.size() < 2) {
-                cmbEnderecos.setEnabled(false);
+            Endereco encontrado = em.find(enderecoAtual.getClass(), enderecoAtual.getId());
+            if (encontrado != null) {
+                enderecoAtual.setDeleted(true);
+                em.getTransaction().begin();
+                em.merge(enderecoAtual);
+               
+                em.getTransaction().commit();
+                enderecos.remove(enderecoAtual);
+                if (enderecos.size() < 2) {
+                    cmbEnderecos.setEnabled(false);
+                }
             }
+             em.close();
         }
         
     }//GEN-LAST:event_btnRemoverEnderecoActionPerformed
