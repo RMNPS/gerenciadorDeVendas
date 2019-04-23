@@ -6,8 +6,6 @@
 package gerenciadordevendas.telas.util;
 
 import gerenciadordevendas.EntityService;
-import java.text.Collator;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.JComboBox;

@@ -10,6 +10,27 @@ import javax.swing.JTable
 
 class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
 
+    enum ColunasItemEstoque {
+	ID_ESTOQUE("id Estoque"),
+        ID_PRODUTO("id Produto"),
+        NOME("Nome"),
+        FORNECEDOR("Fornecedor"),
+        QUANTIDADE("QNT"),
+        QUANTIDADE_PRODUTO("QNT Produto"),
+        PRECO_CUSTO('R$ Custo'),
+        PRECO_A_PRAZO('R$ Venda à Prazo'),
+        PRECO_A_VISTA('R$ Venda à Vista');
+//        NUMERO_PARCELAS('Nº Parcelas'),
+//        PRECO_PARCELA('R$ Parcela'),
+        //        VALIDADE("Validade");
+        
+        String nome;
+        
+        private ColunasItemEstoque(String nome) {
+            this.nome = nome;
+        }
+    }
+    
     final DecimalFormat df = new DecimalFormat('R$ #,##0.00');
     final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -81,8 +102,8 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
             case ColunasItemEstoque.PRECO_CUSTO:        return df.format(ie.valorCusto)
             case ColunasItemEstoque.PRECO_A_PRAZO:      return df.format(ie.valorAprazo ?: 0g)
             case ColunasItemEstoque.PRECO_A_VISTA:      return df.format(ie.valorAvista ?: 0g)
-            case ColunasItemEstoque.NUMERO_PARCELAS:    return ie?.numeroParcelas
-            case ColunasItemEstoque.PRECO_PARCELA:      return df.format(ie.valorParcelaSugerida ?: 0g)
+//            case ColunasItemEstoque.NUMERO_PARCELAS:    return ie?.numeroParcelas
+//            case ColunasItemEstoque.PRECO_PARCELA:      return df.format(ie.valorParcelaSugerida ?: 0g)
 //            case ColunasItemEstoque.VALIDADE:           return ie.validade ? sdf.format(ie.validade) : ""
             default:                                    return null;
         }
