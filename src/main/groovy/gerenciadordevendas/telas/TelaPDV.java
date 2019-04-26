@@ -2,9 +2,8 @@ package gerenciadordevendas.telas;
 
 import gerenciadordevendas.JPA;
 import gerenciadordevendas.tablemodel.ProdutosTableModel;
-import gerenciadordevendas.tablemodel.VendaTableModel;
+import gerenciadordevendas.tablemodel.ItemVendaTableModel;
 import gerenciadordevendas.model.ItemVenda;
-import gerenciadordevendas.model.Vendedor;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -15,7 +14,7 @@ import javax.persistence.NoResultException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-public class TelaVendas extends javax.swing.JFrame {
+public class TelaPDV extends javax.swing.JFrame {
 
     private static final String ZERO_REAIS = "R$ 0,00";
     private static final SimpleDateFormat HORA_FORMAT = new SimpleDateFormat("E, dd 'de' MMMMM 'de' YYYY, HH:mm");
@@ -25,10 +24,10 @@ public class TelaVendas extends javax.swing.JFrame {
     private int count = 0;
     private long tempoUltima = 0;
 
-    private final VendaTableModel model = new VendaTableModel();
+    private final ItemVendaTableModel model = new ItemVendaTableModel();
     private String descAux = null;
 
-    public TelaVendas() {
+    public TelaPDV() {
         initComponents();
         iniciarRelogio();
         model.setJTable(produtosVendaTable);

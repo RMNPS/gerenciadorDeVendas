@@ -1,5 +1,5 @@
 /*
- * GerenciadorDeVendas: VendaTableModel.groovy
+ * GerenciadorDeVendas: ItemVendaTableModel.groovy
  * Enconding: UTF-8
  * Data de criação: 21/09/2018 11:19:57
  */
@@ -27,7 +27,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-class VendaTableModel extends TableModelPesquisavel {
+class ItemVendaTableModel extends TableModelPesquisavel {
 
     enum Colunas {
         ITEM("Item"),
@@ -50,7 +50,7 @@ class VendaTableModel extends TableModelPesquisavel {
     Vendedor vendedor;
     List<RegistroDeFluxo> transacoes = new ArrayList<>();
 
-    VendaTableModel() {
+    ItemVendaTableModel() {
         EntityManager em = JPA.getEM();
         padrao = em.find(Cliente.class, 1);
         if (padrao == null) {
@@ -63,7 +63,7 @@ class VendaTableModel extends TableModelPesquisavel {
         em.close();
     }
     
-    VendaTableModel(Venda venda){
+    ItemVendaTableModel(Venda venda){
         this.venda = venda;
         transacoes.clear();
         transacoes += venda.listaProdutos;

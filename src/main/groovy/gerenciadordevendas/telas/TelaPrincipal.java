@@ -74,7 +74,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         vendasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_shopping_cart_black_24dp_2x.png"))); // NOI18N
-        vendasButton.setText("Vendas");
+        vendasButton.setText("PDV");
         vendasButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         vendasButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         vendasButton.addActionListener(new java.awt.event.ActionListener() {
@@ -193,7 +193,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void vendasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendasButtonActionPerformed
-        TelaVendas telaVendas = new TelaVendas();
+        TelaPDV telaVendas = new TelaPDV();
         
         telaVendas.setVisible(true);
     }//GEN-LAST:event_vendasButtonActionPerformed
