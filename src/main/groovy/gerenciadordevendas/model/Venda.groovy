@@ -75,9 +75,9 @@ class Venda extends RegistroDeFluxo {
             
             if (d > BigDecimal.valueOf(Regras.LIMITE_PORCENTAGEM_DESCONTO)) 
                 throw new TransacaoException("O desconto não pode ser maior que " + Regras.LIMITE_PORCENTAGEM_DESCONTO + "%")
-            d = d.divide(new BigDecimal("100"), new MathContext(2)).multiply(subTotal)
-            total = subTotal - d
-            return d
+            def descontoReal = d.divide(new BigDecimal("100"), new MathContext(2)).multiply(subTotal)
+            total = subTotal - descontoReal
+            return descontoReal
         }
         return 0g
     }
@@ -87,12 +87,14 @@ class Venda extends RegistroDeFluxo {
         if (isAlteravel()) {
             if (d < 0g)
                 throw new TransacaoException("O desconto não pode ser negativo")
+            def porcentagem = (d / subTotal) * 100g
             
-            if (d > BigDecimal.valueOf(Regras.LIMITE_DINHEIRO)) 
-                throw new TransacaoException("O desconto não pode ser maior que " + Regras.LIMITE_DINHEIRO)
+            if (porcentagem > BigDecimal.valueOf(Regras.LIMITE_PORCENTAGEM_DESCONTO)) 
+                throw new TransacaoException("O desconto não pode ser maior que " + Regras.LIMITE_PORCENTAGEM_DESCONTO + "%")
+            
             
             total = subTotal - d;
-            return (d / subTotal) * 100g;
+            return porcentagem;
         }
         return 0
     }

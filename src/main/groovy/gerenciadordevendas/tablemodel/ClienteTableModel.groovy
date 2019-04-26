@@ -19,9 +19,12 @@ class ClienteTableModel extends AbstractTableModelPesquisavel<Cliente> {
     }
 
     ClienteTableModel() {
-        carregar();
-        
-        setJTableColumnsWidth(800, 10, 45, 45);
+        carregar()
+    }
+
+    @Override
+    void atualizaEspacamentoColunas() {
+        setJTableColumnsWidth(10, 45, 45)
     }
 
     @Override

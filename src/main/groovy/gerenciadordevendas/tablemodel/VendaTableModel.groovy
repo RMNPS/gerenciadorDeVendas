@@ -83,7 +83,7 @@ class VendaTableModel extends TableModelPesquisavel {
     ItemVenda add(ItemVenda iv) {
         venda.addItem(iv);
         transacoes.add(iv);
-        this.fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
+        fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
         return iv;
     }
 
@@ -188,8 +188,13 @@ class VendaTableModel extends TableModelPesquisavel {
     }
 
     @Override
+    void atualizaEspacamentoColunas() {
+        super.atualizaEspacamentoColunas()
+    }
+
+    @Override
     void setJTable(JTable tabela) {
-        super.setJTableColumnsWidth(tabela, 800, 3, 7, 69, 1, 10, 10);
+        super.setJTableColumnsWidth(tabela, 5, 12, 56, 5, 10, 10);
         tabela.showGrid = false;
         tabela.selectionMode = ListSelectionModel.SINGLE_INTERVAL_SELECTION;
     }

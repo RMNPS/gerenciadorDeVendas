@@ -66,7 +66,12 @@ public class EstoqueAbcTableModel extends TableModelPesquisavel {
     public EstoqueAbcTableModel(JTable tabela) {
         carregarUltimos30dias()
 //        setJTable(tabela);
-        setJTableColumnsWidth(tabela, 800, 10, 35, 10, 15, 10, 10, 10)
+
+    }
+
+    @Override
+    void atualizaEspacamentoColunas() {
+        setJTableColumnsWidth(10, 35, 10, 15, 10, 10, 10)
     }
 
     private void carregarUltimos30dias() {

@@ -11,6 +11,9 @@ import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.util.Optional;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.Document;
 
 /**
  *
@@ -25,23 +28,39 @@ public class PanelPesquisar extends javax.swing.JPanel {
     private boolean popupVisible = true;
     private boolean editarBloqueado = false;
 
-    public PanelPesquisar(Window parent, TableModelPesquisavel model) {
-        this(parent, model, true);
-    }
-
-    public PanelPesquisar(Window parent, TableModelPesquisavel model, boolean selecionavel) {
-        this.parent = parent;
-        this.model = model;
+    public PanelPesquisar() {
         initComponents();
 
-        model.setJTable(tabela);
+        selecionarMenu.setVisible(false);
+    }
 
-        if (model.getRowCount() > 0) {
+    public final void setModel(TableModelPesquisavel model) {
+        this.model = model;
+        this.model.setJTable(tabela);
+        this.model.atualizaEspacamentoColunas();
+        if (this.model.getRowCount() > 0) {
             tabela.setRowSelectionInterval(0, 0);
         }
-        campoTextField.getDocument().addDocumentListener(new PesquisarListener(model));
+        removeAllDocumentListeners(campoTextField.getDocument());
+        campoTextField.getDocument().addDocumentListener(new PesquisarListener(this.model));
+        this.parent = (Window) SwingUtilities.getWindowAncestor(this);
+    }
 
+    private void removeAllDocumentListeners(Document doc) {
+        if (doc instanceof AbstractDocument) {
+            DocumentListener[] listeners = ((AbstractDocument) doc).getDocumentListeners();
+            for (DocumentListener listener : listeners) {
+                doc.removeDocumentListener(listener);
+            }
+        }
+    }
+
+    public void setSelecionavel(boolean selecionavel) {
         selecionarMenu.setVisible(selecionavel);
+    }
+
+    public boolean getSelecionavel() {
+        return selecionarMenu.isVisible();
     }
 
     public Optional getItemSelecionado() {
@@ -53,16 +72,16 @@ public class PanelPesquisar extends javax.swing.JPanel {
         }
         return Optional.ofNullable(objetoSelecionado);
     }
-    
-    public PanelPesquisar setPopupVisible(boolean enable){
+
+    public PanelPesquisar setPopupVisible(boolean enable) {
         popupVisible = enable;
         return this;
     }
-    
-    public void bloquearEditar(boolean b){
+
+    public void bloquearEditar(boolean b) {
         editarBloqueado = b;
     }
-    
+
     private void defineObjetoSelecionado() {
         int row = tabela.getSelectedRow();
         if (row > -1) {
@@ -130,7 +149,14 @@ public class PanelPesquisar extends javax.swing.JPanel {
         });
 
         tabela.setAutoCreateRowSorter(true);
-        tabela.setModel(model);
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         tabela.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         tabela.setShowHorizontalLines(false);
         tabela.setShowVerticalLines(false);
@@ -187,14 +213,13 @@ public class PanelPesquisar extends javax.swing.JPanel {
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         SwingUtilities.invokeLater(() -> {
-            
+
             if (SwingUtilities.isRightMouseButton(evt) && popupVisible) {
                 int linha = tabela.rowAtPoint(evt.getPoint());
                 if (linha >= 0 && linha < tabela.getRowCount()) {
                     tabela.setRowSelectionInterval(linha, linha);
                 }
 
-                
                 selecionarMenu.setEnabled(true);
                 editarMenu.setEnabled(!editarBloqueado);
                 removerMenu.setEnabled(true);

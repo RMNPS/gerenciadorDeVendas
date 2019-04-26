@@ -5,19 +5,16 @@
  */
 package gerenciadordevendas.telas;
 
-import gerenciadordevendas.JPA;
 import gerenciadordevendas.model.Endereco;
 import gerenciadordevendas.model.UF;
 import gerenciadordevendas.tablemodel.EnderecoTableModel;
 import gerenciadordevendas.telas.listener.NumeroListener;
 import gerenciadordevendas.telas.listener.NumeroTextoListener;
-import gerenciadordevendas.telas.listener.TextoListener;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.EntityManager;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
@@ -31,6 +28,8 @@ public class EnderecoPanel extends javax.swing.JPanel {
     private List<Endereco>  enderecos = new ArrayList<>();
     private Endereco enderecoAtual;
     private boolean salvo = false;
+    private boolean salvarVisible = false;
+    private boolean enderecosVisible = false;
 
     public EnderecoPanel() {
         initComponents();
@@ -54,6 +53,26 @@ public class EnderecoPanel extends javax.swing.JPanel {
         inicializar(enderecoAtual);
     }
 
+    public boolean isSalvarVisible() {
+        return salvarVisible;
+    }
+
+    public void setSalvarVisible(boolean salvarVisible) {
+        btnSalvar.setVisible(salvarVisible);
+        this.salvarVisible = salvarVisible;
+    }
+
+    public boolean isEnderecosVisible() {
+        return enderecosVisible;
+    }
+
+    public void setEnderecosVisible(boolean enderecosVisible) {
+        btnEndereços.setVisible(enderecosVisible);
+        this.enderecosVisible = enderecosVisible;
+    }
+
+    
+    
     public List<Endereco> getEnderecos() {
         return enderecos;
     }
@@ -70,13 +89,15 @@ public class EnderecoPanel extends javax.swing.JPanel {
     
     
     private void inicializar(Endereco enderecoAtual) {
+        btnSalvar.setVisible(salvarVisible);
+        btnEndereços.setVisible(enderecosVisible);
         this.enderecoAtual = enderecoAtual;
         preencheCampos();
         addDocumentListener(txtLogradouro, new NumeroTextoListener(100));
         addDocumentListener(txtComplemento, new NumeroTextoListener(100));
         addDocumentListener(txtNumero, new NumeroListener(5));
         addDocumentListener(bairroTextField, new NumeroTextoListener(20));
-        addDocumentListener(cidadeTextField, new TextoListener(40));
+//        addDocumentListener(cidadeTextField, new TextoListener(40));
     }
 
     public boolean isSalvo() {
@@ -88,6 +109,7 @@ public class EnderecoPanel extends javax.swing.JPanel {
         enderecoAtual.setBairro(bairroTextField.getText());
         enderecoAtual.setNumero(txtNumero.getText().isEmpty()? null: Integer.valueOf(txtNumero.getText()));
         enderecoAtual.setCidade(cidadeTextField.getText());
+        enderecoAtual.setComplemento(txtComplemento.getText());
         enderecoAtual.setCep(txtCep.getText());
         enderecoAtual.setUf((UF) ufComboBox.getSelectedItem());
     }
@@ -97,6 +119,7 @@ public class EnderecoPanel extends javax.swing.JPanel {
         txtNumero.setText((enderecoAtual.getNumero() == null ? "" : ("" + enderecoAtual.getNumero())));
         txtComplemento.setText(enderecoAtual.getComplemento());
         cidadeTextField.setText(enderecoAtual.getCidade());
+        txtComplemento.setText(enderecoAtual.getComplemento());
         bairroTextField.setText(enderecoAtual.getBairro());
         txtCep.setText(enderecoAtual.getCep());
         ufComboBox.setSelectedItem(Optional.ofNullable(enderecoAtual.getUf()).orElse(UF.SC));
@@ -104,6 +127,7 @@ public class EnderecoPanel extends javax.swing.JPanel {
     }
 
     private void addDocumentListener(JTextField field, DocumentListener listener) {
+        
         field.getDocument().addDocumentListener(listener);
     }
 
@@ -111,53 +135,36 @@ public class EnderecoPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        lblCidade = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtNumero = new javax.swing.JTextField();
-        lblCidade = new javax.swing.JLabel();
-        txtComplemento = new javax.swing.JTextField();
-        txtLogradouro = new javax.swing.JTextField();
-        ufComboBox = new javax.swing.JComboBox<>();
-        bairroTextField = new javax.swing.JTextField();
-        lblComplemento = new javax.swing.JLabel();
         lblNumero = new javax.swing.JLabel();
-        lblLogradouro = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        cidadeTextField = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtCep = new javax.swing.JFormattedTextField();
+        txtComplemento = new javax.swing.JTextField();
+        bairroTextField = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
         btnEndereços = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        ufComboBox = new javax.swing.JComboBox<>();
+        lblComplemento = new javax.swing.JLabel();
+        txtLogradouro = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtCep = new javax.swing.JFormattedTextField();
+        cidadeTextField = new javax.swing.JTextField();
+        lblLogradouro = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel8.setText("CEP");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblCidade.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblCidade.setText("Cidade");
 
-        ufComboBox.setModel(new DefaultComboBoxModel(UF.values()));
-
-        lblComplemento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblComplemento.setText("Complemento");
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setText("CEP");
 
         lblNumero.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNumero.setText("Número");
-
-        lblLogradouro.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblLogradouro.setText("Logradouro");
-
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Bairro");
-
-        jLabel9.setText("UF");
-
-        try {
-            txtCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtCep.setText("");
 
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -173,55 +180,76 @@ public class EnderecoPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jLabel9.setText("UF");
+
+        ufComboBox.setModel(new DefaultComboBoxModel(UF.values()));
+
+        lblComplemento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblComplemento.setText("Complemento");
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Bairro");
+
+        try {
+            txtCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCep.setText("");
+
+        lblLogradouro.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblLogradouro.setText("Logradouro");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(lblLogradouro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bairroTextField)
-                            .addComponent(cidadeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cidadeTextField))
                         .addGap(21, 21, 21)
                         .addComponent(jLabel9)
                         .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ufComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtLogradouro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ufComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtLogradouro, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                                .addGap(11, 11, 11)
                                 .addComponent(lblComplemento)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtComplemento, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCep, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(btnEndereços, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEndereços, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLogradouro)
                     .addComponent(txtLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEndereços))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblComplemento)
                     .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNumero)
@@ -229,35 +257,51 @@ public class EnderecoPanel extends javax.swing.JPanel {
                     .addComponent(jLabel8)
                     .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bairroTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel9)
                     .addComponent(ufComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCidade)
                     .addComponent(cidadeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         validar();
-        EntityManager em = JPA.getEM();
-
-        em.getTransaction().begin();
-        em.merge(enderecoAtual);
-
-        em.getTransaction().commit();
-        em.close();
+//        EntityManager em = JPA.getEM();
+//
+//        em.getTransaction().begin();
+//        em.merge(enderecoAtual);
+//
+//        em.getTransaction().commit();
+//        em.close();
         salvo = true;
-        JFrame framePai = (JFrame) SwingUtilities.getWindowAncestor(this);
+        Window framePai = (Window) SwingUtilities.getWindowAncestor(this);
         framePai.dispose();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnEndereçosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndereçosActionPerformed
+        validar();
         new TelaPesquisar(new EnderecoTableModel(enderecos), false).setVisible(true);
+        preencheCampos();
     }//GEN-LAST:event_btnEndereçosActionPerformed
 
 
@@ -269,6 +313,7 @@ public class EnderecoPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCidade;
     private javax.swing.JLabel lblComplemento;
     private javax.swing.JLabel lblLogradouro;

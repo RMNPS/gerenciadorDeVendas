@@ -25,14 +25,14 @@ import org.eclipse.persistence.annotations.AdditionalCriteria;
  * @author Ramon Porto
  */
 @MappedSuperclass
-@AdditionalCriteria("this.deleted = FALSE")
+@AdditionalCriteria(":disableDeletedFeature = 1 OR this.deleted = FALSE")
 class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id
 //    @Column(insertable = true, updatable = true)
-    String uuid
+    String uuid = UUID.randomUUID().toString()
     boolean deleted
     @Column(insertable = true, updatable = false)
     Timestamp dataCriacao
@@ -55,7 +55,6 @@ class BaseEntity implements Serializable {
     @PrePersist
     protected void onCreate() {
         setDataCriacao(new Timestamp(new Date().getTime()))
-        setUuid(UUID.randomUUID().toString())
     }
 
     @PreUpdate

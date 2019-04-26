@@ -11,11 +11,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.JTable;
 
-/**
- *
- * @author Ramon Porto
- * @param <T>
- */
 abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
     
     List<T> dados = new ArrayList<>();
@@ -55,8 +50,8 @@ abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
         fireTableDataChanged();
     }
 
-    final void setJTableColumnsWidth(int tablePreferredWidth, double... percentages) {
-        super.setJTableColumnsWidth(table, tablePreferredWidth, percentages);
+    final void setJTableColumnsWidth(double... percentages) {
+        super.setJTableColumnsWidth(table, percentages);
     }
     
     @Override

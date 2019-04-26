@@ -1,10 +1,12 @@
 package gerenciadordevendas.tablemodel;
 
+import gerenciadordevendas.JPA;
 import gerenciadordevendas.model.Cliente;
 import gerenciadordevendas.model.Endereco
 import gerenciadordevendas.telas.EnderecoPanel
 import gerenciadordevendas.telas.TelaContainer
 import java.awt.Window;
+import javax.persistence.EntityManager
 
 class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
     
@@ -24,10 +26,14 @@ class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
     EnderecoTableModel(List<Endereco> enderecos) {
         this.enderecos = enderecos;
         carregar();
-        
-        setJTableColumnsWidth(800, 10, 90);
     }
 
+    @Override
+    void atualizaEspacamentoColunas() {
+        setJTableColumnsWidth(5, 98)
+    }
+    
+    @Override
     void carregar() {
         dadosBackup = dados = enderecos;
         fireTableDataChanged();
@@ -67,6 +73,7 @@ class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
     void novo(Window parent) {
         Endereco e = new Endereco();
         EnderecoPanel panel = new EnderecoPanel(e)
+        panel.salvarVisible = true
         new TelaContainer(parent, panel).visible = true
         if (panel.isSalvo()) {
             enderecos.add(e);
@@ -78,7 +85,9 @@ class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
     void editar(Window parent) {
         int row = getJTable().selectedRow;
         if (row > -1) {
-            new TelaContainer(parent, new EnderecoPanel(get(row))).visible = true;
+            EnderecoPanel panel = new EnderecoPanel(get(row))
+            panel.salvarVisible = true
+            new TelaContainer(parent, panel).visible = true;
             carregar();
             getJTable().setRowSelectionInterval(row, row);
         }
@@ -88,8 +97,20 @@ class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
     void remover(Window parent) {
         int row = getJTable().selectedRow;
         if (row > -1) {
+            if (row == 0) {
+                JOptionPane.showMessageDialog(this, "O endereço principal não pode ser removido.");
+                return;
+            }
             Endereco e = get(row);
-            e.setDeleted();
+            if (e.id != 0) {
+                EntityManager em = JPA.getEM();
+                
+                em.getTransaction().begin()
+                e.setDeleted(true);
+                em.merge(e)
+                em.getTransaction().commit()
+            }
+            
             enderecos.remove(e);
             carregar();
         }

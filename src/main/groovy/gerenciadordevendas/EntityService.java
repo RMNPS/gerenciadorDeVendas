@@ -5,6 +5,7 @@
  */
 package gerenciadordevendas;
 
+import gerenciadordevendas.model.BaseEntity;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -20,14 +21,28 @@ public class EntityService {
                 .getResultList();
     }
 
-   public static int getLastIDplus1(EntityManager em, Class<?> classe) {
-        List<Integer> lista = em.createQuery("SELECT e.id FROM "+classe.getSimpleName()+" e order by e.id desc").setMaxResults(1).getResultList();
+   public static int getLastIDplus1(Class<?> classe) {
+        EntityManager em = JPA.getEM();
+        em.setProperty("disableDeletedFeature", 1);
+        List<Integer> lista = em.createQuery("SELECT e.id FROM " + classe.getSimpleName() + " e order by e.id desc").setMaxResults(1).getResultList();
+        em.close();
         int id = 0;
         if (!lista.isEmpty()) {
             id = lista.get(0);
         }
         id++;
         return id;
-    } 
-    
+    }
+
+
+   /** @param e  Marca o campo como deletado na base de dados */
+   public static void remove(BaseEntity e) {
+        EntityManager em = JPA.getEM();
+        em.getTransaction().begin();
+        e.setDeleted(true);
+        em.merge(e);
+        em.getTransaction().commit();
+        em.close();
+    }
+
 }

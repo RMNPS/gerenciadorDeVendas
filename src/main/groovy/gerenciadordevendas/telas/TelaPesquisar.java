@@ -23,9 +23,8 @@ public class TelaPesquisar extends javax.swing.JDialog {
         super(null, java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         this.model = model;
         initComponents();
-
         model.setJTable(tabela);
-
+        model.atualizaEspacamentoColunas();
         if (model.getRowCount() > 0) {
             tabela.setRowSelectionInterval(0, 0);
         }

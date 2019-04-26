@@ -44,7 +44,7 @@ class ProdutosTableModel extends TableModelPesquisavel {
     @Override
     final void setJTable(JTable table) {
         this.table = table
-        setJTableColumnsWidth(table, 800, 5, 50, 15, 15, 5, 10);
+        setJTableColumnsWidth(table, 5, 50, 15, 15, 5, 10);
     }
 
     

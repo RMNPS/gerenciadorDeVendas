@@ -32,7 +32,7 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
     @Override
     final void setJTable(JTable table) {
         super.table = table;
-        setJTableColumnsWidth(800, 20, 80);
+        setJTableColumnsWidth(10, 90);
     }
     
     @Override

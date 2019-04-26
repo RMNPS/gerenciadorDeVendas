@@ -30,9 +30,8 @@ class FornecedorTableModel extends AbstractTableModelPesquisavel<Fornecedor> {
     }
 
     @Override
-    void setJTable(JTable table) {
-        super.table = table
-        setJTableColumnsWidth(800, 5, 45, 10, 30, 10)
+    void atualizaEspacamentoColunas() {
+        setJTableColumnsWidth(5, 40, 15, 25, 15)
     }
     
     @Override

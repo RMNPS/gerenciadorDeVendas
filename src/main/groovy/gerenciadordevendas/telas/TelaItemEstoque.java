@@ -767,9 +767,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private void btnClonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClonarActionPerformed
         if (salvarItemEstoque()) {
             itemEstoque = new ItemEstoque();
-            EntityManager em = JPA.getEM();
-            String id = ""+EntityService.getLastIDplus1(em, ItemEstoque.class);
-            em.close();
+            String id = ""+EntityService.getLastIDplus1(ItemEstoque.class);
             txtID.setText(id);
             txtValidade.setDate(Calendar.getInstance().getTime());
             if (txtCodigoBarras.getText().matches("\\d+")) {

@@ -11,13 +11,9 @@ abstract class TableModelPesquisavel<T> extends AbstractTableModel implements Pe
         return null;
     }
 
-    final void setJTableColumnsWidth(JTable table, int tablePreferredWidth, double... percentages) {
-        
+    final void setJTableColumnsWidth(JTable table, double... percentages) {
+        def tablePreferredWidth = (int) table.getSize().getWidth();
         double total = percentages.sum();
-        
-        for (int i = 0; i < table?.columnModel?.columnCount; i++) {
-            total += percentages[i];
-        }
         
         for (int i = 0; i < table?.columnModel?.columnCount; i++) {
             TableColumn column = table.columnModel.getColumn(i);
@@ -54,4 +50,6 @@ abstract class TableModelPesquisavel<T> extends AbstractTableModel implements Pe
     }
     
     void setJTable(JTable table){}
+    
+    void atualizaEspacamentoColunas() { }
 }

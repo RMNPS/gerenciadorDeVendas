@@ -39,11 +39,9 @@ public class ImageService {
             String fileExtension = Files.getFileExtension(caminhoImagem);
             int id = entidade.getId();
             if (id == 0) {
-                EntityManager em = JPA.getEM();
-                id = EntityService.getLastIDplus1(em, Empresa.class);
-                id++;
+                id = EntityService.getLastIDplus1(Empresa.class);
             }
-            String caminhoImagemProjeto = pastaImagens + id + fileExtension;
+            String caminhoImagemProjeto = pastaImagens + id + "." + fileExtension;
 
             Files.copy(new File(caminhoImagem), new File(caminhoProjeto + caminhoImagemProjeto));
             

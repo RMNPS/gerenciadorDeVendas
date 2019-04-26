@@ -62,8 +62,8 @@ public class TelaPagamento extends javax.swing.JDialog {
         super(null, Dialog.DEFAULT_MODALITY_TYPE);
         initComponents();
         this.venda = venda;
-        new DecimalDocumentListener(txtPorcentagemDesconto, (e) -> atualizaDesconto(e)).inicializa();
-        new MoedaDocumentListener(txtDescontoReal, (e) -> atualizaDesconto(e)).inicializa();
+        new DecimalDocumentListener(txtPorcentagemDesconto, (e) -> atualizaDesconto(true, e)).inicializa();
+        new MoedaDocumentListener(txtDescontoReal, (e) -> atualizaDesconto(false, e)).inicializa();
         new DecimalDocumentListener(txtValorRecebido, (e) -> atualizaTroco(e)).inicializa();
         new MoedaDocumentListener(txtValorParcela).inicializa();
         new ParcelaDocumentListener(((JSpinner.DefaultEditor) SpinnerParcela.getEditor()).getTextField(), (e) -> atualizaParcelas(e)).inicializa();
@@ -111,7 +111,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         txtTroco.setText(valorRecebido.subtract(venda.getTotal().setScale(2)).setScale(2).toString());
     }
 
-    private void atualizaDesconto(String e) {
+    private void atualizaDesconto(boolean porcentagem, String e) {
 
         try {
             if (e.isEmpty()) {
@@ -119,22 +119,20 @@ public class TelaPagamento extends javax.swing.JDialog {
             }
 
             BigDecimal desconto = new BigDecimal(e);
-            if (radioPorcentagemDesconto.isSelected()) {
-                txtPorcentagemDesconto.setBackground(Color.WHITE);
+            if (porcentagem) {
                 txtPorcentagemDesconto.setToolTipText(e);
                 BigDecimal descontoReal = venda.setPorcentagemDesconto(desconto).setScale(2, RoundingMode.HALF_UP);
                 txtDescontoReal.setText(descontoReal.toString());
             } else {
-                txtDescontoReal.setBackground(Color.WHITE);
                 txtDescontoReal.setToolTipText(e);
-                BigDecimal porcentagem = venda.setDescontoReal(desconto).setScale(2, RoundingMode.HALF_UP);
-                txtPorcentagemDesconto.setText(porcentagem.toString());
+                BigDecimal valorPorcentagem = venda.setDescontoReal(desconto).setScale(2, RoundingMode.HALF_UP);
+                txtPorcentagemDesconto.setText(valorPorcentagem.toString());
             }
             txtTotal.setText(venda.getTotal().setScale(2, RoundingMode.HALF_UP).toString());
             atualizaTroco(txtValorRecebido.getText());
         } catch (TransacaoException ex) {
             txtTotal.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
-            if (radioPorcentagemDesconto.isSelected()) {
+            if (porcentagem) {
                 txtPorcentagemDesconto.setBackground(Color.YELLOW);
                 txtPorcentagemDesconto.setToolTipText(ex.getMessage());
             } else {
@@ -278,7 +276,6 @@ public class TelaPagamento extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         GrupoForma = new javax.swing.ButtonGroup();
         popupTabela = new javax.swing.JPopupMenu();
         mnuEditar = new javax.swing.JMenuItem();
@@ -306,9 +303,8 @@ public class TelaPagamento extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         txtPorcentagemDesconto = new javax.swing.JTextField();
         txtDescontoReal = new javax.swing.JTextField();
-        radioPorcentagemDesconto = new javax.swing.JRadioButton();
-        radioDescontoReal = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         radioDinheiro = new javax.swing.JRadioButton();
         radioCreditoAvista = new javax.swing.JRadioButton();
@@ -471,55 +467,41 @@ public class TelaPagamento extends javax.swing.JDialog {
         txtPorcentagemDesconto.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtPorcentagemDesconto.setText("0");
 
-        txtDescontoReal.setEditable(false);
         txtDescontoReal.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
 
-        radioPorcentagemDesconto.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(radioPorcentagemDesconto);
-        radioPorcentagemDesconto.setSelected(true);
-        radioPorcentagemDesconto.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                radioPorcentagemDescontoItemStateChanged(evt);
-            }
-        });
-
-        radioDescontoReal.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(radioDescontoReal);
-
         jLabel10.setText("%");
+
+        jLabel7.setText("R$");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(4, 4, 4)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(radioPorcentagemDesconto)
+                        .addComponent(txtPorcentagemDesconto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPorcentagemDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10))
+                        .addComponent(jLabel10)
+                        .addContainerGap())
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(radioDescontoReal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDescontoReal)
-                        .addGap(15, 15, 15)))
-                .addContainerGap())
+                        .addComponent(txtDescontoReal, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioPorcentagemDesconto)
                     .addComponent(txtPorcentagemDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(radioDescontoReal)
-                    .addComponent(txtDescontoReal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDescontoReal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -788,7 +770,7 @@ public class TelaPagamento extends javax.swing.JDialog {
                         .addComponent(txtValorParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblValorParcela))
                     .addComponent(btnAdicionar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelParcelasLayout = new javax.swing.GroupLayout(panelParcelas);
@@ -810,11 +792,11 @@ public class TelaPagamento extends javax.swing.JDialog {
                             .addGroup(panelParcelasLayout.createSequentialGroup()
                                 .addComponent(lblIntervalo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtIntervalo, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)))
+                                .addComponent(txtIntervalo, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelParcelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelParcelasLayout.createSequentialGroup()
-                                .addGap(0, 12, Short.MAX_VALUE)
+                                .addGap(0, 36, Short.MAX_VALUE)
                                 .addComponent(cmbIntervalo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtIniciarEm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(40, 40, 40))
@@ -1009,12 +991,6 @@ public class TelaPagamento extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void radioPorcentagemDescontoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioPorcentagemDescontoItemStateChanged
-        boolean isPorcentagem = radioPorcentagemDesconto.isSelected();
-        txtPorcentagemDesconto.setEditable(isPorcentagem);
-        txtDescontoReal.setEditable(!isPorcentagem);
-    }//GEN-LAST:event_radioPorcentagemDescontoItemStateChanged
 
     private void umaParcelaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_umaParcelaItemStateChanged
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
@@ -1238,7 +1214,6 @@ public class TelaPagamento extends javax.swing.JDialog {
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnProximo;
     private javax.swing.JButton btnTamanho;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<Cliente> cmbCliente;
     private javax.swing.JComboBox<FormaPagamento> cmbForma;
     private javax.swing.JComboBox<String> cmbIntervalo;
@@ -1250,6 +1225,7 @@ public class TelaPagamento extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1280,10 +1256,8 @@ public class TelaPagamento extends javax.swing.JDialog {
     private javax.swing.JRadioButton radioCreditoParcelado;
     private javax.swing.JRadioButton radioDebito;
     private javax.swing.JRadioButton radioDeposito;
-    private javax.swing.JRadioButton radioDescontoReal;
     private javax.swing.JRadioButton radioDinheiro;
     private javax.swing.JRadioButton radioMultiplo;
-    private javax.swing.JRadioButton radioPorcentagemDesconto;
     private javax.swing.JPanel tabDadosGerais;
     private javax.swing.JTabbedPane tabPagamento;
     private javax.swing.JPanel tabParcelamento;

@@ -140,6 +140,8 @@ public class TelaEmpresa extends javax.swing.JDialog {
 
         panelAdicionarImagem.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        panelEndereco.setEnderecosVisible(true);
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Observações"));
 
@@ -217,7 +219,7 @@ public class TelaEmpresa extends javax.swing.JDialog {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDadosGeraisLayout.createSequentialGroup()
                         .addGroup(panelDadosGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -311,9 +313,11 @@ public class TelaEmpresa extends javax.swing.JDialog {
         if (validar()) {
             EntityManager em = JPA.getEM();
             em.getTransaction().begin();
-            em.merge(empresa);
+            empresa = em.merge(empresa);
             em.getTransaction().commit();
             em.close();
+            dispose();
+
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 

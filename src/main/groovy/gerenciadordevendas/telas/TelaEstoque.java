@@ -1,24 +1,19 @@
 package gerenciadordevendas.telas;
 
-import gerenciadordevendas.controller.EtiquetaJasperReports;
 import gerenciadordevendas.model.ItemEstoque;
 import gerenciadordevendas.tablemodel.ItemEstoqueTableModel;
-import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.util.List;
 import javax.swing.JOptionPane;
 
 public class TelaEstoque extends javax.swing.JFrame {
     
-    PanelPesquisar panelPesquisar;
     ItemEstoqueTableModel model;
 
     public TelaEstoque() {
         initComponents();
         model = new ItemEstoqueTableModel();
-        panelPesquisar = new PanelPesquisar(this, model, false);
-        painelAncora.setLayout(new BorderLayout());
-        painelAncora.add(panelPesquisar);
+        panelPesquisar.setModel(model);
     }
 
     @SuppressWarnings("unchecked")
@@ -31,8 +26,8 @@ public class TelaEstoque extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
-        painelAncora = new javax.swing.JPanel();
         btnImprimirEtiquetas = new javax.swing.JButton();
+        panelPesquisar = new gerenciadordevendas.telas.PanelPesquisar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pesquisar");
@@ -70,17 +65,6 @@ public class TelaEstoque extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout painelAncoraLayout = new javax.swing.GroupLayout(painelAncora);
-        painelAncora.setLayout(painelAncoraLayout);
-        painelAncoraLayout.setHorizontalGroup(
-            painelAncoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 839, Short.MAX_VALUE)
-        );
-        painelAncoraLayout.setVerticalGroup(
-            painelAncoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 330, Short.MAX_VALUE)
-        );
-
         btnImprimirEtiquetas.setText("<html><center>Imprimir<br>Etiquetas");
         btnImprimirEtiquetas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,21 +76,21 @@ public class TelaEstoque extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnImprimirEtiquetas, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
-            .addComponent(painelAncora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +108,7 @@ public class TelaEstoque extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(btnImprimirEtiquetas, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(painelAncora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -181,6 +165,6 @@ public class TelaEstoque extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel painelAncora;
+    private gerenciadordevendas.telas.PanelPesquisar panelPesquisar;
     // End of variables declaration//GEN-END:variables
 }

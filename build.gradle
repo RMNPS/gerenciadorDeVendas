@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+apply plugin: 'idea'
 //apply plugin: 'java'
 
 
@@ -16,6 +17,11 @@ sourceSets.main.output.resourcesDir = sourceSets.main.java.outputDir
 // your own implementation.
 if (!hasProperty('mainClass')) {
     ext.mainClass = 'gerenciadordevendas.telas.TelaPrincipal'
+}
+
+task(runMain, dependsOn: 'classes', type: JavaExec) {
+    main = 'gerenciadordevendas.telas.TelaPrincipal'
+    classpath = sourceSets.main.runtimeClasspath
 }
 
 def defaultEncoding = 'UTF-8'  
