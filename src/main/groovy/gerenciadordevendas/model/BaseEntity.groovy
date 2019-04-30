@@ -6,6 +6,7 @@
 
 package gerenciadordevendas.model
 
+import gerenciadordevendas.MyCustomizer
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -19,6 +20,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import org.eclipse.persistence.annotations.AdditionalCriteria;
+import org.eclipse.persistence.annotations.Customizer;
 
 /**
  *
@@ -26,6 +28,7 @@ import org.eclipse.persistence.annotations.AdditionalCriteria;
  */
 @MappedSuperclass
 @AdditionalCriteria(":disableDeletedFeature = 1 OR this.deleted = FALSE")
+@Customizer(value=MyCustomizer.class)
 class BaseEntity implements Serializable {
 
     @Id

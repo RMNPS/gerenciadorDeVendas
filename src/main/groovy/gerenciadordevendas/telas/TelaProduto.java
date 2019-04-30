@@ -73,7 +73,7 @@ public class TelaProduto extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtObservacoes = new javax.swing.JTextArea();
-        chkModoAdicao = new javax.swing.JCheckBox();
+        btnClonar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Produto");
@@ -116,7 +116,7 @@ public class TelaProduto extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(codigoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 298, Short.MAX_VALUE))
                     .addComponent(nomeTextField))
                 .addContainerGap())
         );
@@ -125,13 +125,13 @@ public class TelaProduto extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nomeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         novoButton.setText("Novo");
@@ -172,9 +172,12 @@ public class TelaProduto extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        chkModoAdicao.setBackground(new java.awt.Color(255, 255, 255));
-        chkModoAdicao.setText("Modo de adição");
-        chkModoAdicao.setToolTipText("Este modo permite salvar e adicionar sem que esta tela precise ser fechada");
+        btnClonar.setText("Clonar");
+        btnClonar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClonarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -186,9 +189,10 @@ public class TelaProduto extends javax.swing.JDialog {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(chkModoAdicao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 247, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(novoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClonar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(salvarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -196,6 +200,7 @@ public class TelaProduto extends javax.swing.JDialog {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -203,7 +208,7 @@ public class TelaProduto extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(salvarButton)
                     .addComponent(novoButton)
-                    .addComponent(chkModoAdicao))
+                    .addComponent(btnClonar))
                 .addContainerGap())
         );
 
@@ -223,8 +228,12 @@ public class TelaProduto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void novoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoButtonActionPerformed
-
-        novo();
+         try {
+            salvarProduto();
+            novo();
+        } catch (FormatacaoException e) {
+            mostrarErro(e.getMessage());
+        }
     }//GEN-LAST:event_novoButtonActionPerformed
 
     private void mostrarErro(String mensagem) {
@@ -233,25 +242,26 @@ public class TelaProduto extends javax.swing.JDialog {
 
     private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
         try {
-            produto.setNome(Formatador.stringNotEmpty("Nome", nomeTextField.getText()));
-            produto.setObservacoes(txtObservacoes.getText());
-
-            EntityManager em = JPA.getEM();
-            em.getTransaction().begin();
-
-            produto = em.merge(produto);
-            em.getTransaction().commit();
-            em.close();
-
+            salvarProduto();
             preencheCampos(produto);
 
-            if (!chkModoAdicao.isSelected()) {
-                dispose();
-            }
+            dispose();
         } catch (FormatacaoException e) {
             mostrarErro(e.getMessage());
         }
     }//GEN-LAST:event_salvarButtonActionPerformed
+
+    private void salvarProduto() throws FormatacaoException {
+        produto.setNome(Formatador.stringNotEmpty("Nome", nomeTextField.getText()));
+        produto.setObservacoes(txtObservacoes.getText());
+        
+        EntityManager em = JPA.getEM();
+        em.getTransaction().begin();
+        
+        produto = em.merge(produto);
+        em.getTransaction().commit();
+        em.close();
+    }
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
     }//GEN-LAST:event_formKeyPressed
@@ -259,8 +269,18 @@ public class TelaProduto extends javax.swing.JDialog {
     private void nomeTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nomeTextFieldFocusGained
     }//GEN-LAST:event_nomeTextFieldFocusGained
 
+    private void btnClonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClonarActionPerformed
+       try {
+            salvarProduto();
+            produto = new Produto();
+            codigoTextField.setText("");
+        } catch (FormatacaoException e) {
+            mostrarErro(e.getMessage());
+        }
+    }//GEN-LAST:event_btnClonarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox chkModoAdicao;
+    private javax.swing.JButton btnClonar;
     private javax.swing.JTextField codigoTextField;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

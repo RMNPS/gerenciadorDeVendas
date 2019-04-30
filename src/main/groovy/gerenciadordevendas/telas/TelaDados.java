@@ -7,7 +7,6 @@ package gerenciadordevendas.telas;
 
 import gerenciadordevendas.JPA;
 import gerenciadordevendas.model.Estado;
-import gerenciadordevendas.model.Venda;
 import gerenciadordevendas.tablemodel.EstoqueAbcTableModel;
 import java.awt.Dialog;
 import java.awt.Toolkit;

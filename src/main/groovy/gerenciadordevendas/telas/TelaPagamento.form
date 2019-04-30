@@ -76,6 +76,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="btnEditar" min="-2" pref="92" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnAnterior" min="-2" pref="104" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnProximo" min="-2" pref="92" max="-2" attributes="0"/>
@@ -95,6 +97,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnProximo" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnAnterior" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -657,7 +660,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTextArea" name="jTextArea1">
+                        <Component class="javax.swing.JTextArea" name="txtObservacoes">
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -952,20 +955,20 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblRestanteParcelmanto" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblJaParcelado" max="32767" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="txtJaParcelado" min="-2" pref="117" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="lblRestanteParcelmanto" max="32767" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="txtRestanteParcelamento" min="-2" pref="117" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblJaPagoParcelamento" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="txtJaPagoParcelamento" min="-2" pref="117" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblTotalParcelamento" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblTotalParcelamento" max="32767" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="txtTotalParcelamento" min="-2" pref="117" max="-2" attributes="0"/>
                                   </Group>
@@ -984,8 +987,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblJaPagoParcelamento" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtJaPagoParcelamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblJaParcelado" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtJaParcelado" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -1000,16 +1003,19 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="lblTotalParcelamento">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="text" type="java.lang.String" value="Total R$"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="lblJaPagoParcelamento">
+                    <Component class="javax.swing.JLabel" name="lblJaParcelado">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="J&#xe1; pago R$"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
+                        <Property name="text" type="java.lang.String" value="J&#xe1; parcelado R$"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblRestanteParcelmanto">
                       <Properties>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="text" type="java.lang.String" value="Restante R$"/>
                       </Properties>
                     </Component>
@@ -1019,7 +1025,7 @@
                         <Property name="horizontalAlignment" type="int" value="11"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtJaPagoParcelamento">
+                    <Component class="javax.swing.JTextField" name="txtJaParcelado">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="11"/>
@@ -1083,6 +1089,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnteriorActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnEditar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Editar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

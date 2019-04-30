@@ -117,7 +117,7 @@ class ContaTableModel extends TableModelPesquisavel {
         if (row > -1) {
             RegistroDeFluxo registro = transacoes.get(row)
             if (registro instanceof Venda)
-                new TelaPesquisar(new VendaTableModel((Venda) registro), false)
+                new TelaPesquisar(new ItemVendaTableModel((Venda) registro), false)
                     .setPopupVisible(false)
                     .setVisible(true)
             else JOptionPane.showMessageDialog(parent, "Esta opção só está habilitada para Vendas")

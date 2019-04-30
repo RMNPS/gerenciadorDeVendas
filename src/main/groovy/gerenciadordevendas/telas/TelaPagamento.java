@@ -22,6 +22,7 @@ import gerenciadordevendas.model.Vendedor;
 import gerenciadordevendas.tablemodel.ParcelaTableModel;
 import gerenciadordevendas.telas.util.TelaUtil;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
@@ -41,6 +42,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -81,6 +83,25 @@ public class TelaPagamento extends javax.swing.JDialog {
         model = new ParcelaTableModel(tblParcelas, venda);
         preencheCampos();
         tabPagamento.setEnabledAt(1, false);
+//        DisabledPanel dp = new DisabledPanel(tabDadosGerais);
+//        dp.setEnabled(false);
+        if (venda.getId() != 0) {
+            setPanelEnabled(tabDadosGerais, false);
+            btnEditar.setEnabled(false);
+        }
+    }
+
+    void setPanelEnabled(JPanel panel, Boolean isEnabled) {
+        panel.setEnabled(isEnabled);
+
+        Component[] components = panel.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JPanel) {
+                setPanelEnabled((JPanel) component, isEnabled);
+            }
+            component.setEnabled(isEnabled);
+        }
     }
 
     private void preencheCampos() {
@@ -93,6 +114,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         txtTotal.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
         txtJaPago.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
         txtValorRecebido.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
+        txtObservacoes.setText(venda.getObservacoes());
     }
 
     private void atualizaTroco(String sValorRecebido) {
@@ -264,7 +286,7 @@ public class TelaPagamento extends javax.swing.JDialog {
 
         txtRestanteParcelamento.setText(model.getSaldo().toString());
         txtValorParcela.setText(txtRestanteParcelamento.getText());
-        txtJaPagoParcelamento.setText(model.getTotalParcelas().toString());
+        txtJaParcelado.setText(model.getTotalParcelas().toString());
 
         Calendar instance = Calendar.getInstance();
         instance.setTime(dataParcela);
@@ -316,7 +338,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         radioMultiplo = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtObservacoes = new javax.swing.JTextArea();
         tabParcelamento = new javax.swing.JPanel();
         panelParcelas = new javax.swing.JPanel();
         lblNumeroParcelas = new javax.swing.JLabel();
@@ -334,15 +356,16 @@ public class TelaPagamento extends javax.swing.JDialog {
         btnAdicionar = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         lblTotalParcelamento = new javax.swing.JLabel();
-        lblJaPagoParcelamento = new javax.swing.JLabel();
+        lblJaParcelado = new javax.swing.JLabel();
         lblRestanteParcelmanto = new javax.swing.JLabel();
         txtTotalParcelamento = new javax.swing.JTextField();
-        txtJaPagoParcelamento = new javax.swing.JTextField();
+        txtJaParcelado = new javax.swing.JTextField();
         txtRestanteParcelamento = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblParcelas = new javax.swing.JTable();
         btnProximo = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         mnuEditar.setText("Editar");
         mnuEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -624,10 +647,10 @@ public class TelaPagamento extends javax.swing.JDialog {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Observações"));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtObservacoes.setColumns(20);
+        txtObservacoes.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        txtObservacoes.setRows(5);
+        jScrollPane2.setViewportView(txtObservacoes);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -824,18 +847,21 @@ public class TelaPagamento extends javax.swing.JDialog {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Pagamento"));
 
+        lblTotalParcelamento.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblTotalParcelamento.setText("Total R$");
 
-        lblJaPagoParcelamento.setText("Já pago R$");
+        lblJaParcelado.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblJaParcelado.setText("Já parcelado R$");
 
+        lblRestanteParcelmanto.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblRestanteParcelmanto.setText("Restante R$");
 
         txtTotalParcelamento.setEditable(false);
         txtTotalParcelamento.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
 
-        txtJaPagoParcelamento.setEditable(false);
-        txtJaPagoParcelamento.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        txtJaPagoParcelamento.setText("0");
+        txtJaParcelado.setEditable(false);
+        txtJaParcelado.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtJaParcelado.setText("0");
 
         txtRestanteParcelamento.setEditable(false);
         txtRestanteParcelamento.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
@@ -845,18 +871,18 @@ public class TelaPagamento extends javax.swing.JDialog {
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addComponent(lblRestanteParcelmanto)
+                        .addComponent(lblJaParcelado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtJaParcelado, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addComponent(lblRestanteParcelmanto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(txtRestanteParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addComponent(lblJaPagoParcelamento)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtJaPagoParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addComponent(lblTotalParcelamento)
+                        .addComponent(lblTotalParcelamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(txtTotalParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -870,8 +896,8 @@ public class TelaPagamento extends javax.swing.JDialog {
                     .addComponent(lblTotalParcelamento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblJaPagoParcelamento)
-                    .addComponent(txtJaPagoParcelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblJaParcelado)
+                    .addComponent(txtJaParcelado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRestanteParcelmanto)
@@ -947,6 +973,13 @@ public class TelaPagamento extends javax.swing.JDialog {
             }
         });
 
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -956,6 +989,8 @@ public class TelaPagamento extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnProximo, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -970,7 +1005,8 @@ public class TelaPagamento extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnProximo)
-                    .addComponent(btnAnterior))
+                    .addComponent(btnAnterior)
+                    .addComponent(btnEditar))
                 .addContainerGap())
         );
 
@@ -1018,22 +1054,31 @@ public class TelaPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximoActionPerformed
-
+        boolean vendaNova = venda.getId() != 0;
         if (btnProximo.getText().equals("Próximo")) {
-            txtTotalParcelamento.setText(txtTotal.getText());
-            txtRestanteParcelamento.setText(txtTotal.getText());
-
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MONTH, 1);
             txtIniciarEm.setDate(calendar.getTime());
-            txtValorParcela.setText(txtTotal.getText());
-            if (!radioMultiplo.isSelected()) {
-                mnuRemover.setEnabled(false);
-                txtJaPagoParcelamento.setText(txtTotal.getText());
-                atualizaParcelas();
+
+            if (vendaNova) {
+                txtTotalParcelamento.setText(txtTotal.getText());
+                BigDecimal jaPago = model.getTotalParcelas();
+                BigDecimal restante = model.getSaldo();
+                txtRestanteParcelamento.setText(restante.toString());
+                txtValorParcela.setText(restante.toString());
+                txtJaParcelado.setText(jaPago.toString());
             } else {
-                mnuRemover.setEnabled(true);
-                txtJaPagoParcelamento.setText("0.00");
+                txtTotalParcelamento.setText(txtTotal.getText());
+                txtRestanteParcelamento.setText(txtTotal.getText());
+                txtValorParcela.setText(txtTotal.getText());
+                if (!radioMultiplo.isSelected()) {
+                    mnuRemover.setEnabled(false);
+                    txtJaParcelado.setText(txtTotal.getText());
+                    atualizaParcelas();
+                } else {
+                    mnuRemover.setEnabled(true);
+                    txtJaParcelado.setText("0.00");
+                }
             }
 
             tabPagamento.setEnabledAt(0, false);
@@ -1051,30 +1096,16 @@ public class TelaPagamento extends javax.swing.JDialog {
                 if (venda.getConta() == null) {
                     venda.setConta(getClientePadrao(em).getConta());
                 }
-
+                venda.setObservacoes(txtObservacoes.getText());
                 venda.finalizarVenda();
 
                 em.getTransaction().begin();
                 venda = em.merge(venda);
                 em.getTransaction().commit();
-                
-                int resposta = JOptionPane.showConfirmDialog(this, "Deseja imprimir o recibo?", "Impressão", JOptionPane.YES_NO_OPTION);
-                if (resposta == JOptionPane.YES_OPTION) {
-                    Map<String, Object> parametros = new HashMap<>();
-                    Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x")
-                            .setParameter("x", TipoEmpresa.MATRIZ)
-                            .getResultStream().findAny();
-                    if (matriz.isPresent()) {
-                        parametros.put("FILIAL", matriz.get());
-                        try {
-                            JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JREmptyDataSource());
-
-                            JasperPrintManager.printReport(print, true);
-                        } catch (JRException ex) {
-                            Logger.getLogger(CodigoBarrasJasperReports.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Não foi possível imprimir, pois não há nenhuma matriz cadastrada");
+                if (!vendaNova) {
+                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja imprimir o recibo?", "Impressão", JOptionPane.YES_NO_OPTION);
+                    if (resposta == JOptionPane.YES_OPTION) {
+                        imprimirRecibo(em);
                     }
                 }
                 em.close();
@@ -1084,6 +1115,25 @@ public class TelaPagamento extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_btnProximoActionPerformed
+
+    private void imprimirRecibo(EntityManager em) throws HeadlessException {
+        Map<String, Object> parametros = new HashMap<>();
+        Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x")
+                .setParameter("x", TipoEmpresa.MATRIZ)
+                .getResultStream().findAny();
+        if (matriz.isPresent()) {
+            parametros.put("FILIAL", matriz.get());
+            try {
+                JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JREmptyDataSource());
+
+                JasperPrintManager.printReport(print, true);
+            } catch (JRException ex) {
+                Logger.getLogger(CodigoBarrasJasperReports.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Não foi possível imprimir, pois não há nenhuma matriz cadastrada");
+        }
+    }
 
     private void cmbClienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbClienteItemStateChanged
         if (cmbCliente.getSelectedIndex() > -1) {
@@ -1127,7 +1177,7 @@ public class TelaPagamento extends javax.swing.JDialog {
             BigDecimal restante = model.getSaldo();
             txtRestanteParcelamento.setText(restante.toString());
             txtValorParcela.setText(restante.toString());
-            txtJaPagoParcelamento.setText(jaPago.toString());
+            txtJaParcelado.setText(jaPago.toString());
 
         }
     }//GEN-LAST:event_mnuEditarActionPerformed
@@ -1161,10 +1211,15 @@ public class TelaPagamento extends javax.swing.JDialog {
             BigDecimal restante = model.getSaldo();
             txtRestanteParcelamento.setText(restante.toString());
             txtValorParcela.setText(restante.toString());
-            txtJaPagoParcelamento.setText(jaPago.toString());
+            txtJaParcelado.setText(jaPago.toString());
 
         }
     }//GEN-LAST:event_mnuRemoverActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        setPanelEnabled(tabDadosGerais, true);
+        btnEditar.setEnabled(false);
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1212,6 +1267,7 @@ public class TelaPagamento extends javax.swing.JDialog {
     private javax.swing.JSpinner SpinnerParcela;
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnAnterior;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnProximo;
     private javax.swing.JButton btnTamanho;
     private javax.swing.JComboBox<Cliente> cmbCliente;
@@ -1235,11 +1291,10 @@ public class TelaPagamento extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblForma;
     private javax.swing.JLabel lblIniciarEm;
     private javax.swing.JLabel lblIntervalo;
-    private javax.swing.JLabel lblJaPagoParcelamento;
+    private javax.swing.JLabel lblJaParcelado;
     private javax.swing.JLabel lblNumeroParcelas;
     private javax.swing.JLabel lblRestanteParcelmanto;
     private javax.swing.JLabel lblTotalParcelamento;
@@ -1266,7 +1321,8 @@ public class TelaPagamento extends javax.swing.JDialog {
     private com.toedter.calendar.JDateChooser txtIniciarEm;
     private javax.swing.JSpinner txtIntervalo;
     private javax.swing.JTextField txtJaPago;
-    private javax.swing.JTextField txtJaPagoParcelamento;
+    private javax.swing.JTextField txtJaParcelado;
+    private javax.swing.JTextArea txtObservacoes;
     private javax.swing.JTextField txtPorcentagemDesconto;
     private javax.swing.JTextField txtRestanteParcelamento;
     private javax.swing.JTextField txtSubTotal;

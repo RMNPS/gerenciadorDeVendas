@@ -13,11 +13,12 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
 
     enum Colunas {
         ID_ESTOQUE("id"),
+        CODIGO_BARRAS("Código de Barras"),
 //        ID_PRODUTO("id Produto"),
         NOME("Nome"),
         FORNECEDOR("Fornecedor"),
         QUANTIDADE("QNT"),
-        QUANTIDADE_PRODUTO("QNT Produto"),
+        
         PRECO_CUSTO('Custo'),
         PRECO_A_PRAZO('Preço à Prazo'),
         PRECO_A_VISTA('Preço à Vista');
@@ -41,7 +42,7 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
 
     @Override
     void atualizaEspacamentoColunas() {
-        setJTableColumnsWidth(5, 40, 15, 5, 5, 10, 10, 10)
+        setJTableColumnsWidth(5, 7, 37, 15, 5, 10, 10, 10)
     }
 
     @Override
@@ -98,14 +99,15 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
         ItemEstoque ie = get(rowIndex);
         switch (Colunas.values()[columnIndex]) {
         case Colunas.ID_ESTOQUE:         return ie.id
+        case Colunas.CODIGO_BARRAS:         return ie.codigoBarras
 //        case Colunas.ID_PRODUTO:         return ie?.produto.id
         case Colunas.NOME:               return ie?.produto?.nome + " " +ie?.cor.nome +" "+ ie?.tamanho.nome
         case Colunas.FORNECEDOR:         return ie?.fornecedor?.nome
         case Colunas.QUANTIDADE:         return ie?.quantidade
-        case Colunas.QUANTIDADE_PRODUTO:
-            Double quantidade = JPA.getEM().createQuery("SELECT sum(e.quantidade) FROM ItemEstoque e WHERE e.deleted = FALSE and e.produto = :p")
-            .setParameter("p", ie.getProduto())
-            .getSingleResult() as Double
+//        case Colunas.QUANTIDADE_PRODUTO:
+//            Double quantidade = JPA.getEM().createQuery("SELECT sum(e.quantidade) FROM ItemEstoque e WHERE e.deleted = FALSE and e.produto = :p")
+//            .setParameter("p", ie.getProduto())
+//            .getSingleResult() as Double
             
             return quantidade ?: 0d
         case Colunas.PRECO_CUSTO:        return df.format(ie.valorCusto)

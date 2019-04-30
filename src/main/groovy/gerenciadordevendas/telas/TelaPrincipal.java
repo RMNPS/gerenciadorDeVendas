@@ -10,6 +10,7 @@ import gerenciadordevendas.model.TipoEmpresa;
 import gerenciadordevendas.model.Vendedor;
 import gerenciadordevendas.tablemodel.ClienteTableModel;
 import gerenciadordevendas.tablemodel.FornecedorTableModel;
+import gerenciadordevendas.tablemodel.VendaTableModel;
 import java.awt.Toolkit;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -50,18 +51,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        vendasButton = new javax.swing.JButton();
+        btnPDV = new javax.swing.JButton();
         fornecedoresButton = new javax.swing.JButton();
         estoqueButton = new javax.swing.JButton();
         clientesButton2 = new javax.swing.JButton();
         configButton = new javax.swing.JButton();
         dadosButton = new javax.swing.JButton();
+        btnVendas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gerenciador De Vendas");
-        setExtendedState(6);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/briefcase-outline.png")));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -71,25 +71,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
-        getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        vendasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_shopping_cart_black_24dp_2x.png"))); // NOI18N
-        vendasButton.setText("PDV");
-        vendasButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        vendasButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        vendasButton.addActionListener(new java.awt.event.ActionListener() {
+        btnPDV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_shopping_cart_black_24dp_2x.png"))); // NOI18N
+        btnPDV.setText("PDV");
+        btnPDV.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPDV.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPDV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vendasButtonActionPerformed(evt);
+                btnPDVActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 19;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(86, 170, 0, 0);
-        getContentPane().add(vendasButton, gridBagConstraints);
 
         fornecedoresButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_person_outline_black_24dp_2x.png"))); // NOI18N
         fornecedoresButton.setText("Fornecedores");
@@ -103,14 +94,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 fornecedoresButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 19;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(41, 170, 137, 0);
-        getContentPane().add(fornecedoresButton, gridBagConstraints);
 
         estoqueButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_dashboard_black_24dp_2x.png"))); // NOI18N
         estoqueButton.setText("Estoque");
@@ -121,14 +104,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 estoqueButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 19;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(86, 80, 0, 0);
-        getContentPane().add(estoqueButton, gridBagConstraints);
 
         clientesButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_person_black_24dp_2x.png"))); // NOI18N
         clientesButton2.setText("Clientes");
@@ -139,14 +114,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 clientesButton2ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 19;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(86, 78, 0, 0);
-        getContentPane().add(clientesButton2, gridBagConstraints);
 
         configButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_settings_black_24dp_2x.png"))); // NOI18N
         configButton.setText("Configurações");
@@ -160,15 +127,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 configButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 25;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(41, 78, 137, 169);
-        getContentPane().add(configButton, gridBagConstraints);
 
         dadosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_timeline_black_24dp_2x.png"))); // NOI18N
         dadosButton.setText("Dados");
@@ -179,24 +137,64 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 dadosButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 25;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(41, 80, 137, 0);
-        getContentPane().add(dadosButton, gridBagConstraints);
+
+        btnVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_shopping_cart_black_24dp_2x.png"))); // NOI18N
+        btnVendas.setText("Vendas");
+        btnVendas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnVendas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnVendas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVendasActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dadosButton, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                    .addComponent(fornecedoresButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPDV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnVendas, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                    .addComponent(configButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clientesButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(estoqueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPDV, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(estoqueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fornecedoresButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientesButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dadosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(configButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void vendasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendasButtonActionPerformed
+    private void btnPDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDVActionPerformed
         TelaPDV telaVendas = new TelaPDV();
         
         telaVendas.setVisible(true);
-    }//GEN-LAST:event_vendasButtonActionPerformed
+    }//GEN-LAST:event_btnPDVActionPerformed
 
     private void fornecedoresButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fornecedoresButtonActionPerformed
         new TelaPesquisar(new FornecedorTableModel(), false).setVisible(true);
@@ -244,6 +242,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
+        new TelaPesquisar(new VendaTableModel(), false).setVisible(true);
+    }//GEN-LAST:event_btnVendasActionPerformed
+
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -267,11 +269,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPDV;
+    private javax.swing.JButton btnVendas;
     private javax.swing.JButton clientesButton2;
     private javax.swing.JButton configButton;
     private javax.swing.JButton dadosButton;
     private javax.swing.JButton estoqueButton;
     private javax.swing.JButton fornecedoresButton;
-    private javax.swing.JButton vendasButton;
     // End of variables declaration//GEN-END:variables
 }

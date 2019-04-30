@@ -40,7 +40,7 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     
     void add(Parcela parcela) throws TransacaoException {
         if (!venda.parcelas.isEmpty() && parcela.vencimento < venda.parcelas.get(venda.parcelas.size() -1).vencimento) {
-            throw new TransacaoException ("A data de vencimeto da parcela não pode ser anterior a ultima parcela")
+            throw new TransacaoException ("A data de vencimento da parcela não pode ser anterior à última parcela")
         }
         if (getSaldo() - parcela.valor < 0g) {
             throw new TransacaoException ("O valor da parcela não pode ser maior que o total da Venda")
@@ -85,7 +85,7 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     final void setJTable(JTable table) {
         super.table = table;
         table.model = this;
-        setJTableColumnsWidth(800, 8, 10, 40, 40);
+        setJTableColumnsWidth(8, 10, 40, 40);
     }
 
     void carregar() {

@@ -39,7 +39,7 @@ class Venda extends RegistroDeFluxo {
     @ManyToOne(cascade = [CascadeType.PERSIST, CascadeType.MERGE])    
     @JoinColumn(name = "conta")
     Conta conta;
-    @OneToMany(mappedBy = "venda")
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.REMOVE)
     List<ItemVenda> listaProdutos
     @Column(precision = 12, scale = 2)
     BigDecimal subTotal
@@ -49,7 +49,7 @@ class Venda extends RegistroDeFluxo {
     @ManyToOne
     @JoinColumn(name="vendedor")
     Vendedor vendedor
-    @OneToMany(mappedBy = "venda")
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.REMOVE)
     List<Parcela> parcelas
     String observacoes
 
