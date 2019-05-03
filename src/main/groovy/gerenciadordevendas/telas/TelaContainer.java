@@ -65,7 +65,7 @@ public class TelaContainer extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaContainer dialog = new TelaContainer(new javax.swing.JFrame(), new EnderecoPanel());
+                TelaContainer dialog = new TelaContainer(new javax.swing.JFrame(), new PanelEndereco());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

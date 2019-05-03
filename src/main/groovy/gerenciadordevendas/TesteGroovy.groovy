@@ -15,8 +15,10 @@ import org.apache.commons.lang3.RandomStringUtils;
  */
 class TesteGroovy {
     public static void main(String[] args) {
-        for (int i = 0; i < 100; i++) {
-            println(RandomStringUtils.randomAlphanumeric(10));
+        def colunas = [ "Nome", "Sobrenome"];
+        switch(colunas[1]) {
+            case "Nome": println "Nome1111"; break;
+            case "Sobrenome" : println "Sobrenome111"; break;
         }
         
     }

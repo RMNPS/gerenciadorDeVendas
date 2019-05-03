@@ -14,6 +14,7 @@ import gerenciadordevendas.telas.listener.MoedaDocumentListener;
 import gerenciadordevendas.telas.util.TelaUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -36,6 +37,9 @@ public class TelaParcela extends javax.swing.JDialog {
         new MoedaDocumentListener(txtValor).inicializa();
         preencheCampos();
         this.model = model;
+        if (parcela.getId() == 0) {
+            btnInformarPagamento.setVisible(false);
+        }
     }
     
     private void preencheCampos() {
@@ -64,6 +68,7 @@ public class TelaParcela extends javax.swing.JDialog {
         btnOk = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         cmbForma = new javax.swing.JComboBox<>();
+        btnInformarPagamento = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -90,6 +95,13 @@ public class TelaParcela extends javax.swing.JDialog {
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnInformarPagamento.setText("Informar Pagamento");
+        btnInformarPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformarPagamentoActionPerformed(evt);
             }
         });
 
@@ -120,8 +132,9 @@ public class TelaParcela extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmbForma, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtValor, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtVencimento, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                            .addComponent(txtDataPagamento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(txtVencimento, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                            .addComponent(txtDataPagamento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnInformarPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -143,7 +156,9 @@ public class TelaParcela extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtDataPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnInformarPagamento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOk)
                     .addComponent(btnCancelar))
@@ -195,9 +210,15 @@ public class TelaParcela extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnInformarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformarPagamentoActionPerformed
+        txtDataPagamento.setDate(Calendar.getInstance().getTime());
+        btnOkActionPerformed(evt);
+    }//GEN-LAST:event_btnInformarPagamentoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnInformarPagamento;
     private javax.swing.JButton btnOk;
     private javax.swing.JComboBox<FormaPagamento> cmbForma;
     private javax.swing.JLabel jLabel1;

@@ -22,27 +22,22 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     final DecimalFormat df = new DecimalFormat('R$ #,##0.00');
     final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     Venda venda;
-    
-    enum Colunas {
-        SEQUENCIA("Sequencia"), FORMA("Forma de Pagamento"), VALOR('Valor R$'), VENCIMENTO("Vencimento");
-
-        String nome;
-
-        Colunas(String nome) {
-            this.nome = nome;
-        }
-    }
 
     ParcelaTableModel(JTable tabela, Venda venda) {
         setVenda(venda)
         setJTable(tabela)
     }
     
+    @Override
+    def getColunas() {
+        return ["Sequência", "Forma de Pagamento", 'Valor R$', "Vencimento", 'Estado']
+    }
+    
     void add(Parcela parcela) throws TransacaoException {
-        if (!venda.parcelas.isEmpty() && parcela.vencimento < venda.parcelas.get(venda.parcelas.size() -1).vencimento) {
+        if (venda.parcelas && parcela.vencimento < venda.parcelas.get(venda.parcelas.size() -1).vencimento) {
             throw new TransacaoException ("A data de vencimento da parcela não pode ser anterior à última parcela")
         }
-        if (getSaldo() - parcela.valor < 0g) {
+        if (saldo - parcela.valor < 0g) {
             throw new TransacaoException ("O valor da parcela não pode ser maior que o total da Venda")
         } else if (parcela.valor == 0g) {
             throw new TransacaoException ("O valor da parcela precisa ser maior que ZERO")
@@ -67,7 +62,7 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     
     void setVenda(Venda venda) {
         this.venda = venda;
-        if (venda.parcelas == null || venda.parcelas.isEmpty()) {
+        if (!venda.parcelas) {
             this.venda.parcelas = new ArrayList<Parcela>()
         }
         carregar();
@@ -85,7 +80,7 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     final void setJTable(JTable table) {
         super.table = table;
         table.model = this;
-        setJTableColumnsWidth(8, 10, 40, 40);
+        setJTableColumnsWidth(5, 35, 20, 20, 20);
     }
 
     void carregar() {
@@ -118,29 +113,22 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     String getJPQL() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
     @Override
     protected boolean getSeachFilter(Parcela parcela, String campoLowerCase) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    String getColumnName(int column) {
-        return Colunas.values()[column].nome;
-    }
-
-    @Override
-    int getColumnCount() {
-        return Colunas.values().length;
-    }
 
     @Override
     Object getValueAt(int rowIndex, int columnIndex) {
         Parcela parcela = get(rowIndex);
-        switch (Colunas.values()[columnIndex]) {
-            case Colunas.SEQUENCIA:     return rowIndex
-            case Colunas.FORMA:         return parcela.formaPagamento.descricao
-            case Colunas.VALOR:         return df.format(parcela.valor)
-            case Colunas.VENCIMENTO:    return parcela.vencimento
+        switch (colunas[columnIndex]) {
+            case "Sequência":           return rowIndex
+            case "Forma de Pagamento":  return parcela.formaPagamento.descricao
+            case 'Valor R$':            return df.format(parcela.valor)
+            case "Vencimento":          return parcela.vencimento
+            case 'Estado':              return parcela.dataPagamento ? "Paga" : "Em Negociação"
             default:                    return null;
         }
     }

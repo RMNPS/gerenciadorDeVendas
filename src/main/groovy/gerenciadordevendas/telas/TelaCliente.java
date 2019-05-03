@@ -44,18 +44,18 @@ public class TelaCliente extends javax.swing.JDialog {
 
     private void preencheCampos(Cliente c) {
         if (cliente != null) {
-            nomeTextField.setText(c.getNome());
+            nomeTextField.setText(c.getPessoaFisica().getNome());
 
-            txtDataNascimento.setDate(Optional.ofNullable(c.getDataNasc())
+            txtDataNascimento.setDate(Optional.ofNullable(c.getPessoaFisica().getDataNasc())
                     .orElse(new GregorianCalendar(1992, 01, 02).getTime()));
 
-            txtCpf.setText(c.getCpf());
-            txtRg.setText(c.getRg());
-            txtUfRg.setText(c.getUfRg());
-            txtTelefone.setText(c.getTelefone());
+            txtCpf.setText(c.getPessoaFisica().getCpf());
+            txtRg.setText(c.getPessoaFisica().getRg());
+            txtUfRg.setText(c.getPessoaFisica().getUfRg());
+            txtTelefone.setText(c.getPessoaFisica().getTelefone());
             
-            txtCelular.setText(c.getCelular());
-            panelAdicionarImagem.setCaminhoImagemEntidade(cliente.getImagem());
+            txtCelular.setText(c.getPessoaFisica().getCelular());
+            panelAdicionarImagem.setCaminhoImagemEntidade(cliente.getPessoaFisica().getImagem());
             observacoesTextPane.setText(c.getObservacoes());
         }
     }
@@ -89,7 +89,7 @@ public class TelaCliente extends javax.swing.JDialog {
         observacoesTextPane = new javax.swing.JTextPane();
         btnSalvar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
-        enderecoPanel1 = new gerenciadordevendas.telas.EnderecoPanel();
+        enderecoPanel1 = new gerenciadordevendas.telas.PanelEndereco();
         panelAdicionarImagem = new gerenciadordevendas.telas.PanelAdicionarImagem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -371,26 +371,26 @@ public class TelaCliente extends javax.swing.JDialog {
         if (cliente == null) {
             cliente = new Cliente();
         }
-        cliente.setNome(nomeTextField.getText());
+        cliente.getPessoaFisica().setNome(nomeTextField.getText());
         FormatadorTelefone formatadorTelefone = new FormatadorTelefone();
         try {
-            cliente.setTelefone(formatadorTelefone.formatar("Telefone", txtTelefone.getText()));
-            cliente.setCelular(formatadorTelefone.formatar("Celular", txtCelular.getText()));
+            cliente.getPessoaFisica().setTelefone(formatadorTelefone.formatar("Telefone", txtTelefone.getText()));
+            cliente.getPessoaFisica().setCelular(formatadorTelefone.formatar("Celular", txtCelular.getText()));
         } catch (FormatacaoException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        cliente.setCpf(txtCpf.getText());
-        cliente.setRg(txtRg.getText());
-        cliente.setUfRg(txtUfRg.getText());
+        cliente.getPessoaFisica().setCpf(txtCpf.getText());
+        cliente.getPessoaFisica().setRg(txtRg.getText());
+        cliente.getPessoaFisica().setUfRg(txtUfRg.getText());
         cliente.setObservacoes(observacoesTextPane.getText());
         if (txtDataNascimento.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Preencha a data de nascimento", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        cliente.setDataNasc(txtDataNascimento.getDate());
+        cliente.getPessoaFisica().setDataNasc(txtDataNascimento.getDate());
         try {
-            cliente.setImagem(IMAGE_SERVICE.substituirImagem(panelAdicionarImagem, cliente));
+            cliente.getPessoaFisica().setImagem(IMAGE_SERVICE.substituirImagem(panelAdicionarImagem, cliente.getPessoaFisica()));
 
         } catch (IOException ex) {
             Logger.getLogger(TelaItemEstoque.class.getName()).log(Level.SEVERE, null, ex);
@@ -422,7 +422,7 @@ public class TelaCliente extends javax.swing.JDialog {
     private javax.swing.JButton btnConta;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnSalvar;
-    private gerenciadordevendas.telas.EnderecoPanel enderecoPanel1;
+    private gerenciadordevendas.telas.PanelEndereco enderecoPanel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

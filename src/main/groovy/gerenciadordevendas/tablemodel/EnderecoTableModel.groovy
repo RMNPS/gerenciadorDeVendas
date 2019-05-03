@@ -1,9 +1,9 @@
 package gerenciadordevendas.tablemodel;
 
-import gerenciadordevendas.JPA;
-import gerenciadordevendas.model.Cliente;
+import gerenciadordevendas.JPA
+import gerenciadordevendas.model.Cliente
 import gerenciadordevendas.model.Endereco
-import gerenciadordevendas.telas.EnderecoPanel
+import gerenciadordevendas.telas.PanelEndereco
 import gerenciadordevendas.telas.TelaContainer
 import java.awt.Window;
 import javax.persistence.EntityManager
@@ -72,7 +72,7 @@ class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
     @Override
     void novo(Window parent) {
         Endereco e = new Endereco();
-        EnderecoPanel panel = new EnderecoPanel(e)
+        PanelEndereco panel = new PanelEndereco(e)
         panel.salvarVisible = true
         new TelaContainer(parent, panel).visible = true
         if (panel.isSalvo()) {
@@ -85,7 +85,7 @@ class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
     void editar(Window parent) {
         int row = getJTable().selectedRow;
         if (row > -1) {
-            EnderecoPanel panel = new EnderecoPanel(get(row))
+            PanelEndereco panel = new PanelEndereco(get(row))
             panel.salvarVisible = true
             new TelaContainer(parent, panel).visible = true;
             carregar();

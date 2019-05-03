@@ -1,5 +1,5 @@
 /*
- * GerenciadorDeVendas: EnderecoPanel.java
+ * GerenciadorDeVendas: PanelEndereco.java
  * Enconding: UTF-8
  * Data de criação: 11/04/2019 11:01:31
  */
@@ -23,7 +23,7 @@ import javax.swing.event.DocumentListener;
  *
  * @author Ramon Porto
  */
-public class EnderecoPanel extends javax.swing.JPanel {
+public class PanelEndereco extends javax.swing.JPanel {
 
     private List<Endereco>  enderecos = new ArrayList<>();
     private Endereco enderecoAtual;
@@ -31,14 +31,14 @@ public class EnderecoPanel extends javax.swing.JPanel {
     private boolean salvarVisible = false;
     private boolean enderecosVisible = false;
 
-    public EnderecoPanel() {
+    public PanelEndereco() {
         initComponents();
         this.enderecoAtual = new Endereco();
         enderecos.add(enderecoAtual);
         inicializar(enderecoAtual);
     }
     
-    public EnderecoPanel(List<Endereco> enderecos) {
+    public PanelEndereco(List<Endereco> enderecos) {
         if (enderecos.isEmpty()) {
             enderecos.add(new Endereco());
         }
@@ -47,7 +47,7 @@ public class EnderecoPanel extends javax.swing.JPanel {
         inicializar(enderecos.get(0));
     }
     
-    public EnderecoPanel(Endereco enderecoAtual) {
+    public PanelEndereco(Endereco enderecoAtual) {
         initComponents();
         
         inicializar(enderecoAtual);
@@ -74,6 +74,7 @@ public class EnderecoPanel extends javax.swing.JPanel {
     
     
     public List<Endereco> getEnderecos() {
+        validar();
         return enderecos;
     }
 

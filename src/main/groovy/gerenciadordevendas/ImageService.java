@@ -32,8 +32,8 @@ public class ImageService {
             String pastaImagens = entidade.getClass().getSimpleName();
 
             String caminhoProjeto = Paths.get("").toAbsolutePath().toString();
-            if (!new File(caminhoProjeto + pastaImagens).exists()) {
-                new File(caminhoProjeto + pastaImagens).mkdir();
+            if (!new File(caminhoProjeto + "\\" + pastaImagens).exists()) {
+                new File(caminhoProjeto + "\\" + pastaImagens).mkdir();
             }
 
             String fileExtension = Files.getFileExtension(caminhoImagem);
@@ -41,10 +41,10 @@ public class ImageService {
             if (id == 0) {
                 id = EntityService.getLastIDplus1(Empresa.class);
             }
-            String caminhoImagemProjeto = pastaImagens + id + "." + fileExtension;
+            String caminhoImagemProjeto = "\\" + pastaImagens + "\\" + id + "." + fileExtension;
 
             Files.copy(new File(caminhoImagem), new File(caminhoProjeto + caminhoImagemProjeto));
-            
+
             return caminhoImagemProjeto;
         }
         return null;

@@ -162,6 +162,11 @@ class Venda extends RegistroDeFluxo {
         }
     }
     
+    boolean isParcelada() {
+        if (parcelas) {
+            return parcelas.size() > 2 || parcelas.get(0).formaPagamento.parcelavel;
+        }
+    }
 
     @Override
     String toString() { "Venda{" + "subTotal=" + subTotal + ", total=" + total + '}' }

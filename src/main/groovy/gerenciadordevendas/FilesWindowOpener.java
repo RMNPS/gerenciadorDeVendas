@@ -22,8 +22,7 @@ public final class FilesWindowOpener {
         JFileChooser fileChooser = caminhoPadrao == null ? new JFileChooser() : new JFileChooser(caminhoPadrao);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Imagem PNG (*.png)", "png"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Imagem Jpeg (*.jpeg, *.jpg)", "jpeg" ,"jpg"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Imagem (*.png, *.jpeg, *.jpg)", "png", "jpeg", "jpg"));
 
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             return fileChooser.getSelectedFile();

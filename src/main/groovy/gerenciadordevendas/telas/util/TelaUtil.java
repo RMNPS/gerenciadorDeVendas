@@ -17,9 +17,7 @@ import javax.swing.JComboBox;
 public class TelaUtil {
 
     private TelaUtil() {
-    }
-    
-    
+    }  
     
     public static <T extends Comparable<T>> void carregarObjetosNaComboBox(EntityManager em, JComboBox<T> cmb, Class<T> classe) {
         cmb.removeAllItems();

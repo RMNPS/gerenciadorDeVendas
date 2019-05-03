@@ -271,7 +271,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="gerenciadordevendas.telas.EnderecoPanel" name="panelEndereco">
+                <Component class="gerenciadordevendas.telas.PanelEndereco" name="panelEndereco">
                   <Properties>
                     <Property name="enderecosVisible" type="boolean" value="true"/>
                   </Properties>

@@ -8,8 +8,8 @@ package gerenciadordevendas.model
 
 import java.text.Collator
 import javax.persistence.Entity
-import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
 @Entity
 class Empresa extends BaseEntity implements Comparable<Empresa>, EntidadeComImagem  {
@@ -20,7 +20,7 @@ class Empresa extends BaseEntity implements Comparable<Empresa>, EntidadeComImag
     String cnpj
     String inscricaoEstadual
     String inscricaoMunicipal
-    @OneToMany(mappedBy = "empresa")
+    @OneToMany(mappedBy = "empresa", cascade = [CascadeType.ALL, CascadeType.DELETE_ORPHAN])
     List<Endereco> enderecos
     String email
     String telefone
@@ -36,5 +36,12 @@ class Empresa extends BaseEntity implements Comparable<Empresa>, EntidadeComImag
     int compareTo(Empresa o) { 
         collator.setStrength(Collator.PRIMARY)
         collator.compare(nome, o.nome)
+    }
+    
+    void setEnderecos(List<Endereco> enderecos) {
+        for (Endereco e: enderecos) {
+            e.empresa = this
+        }
+        this.enderecos = enderecos
     }
 }

@@ -16,7 +16,7 @@ import javax.persistence.Entity
  */
 @Entity
 class FormaPagamento extends BaseEntity implements Comparable<FormaPagamento>{
-    
+        
     private static final Collator collator = Collator.getInstance();
     
     String descricao
@@ -24,6 +24,7 @@ class FormaPagamento extends BaseEntity implements Comparable<FormaPagamento>{
     BigDecimal taxa
     @Column(precision = 12, scale = 2)
     BigDecimal taxaMensal
+    boolean parcelavel
   
     String toString() {
         return descricao

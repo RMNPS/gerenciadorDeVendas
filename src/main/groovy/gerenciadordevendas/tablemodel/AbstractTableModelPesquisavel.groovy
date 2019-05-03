@@ -19,12 +19,18 @@ abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
     
     protected abstract String getJPQL();
     protected abstract boolean getSeachFilter(T o, String campoLowerCase);
+    
+    def getColunas() {  }
 
     @Override
-    abstract String getColumnName(int column) ;
+    String getColumnName(int column) {
+        colunas[column]
+    }
 
     @Override
-    abstract int getColumnCount() ;
+    int getColumnCount() {
+        colunas.size()
+    }
 
     @Override
     abstract Object getValueAt(int rowIndex, int columnIndex) ;

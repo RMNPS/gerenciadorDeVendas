@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="511" leftMargin="42" rightMargin="42" topMargin="56" bottomMargin="56" uuid="accac65e-43c8-4863-9513-7964efdea660">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="23"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="PRIMEIRO_ENDERECO" class="java.lang.String">
 		<defaultValueExpression><![CDATA[$P{FILIAL}.enderecos.isEmpty() ?  "" : $P{FILIAL}.enderecos.get(0)]]></defaultValueExpression>
 	</parameter>
@@ -10,21 +10,16 @@
 		<defaultValueExpression><![CDATA["C:\\Users\\gabri_p\\Desktop\\Ramon\\Exemplos\\GerenciadorDeVendas\\print\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="FILIAL" class="java.lang.Object"/>
-	<field name="nome" class="java.lang.String"/>
-	<field name="enderecos" class="java.util.Collection"/>
-	<field name="cnpj" class="java.lang.String"/>
-	<field name="telefone" class="java.lang.String"/>
-	<field name="celular" class="java.lang.String"/>
 	<field name="conta.cliente.nome" class="java.lang.String"/>
-	<field name="conta.cliente.enderecos.get(0)" class="java.lang.String"/>
+	<field name="conta.cliente.enderecos" class="java.util.Collection"/>
 	<field name="conta.cliente.cpf" class="java.lang.String"/>
 	<field name="conta.cliente.rg" class="java.lang.String"/>
 	<field name="conta.cliente.telefone" class="java.lang.String"/>
 	<field name="conta.cliente.celular" class="java.lang.String"/>
 	<field name="dataCriacao" class="java.lang.Object"/>
 	<field name="id" class="java.lang.String"/>
-	<field name="subTotal" class="java.lang.String"/>
-	<field name="total" class="java.lang.String"/>
+	<field name="subTotal" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -70,7 +65,7 @@
 				<reportElement x="0" y="1" width="511" height="1" uuid="c838b8c1-d8f9-4014-882a-e7dec49fc45b"/>
 			</line>
 			<textField>
-				<reportElement x="271" y="70" width="240" height="20" uuid="8cec2540-1569-40ac-96f2-ed1e317d3647"/>
+				<reportElement x="336" y="70" width="175" height="20" uuid="8cec2540-1569-40ac-96f2-ed1e317d3647"/>
 				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
@@ -79,6 +74,13 @@
 			<line>
 				<reportElement x="0" y="148" width="511" height="1" uuid="3df65c2b-ba2b-44ec-b5b0-f6a192fd823f"/>
 			</line>
+			<textField>
+				<reportElement x="111" y="71" width="225" height="20" uuid="f47b8cc8-b85f-40a6-9c6b-558340bd40ce"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FILIAL}.email]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<detail>
@@ -111,7 +113,9 @@
 				<textField>
 					<reportElement x="111" y="44" width="400" height="20" isPrintWhenDetailOverflows="true" uuid="22071e97-bf9c-4fd3-8265-700450b6390e"/>
 					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{conta.cliente.enderecos.get(0)}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{conta.cliente.enderecos}.empty
+    ? ""
+    :$F{conta.cliente.enderecos}.get(0)]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement mode="Opaque" x="0" y="66" width="100" height="20" backcolor="#CCCCFF" uuid="287add75-6292-4de3-b737-05df3198ca6e"/>
@@ -209,7 +213,7 @@
 	</pageFooter>
 	<lastPageFooter>
 		<band height="92">
-			<textField pattern="EEEEE, dd de MMMMM de yyyy">
+			<textField pattern="EEEEE, dd &apos;de&apos; MMMMM &apos;de&apos; yyyy">
 				<reportElement x="0" y="45" width="240" height="20" uuid="7e81c79b-602c-4500-9288-dee5faa9cd65"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>

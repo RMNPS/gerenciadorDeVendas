@@ -26,8 +26,12 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -43,13 +47,16 @@ import javax.persistence.EntityManager;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
  *
@@ -87,7 +94,11 @@ public class TelaPagamento extends javax.swing.JDialog {
 //        dp.setEnabled(false);
         if (venda.getId() != 0) {
             setPanelEnabled(tabDadosGerais, false);
-            btnEditar.setEnabled(false);
+            btnEditar.setEnabled(true);
+            if (venda.isParcelada()) {
+                tabPagamento.setEnabledAt(1, true);
+                tabPagamento.setSelectedComponent(tabParcelamento);
+            }
         }
     }
 
@@ -183,21 +194,21 @@ public class TelaPagamento extends javax.swing.JDialog {
                 return forma;
             }
         }
-        return null;
+        throw new RuntimeException("Forma de pagamento não encontrada");
     }
 
     private int getPeriodo() {
-        String intervalo = (String) cmbIntervalo.getSelectedItem();
+        String periodo = (String) cmbIntervalo.getSelectedItem();
 
-        if (intervalo.equals("Dias")) {
+        if (periodo.equals("Dias")) {
             return Calendar.DAY_OF_YEAR;
-        } else if (intervalo.equals("Semanas")) {
+        } else if (periodo.equals("Semanas")) {
             return Calendar.WEEK_OF_YEAR;
         }
-        if (intervalo.equals("Meses")) {
+        if (periodo.equals("Meses")) {
             return Calendar.MONTH;
         }
-        if (intervalo.equals("Anos")) {
+        if (periodo.equals("Anos")) {
             return Calendar.YEAR;
         }
         throw new RuntimeException("Informação inválida para o intervalo");
@@ -217,7 +228,7 @@ public class TelaPagamento extends javax.swing.JDialog {
     private void atualizaParcelas() {
         atualizaParcelas("" + SpinnerParcela.getValue());
     }
-
+    
     private void atualizaParcelas(String sParcelas) {
         if (sParcelas.isEmpty()) {
             return;
@@ -974,6 +985,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.setEnabled(false);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -1054,13 +1066,13 @@ public class TelaPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximoActionPerformed
-        boolean vendaNova = venda.getId() != 0;
+        boolean vendaNova = venda.getId() == 0;
         if (btnProximo.getText().equals("Próximo")) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MONTH, 1);
             txtIniciarEm.setDate(calendar.getTime());
 
-            if (vendaNova) {
+            if (!vendaNova) {
                 txtTotalParcelamento.setText(txtTotal.getText());
                 BigDecimal jaPago = model.getTotalParcelas();
                 BigDecimal restante = model.getSaldo();
@@ -1090,29 +1102,31 @@ public class TelaPagamento extends javax.swing.JDialog {
             if (radioDinheiro.isSelected() || radioCreditoAvista.isSelected() || radioDebito.isSelected()) {
                 venda.setParcelas(gerarParcelaUnicaPaga());
             }
-
-            if (!venda.getParcelas().isEmpty()) {
-                EntityManager em = JPA.getEM();
-                if (venda.getConta() == null) {
-                    venda.setConta(getClientePadrao(em).getConta());
-                }
-                venda.setObservacoes(txtObservacoes.getText());
-                venda.finalizarVenda();
-
-                em.getTransaction().begin();
-                venda = em.merge(venda);
-                em.getTransaction().commit();
-                if (!vendaNova) {
-                    int resposta = JOptionPane.showConfirmDialog(this, "Deseja imprimir o recibo?", "Impressão", JOptionPane.YES_NO_OPTION);
-                    if (resposta == JOptionPane.YES_OPTION) {
-                        imprimirRecibo(em);
-                    }
-                }
-                em.close();
-                dispose();
-            } else {
+            
+            if (venda.getParcelas().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Adicione pelo menos uma parcela para finalizar a venda");
+                return;
             }
+
+            EntityManager em = JPA.getEM();
+            if (venda.getConta() == null) {
+                venda.setConta(getClientePadrao(em).getConta());
+            }
+            venda.setObservacoes(txtObservacoes.getText());
+            venda.finalizarVenda();
+
+            em.getTransaction().begin();
+            venda = em.merge(venda);
+            em.getTransaction().commit();
+            if (vendaNova) {
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja imprimir o recibo?", "Impressão", JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    imprimirRecibo(em);
+                }
+            }
+            em.close();
+            dispose();
+
         }
     }//GEN-LAST:event_btnProximoActionPerformed
 
@@ -1124,11 +1138,11 @@ public class TelaPagamento extends javax.swing.JDialog {
         if (matriz.isPresent()) {
             parametros.put("FILIAL", matriz.get());
             try {
-                JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JREmptyDataSource());
+                JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JRBeanCollectionDataSource(Collections.singletonList(venda)));
 
                 JasperPrintManager.printReport(print, true);
             } catch (JRException ex) {
-                Logger.getLogger(CodigoBarrasJasperReports.class.getName()).log(Level.SEVERE, null, ex);
+                new TelaErro(ex).setVisible(true);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Não foi possível imprimir, pois não há nenhuma matriz cadastrada");

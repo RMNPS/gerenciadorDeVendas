@@ -8,6 +8,7 @@ class ClienteTableModel extends AbstractTableModelPesquisavel<Cliente> {
     
     private enum Colunas {
         ID ("ID"),
+        CPF_CNPJ("CPF/CNPJ"),
         NOME("Nome"),
         OBSERVACOES("Observações");
         
@@ -45,12 +46,24 @@ class ClienteTableModel extends AbstractTableModelPesquisavel<Cliente> {
     @Override
     Object getValueAt(int rowIndex, int columnIndex) {
         Cliente c = get(rowIndex);
-        switch (Colunas.values()[columnIndex]) {
-            case Colunas.ID:          return c.id
-            case Colunas.NOME:        return c.nome
-            case Colunas.OBSERVACOES: return c.observacoes
-            default:                  return null;
+        if (c.pessoaFisica) {
+            switch (Colunas.values()[columnIndex]) {
+                case Colunas.ID:          return c.id
+                case Colunas.CPF_CNPJ:    return c.pessoaFisica.cpf
+                case Colunas.NOME:        return c.pessoaFisica.nome
+                case Colunas.OBSERVACOES: return c.observacoes
+                default:                  return null;
+            }
+        } else {
+            switch (Colunas.values()[columnIndex]) {
+                case Colunas.ID:          return c.id
+                case Colunas.CPF_CNPJ:    return c.empresa.cpnj
+                case Colunas.NOME:        return c.empresa.nome
+                case Colunas.OBSERVACOES: return c.observacoes
+                default:                  return null;
+            }
         }
+        
     }
 
     @Override

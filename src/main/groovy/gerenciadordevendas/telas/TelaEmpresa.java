@@ -97,7 +97,7 @@ public class TelaEmpresa extends javax.swing.JDialog {
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         panelAdicionarImagem = new gerenciadordevendas.telas.PanelAdicionarImagem();
-        panelEndereco = new gerenciadordevendas.telas.EnderecoPanel();
+        panelEndereco = new gerenciadordevendas.telas.PanelEndereco();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtObservacoes = new javax.swing.JTextArea();
@@ -338,7 +338,7 @@ public class TelaEmpresa extends javax.swing.JDialog {
     private javax.swing.JLabel lvlInscricaoEstadual3;
     private gerenciadordevendas.telas.PanelAdicionarImagem panelAdicionarImagem;
     private javax.swing.JPanel panelDadosGerais;
-    private gerenciadordevendas.telas.EnderecoPanel panelEndereco;
+    private gerenciadordevendas.telas.PanelEndereco panelEndereco;
     private javax.swing.JFormattedTextField txtCNPJ;
     private javax.swing.JTextField txtCelular;
     private javax.swing.JTextField txtEmail;

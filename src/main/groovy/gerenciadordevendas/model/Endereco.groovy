@@ -22,8 +22,8 @@ class Endereco extends BaseEntity implements Comparable<Endereco> {
     @JoinColumn(name = "empresa")
     Empresa empresa
     @ManyToOne
-    @JoinColumn(name = "cliente")
-    Cliente cliente
+    @JoinColumn(name = "pessoaFisica")
+    PessoaFisica pessoaFisica
 
     @Override
     String toString() { "${logradouro}, ${numero} - ${bairro}, ${cidade}, ${cep} - ${uf}" }

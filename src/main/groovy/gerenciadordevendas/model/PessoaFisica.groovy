@@ -20,49 +20,38 @@ import javax.persistence.TemporalType;
  *
  * @author Ramon Porto
  */
-//@NamedQuery(name = "Cliente.buscarTodos", query = "SELECT e FROM Cliente e")
 @Entity
-class Cliente extends BaseEntity implements Comparable<Cliente> {
+class PessoaFisica extends BaseEntity implements Comparable<PessoaFisica>, EntidadeComImagem {
     
     private static final Collator collator = Collator.getInstance();
-        
-    PessoaFisica pessoaFisica
-    Empresa empresa
-    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
-    Conta conta
-    String observacoes
-    @OneToMany(mappedBy = "cliente")
-    Set<ClienteAutorizado> autorizados
 
-    Cliente() {  conta = new Conta(this) }
-
-    static Cliente padrao() {
-        Cliente padrao = new Cliente(
-            id: 1, 
-            nome: "Cliente Visitante", 
-            dataNasc: Calendar.instance.time
-        )
-        Conta contaPadrao = Conta.padrao()
-        contaPadrao.cliente = padrao
-        padrao.conta = contaPadrao
-        return padrao
-    }
+    String nome
+    @Temporal(TemporalType.DATE)
+    Date dataNasc
+    String cpf
+    String rg
+    String ufRg
+    String telefone
+    String celular
+    String imagem
+    @OneToMany(mappedBy = "pessoaFisica", cascade = CascadeType.ALL)
+    List<Endereco> enderecos
 
     @Override
     String toString() { nome }
 
     @Override
-    int compareTo(Cliente o) { 
+    int compareTo(PessoaFisica o) { 
         collator.setStrength(Collator.PRIMARY);
         collator.compare(nome, o.nome);
     }
     
     void setEnderecos(List<Endereco> enderecos) {
         for (Endereco e: enderecos) {
-            e.cliente = this
+            e.pessoaFisica = this
         }
+        this.enderecos = enderecos
     }
-    
 }
 
 
