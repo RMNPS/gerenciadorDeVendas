@@ -17,13 +17,13 @@ import javax.persistence.*
 class ItemEstoque extends BaseEntity implements EntidadeComImagem {
 
     @ManyToOne
-    @JoinColumn(name = "produto")
+    @JoinColumn(name = "itemEstoque")
     Produto produto
     double quantidade
     String codigoBarras
     @ManyToOne
     @JoinColumn(name = "fornecedor")
-    Fornecedor fornecedor
+    Empresa fornecedor
     @Temporal(TemporalType.DATE)
     Date validade
     @Column(precision = 12, scale = 2)

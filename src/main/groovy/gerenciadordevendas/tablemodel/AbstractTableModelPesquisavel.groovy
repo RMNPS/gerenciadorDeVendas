@@ -5,88 +5,78 @@
  */
 package gerenciadordevendas.tablemodel;
 
-import gerenciadordevendas.JPA;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
+import gerenciadordevendas.JPA
+
+import javax.persistence.EntityManager
+import javax.persistence.Query;
 import javax.swing.JTable;
 
 abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
+
+    List<T> dados = new ArrayList<>()
+    List<T> dadosBackup = new ArrayList<>()
+    JTable table
+
+
+    AbstractTableModelPesquisavel(def colunas) {
+        super(colunas)
+        carregar()
+    }
     
-    List<T> dados = new ArrayList<>();
-    List<T> dadosBackup = new ArrayList<>();
-    JTable table;
-    
-    protected abstract String getJPQL();
+    protected abstract Query getQuery(EntityManager em);
     protected abstract boolean getSeachFilter(T o, String campoLowerCase);
-    
-    def getColunas() {  }
 
-    @Override
-    String getColumnName(int column) {
-        colunas[column]
-    }
-
-    @Override
-    int getColumnCount() {
-        colunas.size()
-    }
 
     @Override
     abstract Object getValueAt(int rowIndex, int columnIndex) ;
     
     @Override
     T get(int row) {
-        return dados.get(row);
+        return dados[row]
     }
     
     List<T> getSelectedObjects() {
-        int[] rows = table.getSelectedRows();
-        List<T> objects = new ArrayList<>()
-        for (int row : rows) {
-            objects.add(get(row))
-        }
-        return objects
+        table.getSelectedRows().collect {get(it)}
     }
     
     void carregar() {
-        EntityManager em = JPA.getEM();
-        dadosBackup = dados = em.createQuery(getJPQL()).getResultList();
-        em.close();
-        fireTableDataChanged();
+        EntityManager em = JPA.getEM()
+        dadosBackup = dados = getQuery(em)?.resultList ?: []
+        em.close()
+        fireTableDataChanged()
     }
 
     final void setJTableColumnsWidth(double... percentages) {
-        super.setJTableColumnsWidth(table, percentages);
+        super.setJTableColumnsWidth(table, percentages)
     }
     
     @Override
     Class<?> getColumnClass(int columnIndex) {
         if (dados.isEmpty() || getValueAt(0, columnIndex) == null) {
-            return Object.class;
+            return Object.class
         }
-        return getValueAt(0, columnIndex).getClass();
+        return getValueAt(0, columnIndex).class
     }
 
     @Override
     void pesquisar(String campo) {
-        String campoLowerCase = campo.toLowerCase();
-        this.dados = dadosBackup;
+        String campoLowerCase = campo.toLowerCase()
+        this.dados = dadosBackup
 
         if (!campo.isEmpty()) {
-            List<T> result = new ArrayList<>();
-            dados.stream().filter({item -> (getSeachFilter(item, campoLowerCase))}).forEach({item -> result.add(item)});
-            this.dadosBackup = dados;
-            this.dados = result;
+            List<T> result = new ArrayList<>()
+            dados.stream().filter({item -> (getSeachFilter(item, campoLowerCase))}).forEach({item -> result.add(item)})
+            this.dadosBackup = dados
+            this.dados = result
         }
-        fireTableDataChanged();
+        fireTableDataChanged()
     }
 
     @Override
     void setJTable(JTable table) {
-        this.table = table;
-        table?.model = this;
-        table?.autoCreateRowSorter = true;
+        this.table = table
+        table?.model = this
+        table?.autoCreateRowSorter = true
     }
     
     JTable getJTable() {

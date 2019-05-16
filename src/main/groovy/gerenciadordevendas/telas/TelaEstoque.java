@@ -12,7 +12,7 @@ public class TelaEstoque extends javax.swing.JFrame {
 
     public TelaEstoque() {
         initComponents();
-        model = new ItemEstoqueTableModel();
+        model = new ItemEstoqueTableModel(false);
         panelPesquisar.setModel(model);
     }
 
@@ -131,7 +131,12 @@ public class TelaEstoque extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        List<ItemEstoque> itens = model.getSelectedObjects();
+        if (itens.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecione ao menos um item");
+            return;
+        }
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

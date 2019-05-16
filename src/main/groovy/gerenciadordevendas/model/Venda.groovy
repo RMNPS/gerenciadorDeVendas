@@ -60,12 +60,12 @@ class Venda extends RegistroDeFluxo {
 
         this.subTotal = 0
         this.estado = Estado.ABERTA;
-        this.conta = Objects.requireNonNull(conta)
+        this.conta = conta
         this.vendedor = vendedor
     }
 
     List<ItemVenda> getListaProdutos() {
-        return Collections.unmodifiableList(listaProdutos);
+        return Collections.unmodifiableList(listaProdutos)
     }
 
     BigDecimal setPorcentagemDesconto(BigDecimal d) throws TransacaoException {
@@ -75,7 +75,7 @@ class Venda extends RegistroDeFluxo {
             
             if (d > BigDecimal.valueOf(Regras.LIMITE_PORCENTAGEM_DESCONTO)) 
                 throw new TransacaoException("O desconto não pode ser maior que " + Regras.LIMITE_PORCENTAGEM_DESCONTO + "%")
-            def descontoReal = d.divide(new BigDecimal("100"), new MathContext(2)).multiply(subTotal)
+            def descontoReal = d.divide(new BigDecimal("100"), new MathContext(2)) * subTotal
             total = subTotal - descontoReal
             return descontoReal
         }
@@ -137,10 +137,8 @@ class Venda extends RegistroDeFluxo {
             conta.addVenda(this);
 
             //ID da conta padrão
-            estado = conta.id == Conta.padrao().id 
-                ? Estado.PAGA 
-                : Estado.EM_CONTA
-            
+            estado = conta.id == Conta.padrao().id ? Estado.PAGA : Estado.EM_CONTA
+
             EntityManager em = JPA.getEM();
             em.transaction.begin();
             removeItensVendidosDoEstoque(em);

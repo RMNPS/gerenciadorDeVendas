@@ -1,6 +1,8 @@
 package gerenciadordevendas.telas;
 
 import gerenciadordevendas.JPA;
+import gerenciadordevendas.Regras;
+import gerenciadordevendas.model.ItemEstoque;
 import gerenciadordevendas.tablemodel.ProdutosTableModel;
 import gerenciadordevendas.tablemodel.ItemVendaTableModel;
 import gerenciadordevendas.model.ItemVenda;
@@ -49,18 +51,16 @@ public class TelaPDV extends javax.swing.JFrame {
 
 
     private void iniciarRelogio() {
-        SwingUtilities.invokeLater(() -> {
-            new Thread(() -> {
-                while (true) {
-                    try {
-                        dataLabel.setText(HORA_FORMAT.format(new Date()));
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException("Ocorreu um erro ao atualizar a hora", ex);
-                    }
+        SwingUtilities.invokeLater(() -> new Thread(() -> {
+            while (true) {
+                try {
+                    dataLabel.setText(HORA_FORMAT.format(new Date()));
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException("Ocorreu um erro ao atualizar a hora", ex);
                 }
-            }).start();
-        });
+            }
+        }).start());
     }
 
     @SuppressWarnings("unchecked")
@@ -172,7 +172,7 @@ public class TelaPDV extends javax.swing.JFrame {
         vendedorLabel.setText("Padrão");
 
         lblComandos.setForeground(java.awt.Color.white);
-        lblComandos.setText("F1 - Confirmar Venda | F2 - Inserir produto | F3 - Remover Produto");
+        lblComandos.setText("F1 - Confirmar Venda | F2 - Inserir itemEstoque | F3 - Remover Produto");
 
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
@@ -375,11 +375,27 @@ public class TelaPDV extends javax.swing.JFrame {
     }
 
     private void inserirProduto() {
-        Optional<ItemVenda> iv = new TelaPesquisar(new ProdutosTableModel()).getItemSelecionado();
-
-        if (iv.isPresent()) {
-            System.out.println(iv.get());
-            introduzirProduto(iv.get());
+        Optional<ItemEstoque> ic = new TelaPesquisar(new ProdutosTableModel()).getItemSelecionado();
+        if (!ic.isPresent()) {
+            return;
+        }
+        String erro = "";
+        while (true) {
+            String sQnt = JOptionPane.showInputDialog(erro + "Insira a quantidade", 1);
+            if (sQnt == null) {
+                return;
+            }
+            try {
+                int qnt = Integer.valueOf(sQnt);
+                if (qnt < 1 || qnt > Regras.QUANTIDADE_MAXIMA_PRODUTO) {
+                    erro = "A quantidade deve estar entre 1 e " + Regras.QUANTIDADE_MAXIMA_PRODUTO + ".\n";
+                    continue;
+                }
+                ItemVenda iv =  ItemVenda.Build(ic.get(), qnt);
+                introduzirProduto(iv);
+            } catch (NumberFormatException e) {
+                erro = "A quantidade deve estar entre 1 e " + Regras.QUANTIDADE_MAXIMA_PRODUTO + ".\n";
+            }
         }
     }
 

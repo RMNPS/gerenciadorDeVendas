@@ -20,7 +20,7 @@ final class Regras {
      */
     public static int TEMPO_LIMITE_PAGAMENTO_CONTA;
     /**
-     * Quantidade máxima de um produto
+     * Quantidade máxima de um itemEstoque
      */
     public static int QUANTIDADE_MAXIMA_PRODUTO;
     /**

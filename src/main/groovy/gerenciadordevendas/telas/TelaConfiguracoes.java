@@ -57,7 +57,7 @@ public class TelaConfiguracoes extends javax.swing.JDialog {
         txtTempoInatividade.setText(""+Regras.TEMPO_INATIVIDADE);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Quantidade máxima de um produto único");
+        jLabel2.setText("Quantidade máxima de um itemEstoque único");
 
         txtQuantidadeMaximaProduto.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtQuantidadeMaximaProduto.setText(""+Regras.QUANTIDADE_MAXIMA_PRODUTO);

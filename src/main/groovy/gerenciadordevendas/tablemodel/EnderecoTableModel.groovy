@@ -1,31 +1,24 @@
-package gerenciadordevendas.tablemodel;
+package gerenciadordevendas.tablemodel
 
 import gerenciadordevendas.JPA
-import gerenciadordevendas.model.Cliente
 import gerenciadordevendas.model.Endereco
 import gerenciadordevendas.telas.PanelEndereco
 import gerenciadordevendas.telas.TelaContainer
-import java.awt.Window;
+
 import javax.persistence.EntityManager
+import javax.persistence.Query
+import javax.swing.*
+import java.awt.*
+import java.util.List
 
 class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
-    
-    List<Endereco> enderecos;
-    
-    private enum Colunas {
-        ID ("ID"),
-        ENDERECO("Endereço"),
-        
-        final String nome;
 
-        private Colunas(String nome) {
-            this.nome = nome;
-        }
-    }
+    List<Endereco> enderecos
 
     EnderecoTableModel(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
-        carregar();
+        super(['ID', 'Endereço'])
+        this.enderecos = enderecos
+        carregar()
     }
 
     @Override
@@ -35,84 +28,74 @@ class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
     
     @Override
     void carregar() {
-        dadosBackup = dados = enderecos;
-        fireTableDataChanged();
+        dadosBackup = dados = enderecos
+        fireTableDataChanged()
     }
-    
+
     @Override
-    protected String getJPQL() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected Query getQuery(EntityManager em) {
+        throw new UnsupportedOperationException("Not supported yet.")
     }
 
     @Override
     protected boolean getSeachFilter(Endereco o1, String o2) {
-        return o1.toString().toLowerCase().contains(o2) || String.valueOf(o1.id).startsWith(o2);
-    }
-
-    @Override
-    int getColumnCount() {
-        return Colunas.values().length;
+        return o1.toString().toLowerCase().contains(o2) || String.valueOf(o1.id).startsWith(o2)
     }
 
     @Override
     Object getValueAt(int rowIndex, int columnIndex) {
-        Endereco c = get(rowIndex);
-        switch (Colunas.values()[columnIndex]) {
-            case Colunas.ID:       return c.id
-            case Colunas.ENDERECO: return c.toString()
-            default:               return null;
+        Endereco c = get(rowIndex)
+        switch (colunas[columnIndex]) {
+            case 'ID':       return c.id
+            case 'Endereço': return c.toString()
+            default:               return null
         }
-    }
-
-    @Override
-    String getColumnName(int column) {
-        return Colunas.values()[column].nome;
     }
 
     @Override
     void novo(Window parent) {
-        Endereco e = new Endereco();
+        Endereco e = new Endereco()
         PanelEndereco panel = new PanelEndereco(e)
         panel.salvarVisible = true
         new TelaContainer(parent, panel).visible = true
         if (panel.isSalvo()) {
-            enderecos.add(e);
+            enderecos.add(e)
         }
-        carregar();
+        carregar()
     }
 
     @Override
     void editar(Window parent) {
-        int row = getJTable().selectedRow;
+        int row = getJTable().selectedRow
         if (row > -1) {
             PanelEndereco panel = new PanelEndereco(get(row))
             panel.salvarVisible = true
-            new TelaContainer(parent, panel).visible = true;
-            carregar();
-            getJTable().setRowSelectionInterval(row, row);
+            new TelaContainer(parent, panel).visible = true
+            carregar()
+            getJTable().setRowSelectionInterval(row, row)
         }
     }
     
     @Override
     void remover(Window parent) {
-        int row = getJTable().selectedRow;
+        int row = getJTable().selectedRow
         if (row > -1) {
             if (row == 0) {
-                JOptionPane.showMessageDialog(this, "O endereço principal não pode ser removido.");
-                return;
+                JOptionPane.showMessageDialog(null, "O endereço principal não pode ser removido.")
+                return
             }
-            Endereco e = get(row);
+            Endereco e = get(row)
             if (e.id != 0) {
-                EntityManager em = JPA.getEM();
+                EntityManager em = JPA.getEM()
                 
                 em.getTransaction().begin()
-                e.setDeleted(true);
+                e.setDeleted(true)
                 em.merge(e)
                 em.getTransaction().commit()
             }
             
-            enderecos.remove(e);
-            carregar();
+            enderecos.remove(e)
+            carregar()
         }
     }
 }

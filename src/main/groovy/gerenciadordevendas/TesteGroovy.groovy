@@ -8,6 +8,7 @@ package gerenciadordevendas
 
 import gerenciadordevendas.model.Conta
 import org.apache.commons.lang3.RandomStringUtils;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,9 +18,10 @@ class TesteGroovy {
     public static void main(String[] args) {
         def colunas = [ "Nome", "Sobrenome"];
         switch(colunas[1]) {
-            case "Nome": println "Nome1111"; break;
-            case "Sobrenome" : println "Sobrenome111"; break;
+        case "Nome": println "Nome1111"; break;
+        case "Sobrenome" : println "Sobrenome111"; break;
         }
+        JOptionPane.showOptionDialog(null, "Informe o tipo de cliente você deseja criar", "Criar cliente", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, ["Pessoa Jurídica", "Pessoa Física"] as String[], "Pessoa Física");
         
     }
 }

@@ -8,7 +8,10 @@ import gerenciadordevendas.model.FormaPagamento
 import gerenciadordevendas.model.Venda
 import gerenciadordevendas.telas.TelaItemEstoque
 import gerenciadordevendas.telas.TelaParcela
-import java.awt.Window
+
+    import javax.persistence.EntityManager
+    import javax.persistence.Query
+    import java.awt.Window
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.List
@@ -24,14 +27,11 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     Venda venda;
 
     ParcelaTableModel(JTable tabela, Venda venda) {
+        super(["Sequência", "Forma de Pagamento", 'Valor R$', "Vencimento", 'Estado'])
         setVenda(venda)
         setJTable(tabela)
     }
-    
-    @Override
-    def getColunas() {
-        return ["Sequência", "Forma de Pagamento", 'Valor R$', "Vencimento", 'Estado']
-    }
+
     
     void add(Parcela parcela) throws TransacaoException {
         if (venda.parcelas && parcela.vencimento < venda.parcelas.get(venda.parcelas.size() -1).vencimento) {
@@ -61,7 +61,7 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     }
     
     void setVenda(Venda venda) {
-        this.venda = venda;
+        this.venda = venda
         if (!venda.parcelas) {
             this.venda.parcelas = new ArrayList<Parcela>()
         }
@@ -73,27 +73,27 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
         for (Parcela parcela: venda.parcelas) {
             totalParcelas += parcela.valor;
         }
-        return totalParcelas;
+        return totalParcelas
     }
 
     @Override
     final void setJTable(JTable table) {
-        super.table = table;
-        table.model = this;
-        setJTableColumnsWidth(5, 35, 20, 20, 20);
+        super.table = table
+        table.model = this
+        setJTableColumnsWidth(5, 35, 20, 20, 20)
     }
 
     void carregar() {
-        dadosBackup = dados = venda.parcelas;
-        fireTableDataChanged();
+        dadosBackup = dados = venda.parcelas
+        fireTableDataChanged()
     }
     
     @Override
     void editar(Window parent) {
-        int row = getJTable().getSelectedRow();
+        int row = getJTable().getSelectedRow()
         if (row > -1){
-            new TelaParcela(venda.parcelas.get(row), this).setVisible(true);
-            carregar();
+            new TelaParcela(venda.parcelas.get(row), this).setVisible(true)
+            carregar()
         }
     }
     
@@ -103,14 +103,13 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
         if (row > -1) {
             Parcela parcela = venda.parcelas.get(row)
             parcela.deleted = true
-            saldo = getTotalParcelas()
             venda.parcelas.remove(parcela)
             carregar()
         }
     }
 
-    
-    String getJPQL() {
+    @Override
+    protected Query getQuery(EntityManager em) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -132,6 +131,4 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
             default:                    return null;
         }
     }
-    
-
 }

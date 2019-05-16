@@ -38,6 +38,10 @@ public class PanelPessoaFisica extends javax.swing.JPanel {
         preencheCampos(pessoaFisica);
     }
 
+    public PessoaFisica getPessoaFisica() {
+        return pessoaFisica;
+    }
+    
     private void preencheCampos(PessoaFisica pessoaFisica) {
         if (pessoaFisica != null) {
             nomeTextField.setText(pessoaFisica.getNome());

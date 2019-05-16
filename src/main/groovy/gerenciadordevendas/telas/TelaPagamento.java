@@ -214,17 +214,6 @@ public class TelaPagamento extends javax.swing.JDialog {
         throw new RuntimeException("Informação inválida para o intervalo");
     }
 
-    private Cliente getClientePadrao(EntityManager em) {
-        Cliente padrao = em.find(Cliente.class, 1);
-        if (padrao == null) {
-            padrao = Cliente.padrao();
-            em.getTransaction().begin();
-            padrao = em.merge(padrao);
-            em.getTransaction().commit();
-        }
-        return padrao;
-    }
-
     private void atualizaParcelas() {
         atualizaParcelas("" + SpinnerParcela.getValue());
     }
@@ -1109,9 +1098,7 @@ public class TelaPagamento extends javax.swing.JDialog {
             }
 
             EntityManager em = JPA.getEM();
-            if (venda.getConta() == null) {
-                venda.setConta(getClientePadrao(em).getConta());
-            }
+
             venda.setObservacoes(txtObservacoes.getText());
             venda.finalizarVenda();
 

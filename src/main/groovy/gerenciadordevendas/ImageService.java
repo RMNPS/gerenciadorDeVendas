@@ -6,13 +6,11 @@
 package gerenciadordevendas;
 
 import com.google.common.io.Files;
-import gerenciadordevendas.model.Empresa;
 import gerenciadordevendas.model.EntidadeComImagem;
 import gerenciadordevendas.telas.PanelAdicionarImagem;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import javax.persistence.EntityManager;
 
 /**
  *
@@ -39,12 +37,12 @@ public class ImageService {
             String fileExtension = Files.getFileExtension(caminhoImagem);
             int id = entidade.getId();
             if (id == 0) {
-                id = EntityService.getLastIDplus1(Empresa.class);
+                id = EntityService.getLastIDplus1(entidade.getClass());
             }
             String caminhoImagemProjeto = "\\" + pastaImagens + "\\" + id + "." + fileExtension;
-
-            Files.copy(new File(caminhoImagem), new File(caminhoProjeto + caminhoImagemProjeto));
-
+            if (!caminhoImagem.equals(caminhoProjeto + caminhoImagemProjeto)) {
+                Files.copy(new File(caminhoImagem), new File(caminhoProjeto + caminhoImagemProjeto));
+            }
             return caminhoImagemProjeto;
         }
         return null;

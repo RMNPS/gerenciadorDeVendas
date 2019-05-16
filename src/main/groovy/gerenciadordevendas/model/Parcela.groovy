@@ -19,12 +19,10 @@ import javax.persistence.TemporalType
  */
 @Entity
 @EqualsAndHashCode(callSuper = true)
-class Parcela extends BaseEntity{
+class Parcela extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "venda")
     Venda venda
-    @Column(precision = 12, scale = 3)
-    BigDecimal valor;
     @ManyToOne
     @JoinColumn(name = "formaPagamento")
     FormaPagamento formaPagamento
@@ -33,5 +31,8 @@ class Parcela extends BaseEntity{
     @Temporal(TemporalType.DATE)
     /** Data em que a parcela foi paga */
     Date dataPagamento
+    @Column(precision = 12, scale = 1)
+    BigDecimal valor
+    
 }
 

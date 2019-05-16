@@ -36,33 +36,31 @@ class Cliente extends BaseEntity implements Comparable<Cliente> {
 
     Cliente() {  conta = new Conta(this) }
 
-    static Cliente padrao() {
-        Cliente padrao = new Cliente(
-            id: 1, 
-            nome: "Cliente Visitante", 
-            dataNasc: Calendar.instance.time
-        )
-        Conta contaPadrao = Conta.padrao()
-        contaPadrao.cliente = padrao
-        padrao.conta = contaPadrao
-        return padrao
-    }
-
     @Override
-    String toString() { nome }
+    String toString() {
+        if (pessoaFisica) {
+            return pessoaFisica.nome
+        }
+        if (empresa) {
+            return empresa.nome
+        }
+        return super.toString()
+    }
 
     @Override
     int compareTo(Cliente o) { 
         collator.setStrength(Collator.PRIMARY);
         collator.compare(nome, o.nome);
     }
-    
-    void setEnderecos(List<Endereco> enderecos) {
-        for (Endereco e: enderecos) {
-            e.cliente = this
+
+    String getNome() {
+        if (pessoaFisica) {
+            pessoaFisica.nome
+        } else {
+            empresa.nome
         }
     }
-    
+
 }
 
 

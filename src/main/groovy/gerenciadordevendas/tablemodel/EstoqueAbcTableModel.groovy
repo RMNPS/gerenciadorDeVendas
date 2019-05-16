@@ -1,17 +1,14 @@
 package gerenciadordevendas.tablemodel;
 
-import gerenciadordevendas.JPA;
-import gerenciadordevendas.model.ItemVenda;
-import gerenciadordevendas.model.Produto;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.swing.JTable;
+import gerenciadordevendas.JPA
+import gerenciadordevendas.model.ItemEstoque
+import gerenciadordevendas.model.ItemVenda
+
+import java.math.MathContext
+import java.text.DecimalFormat
+import javax.persistence.EntityManager
+import javax.persistence.Query
+import javax.swing.JTable
 
 /**
  *
@@ -20,13 +17,11 @@ import javax.swing.JTable;
 public class EstoqueAbcTableModel extends TableModelPesquisavel {
     static final long MILLIS_IN_30_DAYS = 30l * 24l * 60l * 60l * 1000l
     static final DecimalFormat DF = new DecimalFormat('R$ #,##0.00')
-    
     List<ItemModel> produtos = new ArrayList<>()
     BigDecimal totalProdutos
 
     class ItemModel {
-
-        Produto produto
+        ItemEstoque itemEstoque
         double quantidade
         BigDecimal valorUnitario
         BigDecimal porcentagemAcumulada
@@ -45,25 +40,13 @@ public class EstoqueAbcTableModel extends TableModelPesquisavel {
         }
     }
 
-    enum Colunas {
-        ID_PRODUTO("id Produto"),
-        NOME("Nome"),
-        QUANTIDADE("QNT Vendida"),
-        TOTAL('R$ Total Venda'),
-        PORCENTAGEM("% do Total"),
-        PORCENTAGEM_ACUMULADA("% Acumulada"),
-        CLASSIFICACAO("Classe");
-
-        private final String nome;
-
-        private Colunas(String nome) {  this.nome = nome;  }
-    }
 
     EstoqueAbcTableModel() {
         this(null)
     }
 
     public EstoqueAbcTableModel(JTable tabela) {
+        super(["id Produto", "Nome", "QNT Vendida", 'R$ Total Venda', "% do Total", "% Acumulada", "Classe"])
         carregarUltimos30dias()
 //        setJTable(tabela);
 
@@ -81,7 +64,7 @@ public class EstoqueAbcTableModel extends TableModelPesquisavel {
         carregar(new Date(dateMenos30), atual);
     }
 
-    public final void carregar(Date inicio, Date fim) {
+    final void carregar(Date inicio, Date fim) {
         produtos.clear();
         totalProdutos = BigDecimal.ZERO;
         EntityManager em = JPA.getEM();
@@ -127,25 +110,20 @@ public class EstoqueAbcTableModel extends TableModelPesquisavel {
         for (ItemVenda iv : itensVenda) {
             boolean contem = false;
             for (ItemModel im : produtos) {
-                if (iv.getProduto().equals(im.produto)) {
+                if (iv.itemEstoque.equals(im.itemEstoque)) {
                     im.add(iv.getQuantidade());
-                    contem = true;
+                    contem = true
                 }
             }
             
             if (!contem) {
                 ItemModel im = new ItemModel();
-                im.produto = iv.getProduto();
-                im.quantidade = iv.getQuantidade();
-                im.valorUnitario = iv.getValorUnitario();
+                im.itemEstoque = iv.itemEstoque;
+                im.quantidade = iv.quantidade
+                im.valorUnitario = iv.itemEstoque.valorAprazo
                 produtos.add(im);
             }
         }
-    }
-
-    @Override
-    public String getColumnName(int column) {
-        return Colunas.values()[column].nome;
     }
 
     @Override
@@ -154,22 +132,17 @@ public class EstoqueAbcTableModel extends TableModelPesquisavel {
     }
 
     @Override
-    public int getColumnCount() {
-        return Colunas.values().length;
-    }
-
-    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         ItemModel im = produtos.get(rowIndex);
-        switch (Colunas.values()[columnIndex]) {
-            case Colunas.ID_PRODUTO:            return im.produto.id
-            case Colunas.NOME:                  return im.produto.nome
-            case Colunas.QUANTIDADE:            return im.quantidade;
-            case Colunas.TOTAL:                 return DF.format(im.total)
-            case Colunas.PORCENTAGEM:           return im.total.divide(totalProdutos, new MathContext(3))
-                        .multiply(BigDecimal.valueOf(100))
-            case Colunas.PORCENTAGEM_ACUMULADA: return im.porcentagemAcumulada * 100g
-            case Colunas.CLASSIFICACAO:         return im.classificacao
+
+        switch (colunas[columnIndex]) {
+            case "id Produto":     return im.itemEstoque.id
+            case  "Nome":          return im.itemEstoque.produto.nome
+            case "QNT Vendida":    return im.quantidade;
+            case 'R$ Total Venda': return DF.format(im.total)
+            case "% do Total":     return im.total.divide(totalProdutos, new MathContext(3)) * BigDecimal.valueOf(100)
+            case "% Acumulada":    return im.porcentagemAcumulada * 100g
+            case "Classe":         return im.classificacao
         }
         return null;
     }

@@ -7,6 +7,13 @@ import javax.swing.table.TableColumn;
 
 abstract class TableModelPesquisavel<T> extends AbstractTableModel implements Pesquisavel {
 
+    def colunas
+
+    TableModelPesquisavel(def colunas) {
+        println(colunas)
+        this.colunas = colunas
+    }
+
     T get(int row) {
         return null;
     }
@@ -25,13 +32,17 @@ abstract class TableModelPesquisavel<T> extends AbstractTableModel implements Pe
     void pesquisar(String campo) {  }
 
     @Override
-    abstract String getColumnName(int column)
+    final String getColumnName(int column) {
+        colunas[column]
+    }
 
     @Override
     abstract Class<?> getColumnClass(int columnIndex)
 
     @Override
-    abstract int getColumnCount()
+    final int getColumnCount() {
+        colunas.size()
+    }
     
     void novo(java.awt.Window parent) {
         JOptionPane.showMessageDialog(parent, "Esta opção não está habilitada")

@@ -8,6 +8,8 @@ package gerenciadordevendas.tablemodel;
 import gerenciadordevendas.JPA;
 import gerenciadordevendas.model.BaseEntity
 import gerenciadordevendas.model.EntidadeSomenteComNome
+
+import javax.persistence.Query
 import java.awt.Window;
 import java.lang.reflect.ParameterizedType
 import javax.persistence.EntityManager
@@ -20,29 +22,32 @@ import javax.swing.JTable
  */
 class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomenteComNome> {
 
-    private Class<?> classe;
-    private EntidadeSomenteComNome entidadeSelecionada;
+
+    private Class<?> classe
+    private EntidadeSomenteComNome entidadeSelecionada
     
-    public ItemNomeavelTableModel(EntidadeSomenteComNome entidadeSelecionada, Class<?> classe) {
+    ItemNomeavelTableModel(EntidadeSomenteComNome entidadeSelecionada, Class<?> classe) {
+        super(['id', 'Nome'])
         this.entidadeSelecionada = entidadeSelecionada;
         this.classe = classe
-        carregar();
     }
 
     @Override
     final void setJTable(JTable table) {
-        super.table = table;
-        setJTableColumnsWidth(10, 90);
+        super.table = table
+        setJTableColumnsWidth(10, 90)
     }
-    
+
     @Override
-    protected String getJPQL() {
-        return "Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE";
+    protected Query getQuery(EntityManager em) {
+        if (classe) {
+            return em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE")
+        }
     }
 
     @Override
     protected boolean getSeachFilter(EntidadeSomenteComNome entidade, String campoLowerCase) {
-        return entidade.nome.toLowerCase().contains(campoLowerCase);
+        return entidade.nome.toLowerCase().contains(campoLowerCase)
     }
 
     @Override
@@ -52,7 +57,7 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
             return;
         }
         def nomeavel = classe.newInstance()
-        nomeavel.nome = nome;
+        nomeavel.nome = nome
         
         EntityManager em = JPA.getEM();
         boolean naoContem = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE and e.nome = :nome")
@@ -60,16 +65,14 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
         if (naoContem) {
             em.getTransaction().begin();
             
-            this.entidadeSelecionada = em.merge(nomeavel);
-            em.getTransaction().commit();
-            em.close();
+            this.entidadeSelecionada = em.merge(nomeavel)
+            em.getTransaction().commit()
+            em.close()
             
-            carregar();
+            carregar()
         } else {
             JOptionPane.showMessageDialog(null, "Esse nome já existe");
         }
-        
-        
     }
 
     @Override
@@ -121,30 +124,13 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
         }
     }
 
-    enum Colunas {
-        ID("id"), NOME("Nome");
-
-        private String nome;
-
-        private Colunas(String nome) {
-            this.nome = nome;
-        }
-    }
-
-    @Override
-    int getColumnCount() { Colunas.values().length }
-
-    @Override
-    String getColumnName(int column) {
-        return Colunas.values()[column].nome;
-    }
 
     @Override
     Object getValueAt(int rowIndex, int columnIndex) {
         EntidadeSomenteComNome entidade = get(rowIndex);
-        switch (Colunas.values()[columnIndex]) {
-            case Colunas.ID:    return entidade.id
-            case Colunas.NOME:  return entidade.nome
+        switch (colunas[columnIndex]) {
+            case 'id':    return entidade.id
+            case 'Nome':  return entidade.nome
         }
         return null;
     }

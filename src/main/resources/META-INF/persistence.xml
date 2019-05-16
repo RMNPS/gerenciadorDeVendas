@@ -17,6 +17,7 @@
         <class>gerenciadordevendas.model.ItemEstoque</class>
         <class>gerenciadordevendas.model.ItemVenda</class>
         <class>gerenciadordevendas.model.Parcela</class>
+        <class>gerenciadordevendas.model.PessoaFisica</class>
         <class>gerenciadordevendas.model.Produto</class>
         <class>gerenciadordevendas.model.Tamanho</class>
         <class>gerenciadordevendas.model.Venda</class>

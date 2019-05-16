@@ -6,12 +6,13 @@ import gerenciadordevendas.JPA;
 import gerenciadordevendas.Regras;
 import gerenciadordevendas.exception.FormatacaoException;
 import gerenciadordevendas.formatador.Formatador;
-import gerenciadordevendas.model.Fornecedor;
+import gerenciadordevendas.model.Empresa;
 import gerenciadordevendas.model.ItemEstoque;
 import gerenciadordevendas.model.Produto;
 import gerenciadordevendas.model.Cor;
 import gerenciadordevendas.tablemodel.ItemNomeavelTableModel;
 import gerenciadordevendas.model.Tamanho;
+import gerenciadordevendas.model.TipoEmpresa;
 import gerenciadordevendas.telas.listener.DecimalDocumentListener;
 import gerenciadordevendas.telas.listener.NumeroListener;
 import gerenciadordevendas.telas.util.TelaUtil;
@@ -22,15 +23,11 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -39,10 +36,8 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private static final ImageService IMAGE_SERVICE = new ImageService();
     private ItemEstoque itemEstoque;
     private List<Produto> produtos;
-    private List<Fornecedor> fornecedores;
-    private boolean ordenado = true;
+    private List<Empresa> fornecedores;
     private boolean custoOrdenado = true;
-    private boolean deletarFoto = false;
     private double quantidadeTotalOriginal;
     
     public TelaItemEstoque(java.awt.Window parent) {
@@ -55,7 +50,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         initComponents();
 
         EntityManager em = JPA.getEM();
-        TelaUtil.carregarObjetosNaComboBox(em, cmbFornecedor, Fornecedor.class);
+        TelaUtil.carregarEmpresaNaComboBox(em, cmbFornecedor, TipoEmpresa.FORNECEDOR);
         TelaUtil.carregarObjetosNaComboBox(em, cmbProdutos, Produto.class);
         TelaUtil.carregarObjetosNaComboBox(em, cmbTamanho, Tamanho.class);
         TelaUtil.carregarObjetosNaComboBox(em, cmbCor, Cor.class);
@@ -124,7 +119,6 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         txtCustoTotal.setText(custoTotal.toString());
 
         calculaMargem(txtValorAprazo.getText(), sCustoUN);
-        ordenado = true;
         custoOrdenado = false;
     }
     
@@ -211,30 +205,6 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         BigDecimal venda = custoUN.add(custoUN.multiply(margem.setScale(2, BigDecimal.ROUND_HALF_UP).divide(new BigDecimal("100")), new MathContext(3))).setScale(2);
         txtValorAprazo.setText(venda.toString());
     }
-
-    private void carregarProdutosNaComboBox(EntityManager em) {
-        Persistence.generateSchema("GerenciadorPU", new HashMap());
-        
-        cmbProdutos.removeAllItems();
-//        Query query = em.createQuery("SELECT e FROM Produto e WHERE e.itemEstoque is null");
-        Query query = em.createQuery("SELECT e FROM Produto e WHERE e.deleted = FALSE");
-        produtos = query.getResultList();
-
-        Collections.sort(produtos);
-
-        for (Produto produto : produtos) {
-            cmbProdutos.addItem(produto);
-        }
-    }
-
-    private void carregarFornecedoresNaComboBox(EntityManager em) {
-        cmbFornecedor.removeAllItems();
-        Query query = em.createQuery("SELECT e FROM Fornecedor e WHERE e.deleted = FALSE");
-        fornecedores = query.getResultList();
-        for (Fornecedor fornecedor : fornecedores) {
-            cmbFornecedor.addItem(fornecedor);
-        }
-    }
     
     
     
@@ -253,7 +223,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             txtValorParcela.setText(ie.getValorParcelaSugerida().toPlainString());
             if (ie.getProduto() != null) {
                 EntityManager em = JPA.getEM();
-                Double quantidade = (Double) em.createQuery("SELECT sum(e.quantidade) FROM ItemEstoque e WHERE e.deleted = FALSE and e.produto = :p")
+                Double quantidade = (Double) em.createQuery("SELECT sum(e.quantidade) FROM ItemEstoque e WHERE e.produto = :p")
                         .setParameter("p", ie.getProduto())
                         .getSingleResult();
 
@@ -312,6 +282,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         btnCalculaVenda = new javax.swing.JButton();
         btnNumeroParcelas = new javax.swing.JButton();
         btnDesc = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
         btnClonar = new javax.swing.JButton();
         salvarButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -373,6 +344,11 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
         txtCustoUN.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtCustoUN.setText("0");
+        txtCustoUN.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCustoUNFocusGained(evt);
+            }
+        });
 
         txtMargem.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtMargem.setText("120");
@@ -400,7 +376,13 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
         lblQuantidade.setText("Quantidade");
 
+        txtCustoTotal.setEditable(false);
         txtCustoTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtCustoTotal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCustoTotalFocusGained(evt);
+            }
+        });
 
         txtQnt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtQnt.setText("1");
@@ -445,61 +427,79 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             }
         });
 
+        jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
+        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox1ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(lblValorAprazo)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtValorAprazo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblQuantidade, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblCustoUN, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblMargem, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblCustoTotal, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(lblCustoTotal, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblQuantidade, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtMargem)
-                            .addComponent(txtCustoUN)
-                            .addComponent(txtCustoTotal)
-                            .addComponent(txtQnt, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtQnt, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(txtCustoTotal)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblValorAvista)
-                            .addComponent(lblNumeroParcelas)
-                            .addComponent(lblValorParcela))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNumeroParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtValorAvista, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtValorParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(lblValorAprazo)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtValorAprazo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lblValorAvista)
+                                            .addComponent(lblNumeroParcelas)
+                                            .addComponent(lblValorParcela))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtNumeroParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtValorAvista, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtValorParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(107, 107, 107)
+                                .addComponent(lblCustoUN)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtCustoUN)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCalculaVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNumeroParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNumeroParcelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBox1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCustoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCustoTotal))
+                    .addComponent(txtCustoUN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCustoUN, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtQnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblQuantidade))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCustoUN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCustoUN, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCustoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCustoTotal)
+                    .addComponent(jCheckBox1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMargem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -809,7 +809,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
     private void preecheItemEstoque(ItemEstoque item) throws IOException, FormatacaoException {
         item.setProduto((Produto) Formatador.notNull("Produto", (Produto) cmbProdutos.getSelectedItem()));
-        item.setFornecedor((Fornecedor) cmbFornecedor.getSelectedItem());
+        item.setFornecedor((Empresa) cmbFornecedor.getSelectedItem());
         item.setCor((Cor) cmbCor.getSelectedItem());
         item.setTamanho( (Tamanho) cmbTamanho.getSelectedItem());
         item.setValidade(txtValidade.getDate());
@@ -845,21 +845,26 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         telaProduto.setVisible(true);
 
         EntityManager em = JPA.getEM();
-        carregarProdutosNaComboBox(em);
+        TelaUtil.carregarObjetosNaComboBox(em, cmbProdutos, Produto.class);
         em.close();
         cmbProdutos.setSelectedItem(Optional.ofNullable(produtoSelecionado)
                 .orElse(telaProduto.getProduto()));
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Fornecedor fornecedorSelecionado = (Fornecedor) cmbFornecedor.getSelectedItem();
-        TelaFornecedor telaFornecedor = new TelaFornecedor(this, fornecedorSelecionado);
+        Empresa fornecedorSelecionado = (Empresa) cmbFornecedor.getSelectedItem();
+        TelaEmpresa telaFornecedor = new TelaEmpresa(this, "Fornecedores");
+        if (fornecedorSelecionado == null) {
+            fornecedorSelecionado = new Empresa();
+            fornecedorSelecionado.setTipoEmpresa(TipoEmpresa.FORNECEDOR);
+        }
+        telaFornecedor.setEmpresa(fornecedorSelecionado);
         telaFornecedor.setVisible(true);
         EntityManager em = JPA.getEM();
-        carregarFornecedoresNaComboBox(em);
+        TelaUtil.carregarEmpresaNaComboBox(em, cmbFornecedor, TipoEmpresa.FORNECEDOR);
         em.close();
         cmbFornecedor.setSelectedItem(Optional.ofNullable(fornecedorSelecionado)
-                .orElse(telaFornecedor.getFornecedor()));
+                .orElse(telaFornecedor.getEmpresa()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void salvarButtonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_salvarButtonFocusLost
@@ -901,7 +906,8 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     }//GEN-LAST:event_txtMargemActionPerformed
 
     private void btnTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTamanhoActionPerformed
-        Optional<Tamanho> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( (Tamanho) cmbTamanho.getSelectedItem(), Tamanho.class)).getItemSelecionado();
+        Class classe = Tamanho.class;
+        Optional<Tamanho> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( (Tamanho) cmbTamanho.getSelectedItem(), classe)).getItemSelecionado();
         EntityManager em = JPA.getEM();
         TelaUtil.carregarObjetosNaComboBox(em, cmbTamanho, Tamanho.class);
         em.close();
@@ -911,7 +917,8 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     }//GEN-LAST:event_btnTamanhoActionPerformed
 
     private void btnCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorActionPerformed
-        Optional<Cor> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( (Cor) cmbCor.getSelectedItem(), Cor.class)).getItemSelecionado();
+        Class classe = Cor.class;
+        Optional<Cor> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( (Cor) cmbCor.getSelectedItem(), classe)).getItemSelecionado();
         EntityManager em = JPA.getEM();
         TelaUtil.carregarObjetosNaComboBox(em, cmbCor, Cor.class);
         em.close();
@@ -937,6 +944,18 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         BigDecimal valorAprazo = new BigDecimal(sValorAprazo);
         txtValorAvista.setText(formata(valorAprazo.multiply(Regras.DESCONTO_A_VISTA.divide(new BigDecimal("100")))));
     }//GEN-LAST:event_btnDescActionPerformed
+
+    private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
+        txtCustoTotal.setEditable(jCheckBox1.isSelected());
+    }//GEN-LAST:event_jCheckBox1ItemStateChanged
+
+    private void txtCustoUNFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCustoUNFocusGained
+        custoOrdenado = false;
+    }//GEN-LAST:event_txtCustoUNFocusGained
+
+    private void txtCustoTotalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCustoTotalFocusGained
+        custoOrdenado = true;
+    }//GEN-LAST:event_txtCustoTotalFocusGained
 
     String formata(String valor) {
         return formata(new BigDecimal(valor));
@@ -969,10 +988,11 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private javax.swing.JButton btnNumeroParcelas;
     private javax.swing.JButton btnTamanho;
     private javax.swing.JComboBox<Cor> cmbCor;
-    private javax.swing.JComboBox<Fornecedor> cmbFornecedor;
+    private javax.swing.JComboBox<Empresa> cmbFornecedor;
     private javax.swing.JComboBox<Produto> cmbProdutos;
     private javax.swing.JComboBox<Tamanho> cmbTamanho;
     private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

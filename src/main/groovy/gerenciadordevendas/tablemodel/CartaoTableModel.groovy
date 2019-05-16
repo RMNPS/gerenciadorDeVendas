@@ -3,51 +3,41 @@
  * Enconding: UTF-8
  * Data de criação: 26/02/2018 09:30:03
  */
-package gerenciadordevendas.tablemodel;
+package gerenciadordevendas.tablemodel
 
-import gerenciadordevendas.JPA;
-import gerenciadordevendas.model.Cartao;
-import gerenciadordevendas.model.Cliente;
-import java.awt.Component;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Optional;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.swing.AbstractCellEditor;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
+import gerenciadordevendas.JPA
+import gerenciadordevendas.model.Cartao
+import gerenciadordevendas.model.Cliente
+import java.awt.Component
+import java.awt.Window
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
+import java.text.SimpleDateFormat
+import javax.persistence.EntityManager
+import javax.persistence.TypedQuery
+import javax.swing.AbstractCellEditor
+import javax.swing.JButton
+import javax.swing.JTable
+import javax.swing.UIManager
+import javax.swing.table.TableCellEditor
+import javax.swing.table.TableCellRenderer
+import javax.swing.table.TableColumnModel
 
 class CartaoTableModel extends TableModelPesquisavel<Cartao> {
 
-    static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy");
-
+    static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy")
     List<Cartao> cartoes;
     final Cliente cliente;
     JTable table;
 
-    enum Colunas {
-        ID("id"), DATA_CRIACAO("data"), CODIGO("Código Barras"), IMPRIMIR("Imprimir");
 
-        private final String nome;
-
-        private Colunas(String nome) {
-            this.nome = nome;
-        }
-    }
 
     CartaoTableModel(Cliente cliente) {
+        super(['id', 'data', 'Código de Barras', 'Imprimir'])
         this.cliente = cliente;
         carregar();
     }
-    
+
     final void carregar() {
         EntityManager em = JPA.getEM();
         TypedQuery<Cartao> query = em.createQuery("SELECT c FROM Cartao c WHERE c.cliente = :idCliente AND c.deleted = FALSE",
@@ -110,73 +100,62 @@ class CartaoTableModel extends TableModelPesquisavel<Cartao> {
             fireEditingStopped();
             System.out.println(e.actionCommand + " : " + table.selectedRow);
 
-            int selectedRow = table.selectedRow;
+            int selectedRow = table.selectedRow
             if (selectedRow > -1) {
-                Cartao cartao = cartoes.get(selectedRow);
-                cartao.imprimir();
+                Cartao cartao = cartoes.get(selectedRow)
+                cartao.imprimir()
             }
         }
     }
 
     @Override
     void setJTable(JTable table) {
-        this.table = table;
-        table.model = this;
+        this.table = table
+        table.model = this
         ButtonColumn buttonColumn = new ButtonColumn(table, Colunas.IMPRIMIR.ordinal());
 
     }
 
-    @Override
-    String getColumnName(int column) {
-        Colunas.values()[column].nome;
-    }
 
     @Override
     boolean isCellEditable(int rowIndex, int columnIndex) {
-        columnIndex == 3;
+        columnIndex == 3
     }
-    
+
     @Override
     Class<?> getColumnClass(int columnIndex) {
         if (cartoes.isEmpty()) {
-            return Object.class;
+            return Object.class
         }
-        if (columnIndex == 3){
-            return JButton.class;
+        if (columnIndex == 3) {
+            return JButton.class
         }
-        return getValueAt(0, columnIndex).getClass();
+        return getValueAt(0, columnIndex).getClass()
     }
 
     @Override
     int getRowCount() {
-        cartoes.size();
+        cartoes.size()
     }
 
-    @Override
-    int getColumnCount() {
-        Colunas.values().length;
-    }
 
     @Override
     Object getValueAt(int rowIndex, int columnIndex) {
 
-        Cartao cartao = cartoes.get(rowIndex);
-
-        switch (Colunas.values()[columnIndex]) {
-            case Colunas.ID:           return cartao.id
-            case Colunas.DATA_CRIACAO: return cartao.dataCriacao == null 
-                ? "" 
-                : SDF.format(cartao.dataCriacao)
-            case Colunas.CODIGO:       return cartao.codigoBarras
-            case Colunas.IMPRIMIR:     return Colunas.IMPRIMIR.nome
+        Cartao cartao = cartoes.get(rowIndex)
+        switch (colunas[columnIndex]) {
+            case 'id': return cartao.id
+            case 'data': return cartao.dataCriacao == null ? "" : SDF.format(cartao.dataCriacao)
+            case 'Código de Barras': return cartao.codigoBarras
+            case 'Imprimir': return 'Imprimir'
         }
 
-        return null;
+        return null
     }
 
     @Override
     void novo(Window parent) {
-        Cartao novo = new Cartao(cliente);
+        Cartao novo = new Cartao(cliente)
 
         EntityManager em = JPA.getEM()
         em.transaction.begin()
@@ -185,24 +164,24 @@ class CartaoTableModel extends TableModelPesquisavel<Cartao> {
         em.close()
 
         cartoes << novo
-        fireTableRowsInserted(cartoes.size() - 1, cartoes.size() - 1);
+        fireTableRowsInserted(cartoes.size() - 1, cartoes.size() - 1)
     }
 
     @Override
     void remover(Window parent) {
-        int selectedRow = table.selectedRow;
+        int selectedRow = table.selectedRow
         if (selectedRow > -1) {
-            Cartao cartao = cartoes.get(selectedRow);
-            cartao.deleted = true;
-            EntityManager em = JPA.getEM();
-            em.transaction.begin();
-            cartao = em.merge(cartao);
-            em.transaction.commit();
-            em.close();
+            Cartao cartao = cartoes.get(selectedRow)
+            cartao.deleted = true
+            EntityManager em = JPA.getEM()
+            em.transaction.begin()
+            cartao = em.merge(cartao)
+            em.transaction.commit()
+            em.close()
 
-            cartoes.remove(cartao);
+            cartoes.remove(cartao)
 
-            fireTableRowsDeleted(selectedRow, selectedRow);
+            fireTableRowsDeleted(selectedRow, selectedRow)
         }
     }
 
