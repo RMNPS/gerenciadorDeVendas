@@ -34,15 +34,14 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
     }
 
     @Override
-    final void setJTable(JTable table) {
-        super.table = table
+    void atualizaEspacamentoColunas() {
         setJTableColumnsWidth(10, 90)
     }
 
     @Override
     protected Query getQuery(EntityManager em) {
         if (classe) {
-            return em.createQuery("Select e from "+ classe.getSimpleName() + " e")
+            return em.createQuery("Select e from "+ classe.simpleName + " e")
         }
     }
 
@@ -54,20 +53,20 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
     @Override
     void novo(Window parent) {
         String nome = JOptionPane.showInputDialog(null, "Insira o nome");
-        if (nome == null || nome.trim().isEmpty() || nome.equals("Insira o nome")) {
+        if (nome == null || nome.trim().empty || nome == "Insira o nome") {
             return;
         }
         def nomeavel = classe.newInstance()
         nomeavel.nome = nome
         
         EntityManager em = JPA.getEM();
-        boolean naoContem = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.nome = :nome")
-            .setParameter("nome", nome).getResultList().isEmpty();
+        boolean naoContem = em.createQuery("Select e from "+ classe.simpleName + " e WHERE e.nome = :nome")
+            .setParameter("nome", nome).resultList.empty
         if (naoContem) {
-            em.getTransaction().begin();
+            em.transaction.begin();
             
             this.entidadeSelecionada = em.merge(nomeavel)
-            em.getTransaction().commit()
+            em.transaction.commit()
             em.close()
             
             carregar()
@@ -82,21 +81,21 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
         if (row > -1) {
             EntidadeSomenteComNome selecionada = get(row);
             EntityManager em = JPA.getEM();
-            def entidade = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.nome = :nome")
+            def entidade = em.createQuery("Select e from "+ classe.simpleName + " e WHERE e.nome = :nome")
             .setParameter("nome", selecionada.nome).getSingleResult();
             
             String novoNome = JOptionPane.showInputDialog(null, entidade.nome);
             if (novoNome == null) {
                 return;
             }
-            boolean naoContem = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.nome = :nome")
-            .setParameter("nome", novoNome).getResultList().isEmpty();
+            boolean naoContem = em.createQuery("Select e from "+ classe.simpleName + " e WHERE e.nome = :nome")
+            .setParameter("nome", novoNome).resultList.empty;
             if (naoContem) {
                 entidade.nome = novoNome;
-                em.getTransaction().begin();
+                em.transaction.begin();
                 
                 this.entidadeSelecionada = em.merge(entidade);
-                em.getTransaction().commit();
+                em.transaction.commit();
                 em.close();
                 
                 carregar();
@@ -112,13 +111,13 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
             EntidadeSomenteComNome selecionada = get(row);
             EntityManager em = JPA.getEM();
             def entidade = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.nome = :nome")
-            .setParameter("nome", selecionada.nome).getSingleResult();
+            .setParameter("nome", selecionada.nome).singleResult;
             entidade.deleted = true;
             
-            em.getTransaction().begin();
+            em.transaction.begin();
             
             this.entidadeSelecionada = em.merge(entidade);
-            em.getTransaction().commit();
+            em.transaction.commit();
             em.close();
             
             carregar();

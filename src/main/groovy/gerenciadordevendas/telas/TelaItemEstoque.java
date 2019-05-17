@@ -907,23 +907,25 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
     private void btnTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTamanhoActionPerformed
         Class classe = Tamanho.class;
-        Optional<Tamanho> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( (Tamanho) cmbTamanho.getSelectedItem(), classe)).getItemSelecionado();
+        Tamanho anterior = (Tamanho)  cmbTamanho.getSelectedItem();
+        Optional<Tamanho> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( anterior, classe)).getItemSelecionado();
         EntityManager em = JPA.getEM();
         TelaUtil.carregarObjetosNaComboBox(em, cmbTamanho, Tamanho.class);
         em.close();
         
-        cmbTamanho.setSelectedItem(itemSelecionado.orElse((Tamanho) cmbTamanho.getSelectedItem()));
+        cmbTamanho.setSelectedItem(itemSelecionado.orElse(anterior));
 
     }//GEN-LAST:event_btnTamanhoActionPerformed
 
     private void btnCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorActionPerformed
         Class classe = Cor.class;
-        Optional<Cor> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( (Cor) cmbCor.getSelectedItem(), classe)).getItemSelecionado();
+        Cor anterior = (Cor) cmbCor.getSelectedItem();
+        Optional<Cor> itemSelecionado = new TelaPesquisar(new ItemNomeavelTableModel( anterior, classe)).getItemSelecionado();
         EntityManager em = JPA.getEM();
         TelaUtil.carregarObjetosNaComboBox(em, cmbCor, Cor.class);
         em.close();
 
-        cmbCor.setSelectedItem(itemSelecionado.orElse((Cor) cmbCor.getSelectedItem()));
+        cmbCor.setSelectedItem(itemSelecionado.orElse(anterior));
 
     }//GEN-LAST:event_btnCorActionPerformed
 

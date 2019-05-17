@@ -77,15 +77,15 @@ class ParcelaTableModel extends AbstractTableModelPesquisavel<Parcela> {
     }
 
     @Override
-    final void setJTable(JTable table) {
-        super.table = table
-        table.model = this
+    void atualizaEspacamentoColunas() {
         setJTableColumnsWidth(5, 35, 20, 20, 20)
     }
 
     void carregar() {
-        dadosBackup = dados = venda.parcelas
-        fireTableDataChanged()
+        if (venda) {
+            dadosBackup = dados = venda.parcelas ?: []
+            fireTableDataChanged()
+        }
     }
     
     @Override

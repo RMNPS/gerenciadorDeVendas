@@ -19,6 +19,7 @@ import gerenciadordevendas.model.Parcela;
 import gerenciadordevendas.model.TipoEmpresa;
 import gerenciadordevendas.model.Venda;
 import gerenciadordevendas.model.Vendedor;
+import gerenciadordevendas.tablemodel.ClienteTableModel;
 import gerenciadordevendas.tablemodel.ParcelaTableModel;
 import gerenciadordevendas.telas.util.TelaUtil;
 import java.awt.Color;
@@ -117,7 +118,9 @@ public class TelaPagamento extends javax.swing.JDialog {
 
     private void preencheCampos() {
         cmbVendedor.setSelectedItem(venda.getVendedor());
-        cmbCliente.setSelectedItem(venda.getConta().getCliente());
+        if (venda.getConta() != null) {
+            cmbCliente.setSelectedItem(venda.getConta().getCliente());
+        }
         if (cmbCliente.getSelectedIndex() < 0) {
             radioCrediario.setVisible(false);
         }
@@ -403,6 +406,11 @@ public class TelaPagamento extends javax.swing.JDialog {
         jLabel2.setText("Cliente");
 
         btnTamanho.setText("i");
+        btnTamanho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTamanhoActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Pagamento"));
@@ -1221,6 +1229,16 @@ public class TelaPagamento extends javax.swing.JDialog {
         setPanelEnabled(tabDadosGerais, true);
         btnEditar.setEnabled(false);
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTamanhoActionPerformed
+        Cliente anterior = (Cliente) cmbCliente.getSelectedItem();
+        
+        Optional op = new TelaPesquisar(new ClienteTableModel()).getItemSelecionado();
+        EntityManager em = JPA.getEM();
+        TelaUtil.carregarObjetosNaComboBox(em, cmbCliente, Cliente.class);
+        em.close();
+        cmbCliente.setSelectedItem(op.orElse(anterior));
+    }//GEN-LAST:event_btnTamanhoActionPerformed
 
     /**
      * @param args the command line arguments

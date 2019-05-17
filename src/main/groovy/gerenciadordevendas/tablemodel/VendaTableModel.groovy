@@ -55,7 +55,9 @@ class VendaTableModel extends AbstractTableModelPesquisavel<Venda> {
     void remover(Window parent) {
         int row = getJTable().getSelectedRow();
         if (row > -1) {
-            int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente remover?\nEsta opção não poderá ser defeita.", "Aviso", JOptionPane.YES_NO_OPTION);
+            int resposta = JOptionPane.showConfirmDialog(null,
+                    "Deseja realmente remover?\nEsta opção não poderá ser defeita.",
+                    "Aviso", JOptionPane.YES_NO_OPTION)
             if (resposta == JOptionPane.YES_OPTION) {
                 Venda v = get(row)
 

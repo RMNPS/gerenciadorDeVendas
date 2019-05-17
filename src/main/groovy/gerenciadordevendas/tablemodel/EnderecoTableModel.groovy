@@ -75,7 +75,7 @@ class EnderecoTableModel extends AbstractTableModelPesquisavel<Endereco> {
             getJTable().setRowSelectionInterval(row, row)
         }
     }
-    
+
     @Override
     void remover(Window parent) {
         int row = getJTable().selectedRow

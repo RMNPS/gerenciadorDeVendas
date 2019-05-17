@@ -8,8 +8,10 @@ package gerenciadordevendas.tablemodel;
 import gerenciadordevendas.JPA
 
 import javax.persistence.EntityManager
-import javax.persistence.Query;
-import javax.swing.JTable;
+import javax.persistence.Query
+import javax.swing.JOptionPane;
+import javax.swing.JTable
+import java.awt.Window;
 
 abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
 
@@ -73,7 +75,7 @@ abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
     }
 
     @Override
-    void setJTable(JTable table) {
+    final void setJTable(JTable table) {
         this.table = table
         table?.model = this
         table?.autoCreateRowSorter = true
@@ -86,5 +88,31 @@ abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
     @Override
     int getRowCount() {
         dados.size()
+    }
+
+
+
+    @Override
+    void editar(Window parent) {
+        int row = getJTable().getSelectedRow()
+        if (row > -1) {
+            editar(parent, get(row))
+        }
+    }
+
+    protected void editar(Window parent, T campo) {
+    }
+
+    @Override
+    void remover(Window parent) {
+        int row = getJTable().getSelectedRow()
+        if (row > -1) {
+            remover(get(row))
+        }
+
+    }
+
+    protected void remover(T campo) {
+        JOptionPane.showMessageDialog(null, "Remover não está habilitado")
     }
 }

@@ -388,11 +388,11 @@ public class TelaPDV extends javax.swing.JFrame {
             try {
                 int qnt = Integer.valueOf(sQnt);
                 if (qnt < 1 || qnt > Regras.QUANTIDADE_MAXIMA_PRODUTO) {
-                    erro = "A quantidade deve estar entre 1 e " + Regras.QUANTIDADE_MAXIMA_PRODUTO + ".\n";
-                    continue;
+                    throw new NumberFormatException();
                 }
                 ItemVenda iv =  ItemVenda.Build(ic.get(), qnt);
                 introduzirProduto(iv);
+                return;
             } catch (NumberFormatException e) {
                 erro = "A quantidade deve estar entre 1 e " + Regras.QUANTIDADE_MAXIMA_PRODUTO + ".\n";
             }
