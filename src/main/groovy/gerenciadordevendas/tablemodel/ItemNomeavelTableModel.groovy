@@ -30,6 +30,7 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
         super(['id', 'Nome'])
         this.entidadeSelecionada = entidadeSelecionada;
         this.classe = classe
+        carregar()
     }
 
     @Override
@@ -41,7 +42,7 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
     @Override
     protected Query getQuery(EntityManager em) {
         if (classe) {
-            return em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE")
+            return em.createQuery("Select e from "+ classe.getSimpleName() + " e")
         }
     }
 
@@ -60,7 +61,7 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
         nomeavel.nome = nome
         
         EntityManager em = JPA.getEM();
-        boolean naoContem = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE and e.nome = :nome")
+        boolean naoContem = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.nome = :nome")
             .setParameter("nome", nome).getResultList().isEmpty();
         if (naoContem) {
             em.getTransaction().begin();
@@ -81,14 +82,14 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
         if (row > -1) {
             EntidadeSomenteComNome selecionada = get(row);
             EntityManager em = JPA.getEM();
-            def entidade = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE and e.nome = :nome")
+            def entidade = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.nome = :nome")
             .setParameter("nome", selecionada.nome).getSingleResult();
             
             String novoNome = JOptionPane.showInputDialog(null, entidade.nome);
             if (novoNome == null) {
                 return;
             }
-            boolean naoContem = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE and e.nome = :nome")
+            boolean naoContem = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.nome = :nome")
             .setParameter("nome", novoNome).getResultList().isEmpty();
             if (naoContem) {
                 entidade.nome = novoNome;
@@ -110,7 +111,7 @@ class ItemNomeavelTableModel extends AbstractTableModelPesquisavel<EntidadeSomen
         if (row > -1) {
             EntidadeSomenteComNome selecionada = get(row);
             EntityManager em = JPA.getEM();
-            def entidade = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.deleted = FALSE and e.nome = :nome")
+            def entidade = em.createQuery("Select e from "+ classe.getSimpleName() + " e WHERE e.nome = :nome")
             .setParameter("nome", selecionada.nome).getSingleResult();
             entidade.deleted = true;
             

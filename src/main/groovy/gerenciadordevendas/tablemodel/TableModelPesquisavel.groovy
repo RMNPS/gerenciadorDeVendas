@@ -10,7 +10,6 @@ abstract class TableModelPesquisavel<T> extends AbstractTableModel implements Pe
     def colunas
 
     TableModelPesquisavel(def colunas) {
-        println(colunas)
         this.colunas = colunas
     }
 
@@ -23,8 +22,8 @@ abstract class TableModelPesquisavel<T> extends AbstractTableModel implements Pe
         double total = percentages.sum();
         
         for (int i = 0; i < table?.columnModel?.columnCount; i++) {
-            TableColumn column = table.columnModel.getColumn(i);
-            column.setPreferredWidth((int) (tablePreferredWidth * (percentages[i] / total)));
+            TableColumn column = table.columnModel.getColumn(i)
+            column.preferredWidth = ((int) (tablePreferredWidth * (percentages[i] / total)))
         }
     }
 

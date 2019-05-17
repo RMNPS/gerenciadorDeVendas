@@ -78,12 +78,12 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
         switch (colunas[columnIndex]) {
             case 'id': return ie.id
             case 'Código de Baras': return ie.codigoBarras
-            case 'id Produto': return ie?.produto.id
-            case 'Nome': return ie?.produto?.nome + " " + ie?.cor.nome + " " + ie?.tamanho.nome
+            case 'id Produto': return ie.produto.id
+            case 'Nome': return ie.produto?.nome + " " + ie?.cor?.nome + " " + ie?.tamanho?.nome
             case 'Fornecedor': return ie?.fornecedor?.nome
             case 'Tamanho':          return ie.tamanho?.nome
             case 'Cor':              return ie.cor?.nome
-            case 'QNT': return ie?.quantidade
+            case 'QNT': return ie.quantidade
             case 'QNT Produto':
                 Double quantidade = JPA.getEM().createQuery("SELECT sum(e.quantidade) FROM ItemEstoque e WHERE e.deleted = FALSE and e.produto = :p")
                         .setParameter("p", ie.getProduto())
@@ -93,7 +93,7 @@ class ItemEstoqueTableModel extends AbstractTableModelPesquisavel<ItemEstoque> {
             case 'Custo': return df.format(ie.valorCusto)
             case 'Preço à Prazo': return df.format(ie.valorAprazo ?: 0g)
             case 'Preço à Vista': return df.format(ie.valorAvista ?: 0g)
-            case 'Nº Parcelas': return ie?.numeroParcelas
+            case 'Nº Parcelas': return ie.numeroParcelas
             case 'R$ Parcela': return df.format(ie.valorParcelaSugerida ?: 0g)
             case 'Validade': return ie.validade ? sdf.format(ie.validade) : ""
             default: return null;

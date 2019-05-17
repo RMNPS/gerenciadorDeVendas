@@ -376,8 +376,8 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
         lblQuantidade.setText("Quantidade");
 
-        txtCustoTotal.setEditable(false);
         txtCustoTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtCustoTotal.setEnabled(false);
         txtCustoTotal.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCustoTotalFocusGained(evt);
@@ -946,7 +946,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDescActionPerformed
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
-        txtCustoTotal.setEditable(jCheckBox1.isSelected());
+        txtCustoTotal.setEnabled(jCheckBox1.isSelected());
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
     private void txtCustoUNFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCustoUNFocusGained
