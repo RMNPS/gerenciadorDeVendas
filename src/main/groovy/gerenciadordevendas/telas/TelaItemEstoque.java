@@ -11,8 +11,10 @@ import gerenciadordevendas.model.ItemEstoque;
 import gerenciadordevendas.model.Produto;
 import gerenciadordevendas.model.Cor;
 import gerenciadordevendas.tablemodel.ItemNomeavelTableModel;
+import gerenciadordevendas.tablemodel.ProdutoTableModel;
 import gerenciadordevendas.model.Tamanho;
 import gerenciadordevendas.model.TipoEmpresa;
+import gerenciadordevendas.tablemodel.FornecedorTableModel;
 import gerenciadordevendas.telas.listener.DecimalDocumentListener;
 import gerenciadordevendas.telas.listener.NumeroListener;
 import gerenciadordevendas.telas.util.TelaUtil;
@@ -22,7 +24,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.Calendar;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -33,6 +36,8 @@ import javax.swing.JTextField;
 
 public class TelaItemEstoque extends javax.swing.JDialog {
 
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+    
     private static final ImageService IMAGE_SERVICE = new ImageService();
     private ItemEstoque itemEstoque;
     private List<Produto> produtos;
@@ -46,7 +51,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     
     public TelaItemEstoque(java.awt.Window parent, ItemEstoque itemEstoque) {
         super(parent, java.awt.Dialog.DEFAULT_MODALITY_TYPE);
-        
+        df.setParseBigDecimal(true);
         initComponents();
 
         EntityManager em = JPA.getEM();
@@ -57,11 +62,15 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 //        carregarFornecedoresNaComboBox(em);
 //        carregarProdutosNaComboBox(em);
         em.close();
+        
         if (itemEstoque == null) {
             this.itemEstoque = new ItemEstoque();
         } else {
             this.itemEstoque = itemEstoque;
             preencheCampos(itemEstoque);
+        }
+        if (this.itemEstoque.getId() == 0) {
+            txtID.setText("" + EntityService.getLastIDplus1(ItemEstoque.class));
         }
         inicializaListeners();
     }
@@ -83,22 +92,30 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         campo.setText(campo.getText().isEmpty() ? "1" : campo.getText());
     }
     
+    private BigDecimal parse(String value) {
+        try {
+            return (BigDecimal) df.parse(value);
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
     private void calculaCustoUN(String sCustoTotal) {
         if (sCustoTotal.isEmpty()) {
-            txtCustoUN.setText("0.00");
+            txtCustoUN.setText("0,00");
             return;
         }
 
-        BigDecimal custoTotal = new BigDecimal(sCustoTotal);
+        BigDecimal custoTotal = parse(sCustoTotal);
 
         inicializaCampoNumero(txtQnt);
-        BigDecimal quantidade = new BigDecimal(txtQnt.getText());
+        BigDecimal quantidade = parse(txtQnt.getText());
         BigDecimal custoUN = BigDecimal.ZERO;
 
         if (quantidade.compareTo(BigDecimal.ZERO) > 0) {
             custoUN = custoTotal.divide(quantidade, 2, BigDecimal.ROUND_HALF_UP);
         }
-        txtCustoUN.setText(custoUN.toString());
+        txtCustoUN.setText(df.format(custoUN));
 
         calculaMargem(txtValorAprazo.getText(), custoUN.toString());
 
@@ -110,13 +127,13 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             return;
         }
 
-        BigDecimal custoUN = new BigDecimal(sCustoUN);
+        BigDecimal custoUN = parse(sCustoUN);
         inicializaCampoNumero(txtQnt);
 
-        BigDecimal quantidade = new BigDecimal(txtQnt.getText());
+        BigDecimal quantidade = parse(txtQnt.getText());
         BigDecimal custoTotal = custoUN.multiply(quantidade).setScale(2, RoundingMode.HALF_UP);
 
-        txtCustoTotal.setText(custoTotal.toString());
+        txtCustoTotal.setText(df.format(custoTotal));
 
         calculaMargem(txtValorAprazo.getText(), sCustoUN);
         custoOrdenado = false;
@@ -129,30 +146,35 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
         if (!txtValorAprazo.getText().isEmpty()) {
             BigDecimal valorParcela = BigDecimal.ZERO;
-            BigDecimal numeroParcelas = new BigDecimal(text);
+            BigDecimal numeroParcelas = parse(text);
             
             if (numeroParcelas.compareTo(BigDecimal.ZERO) > 0) {
-                BigDecimal valorAprazo = new BigDecimal(txtValorAprazo.getText());
+                BigDecimal valorAprazo = parse(txtValorAprazo.getText());
                 valorParcela = valorAprazo.divide(numeroParcelas, 2, BigDecimal.ROUND_HALF_UP);
             }
-            txtValorParcela.setText(valorParcela.toString());
+            txtValorParcela.setText(df.format(valorParcela));
         }
     }
 
     private void atualizaQuantidadeIE(String text) {
         if (text.isEmpty()) {
+            if (!txtCustoTotal.getText().isEmpty() && custoOrdenado) {
+                txtCustoUN.setText("0");
+            } else if (!txtCustoUN.getText().isEmpty()) {
+                txtCustoTotal.setText("0");
+            }
             return;
         }
 
-        BigDecimal quantidadeIE = new BigDecimal(text);
+        BigDecimal quantidadeIE = parse(text);
         
         Produto p = (Produto) cmbProdutos.getSelectedItem();
         if (p != null) {
-            txtQuantidade.setText("" + (quantidadeTotalOriginal + Double.valueOf(text) - itemEstoque.getQuantidade()));
+            txtQuantidade.setText(df.format(quantidadeTotalOriginal + quantidadeIE.doubleValue() - itemEstoque.getQuantidade()));
         }
 
         if (!txtCustoTotal.getText().isEmpty() && custoOrdenado) {
-            BigDecimal custoTotal = new BigDecimal(txtCustoTotal.getText());
+            BigDecimal custoTotal = parse(txtCustoTotal.getText());
             BigDecimal custoUN = BigDecimal.ZERO;
             if (quantidadeIE.compareTo(BigDecimal.ZERO) > 0) {
 
@@ -160,7 +182,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             }
             txtCustoUN.setText(custoUN.toString());
         } else if (!txtCustoUN.getText().isEmpty()) {
-            BigDecimal custoUN = new BigDecimal(txtCustoUN.getText());
+            BigDecimal custoUN = parse(txtCustoUN.getText());
             BigDecimal custoTotal = custoUN.multiply(quantidadeIE);
             txtCustoTotal.setText(custoTotal.toString());
         }
@@ -174,12 +196,12 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         if (text.equals(".")){
             text = "0";
         }
-        BigDecimal margem = new BigDecimal(text);
+        BigDecimal margem = parse(text);
         
         if (txtCustoUN.getText().isEmpty()) {
             txtValorAprazo.setText("0");
         } else {
-            BigDecimal custo = new BigDecimal(txtCustoUN.getText());
+            BigDecimal custo = parse(txtCustoUN.getText());
             calculaValorVenda(margem, custo);
         }
     }
@@ -191,19 +213,19 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             txtMargem.setText("0.00");
             return;
         }
-        BigDecimal valorAprazo = new BigDecimal(sValorAprazo);
-        BigDecimal custo = new BigDecimal(custoUN);
+        BigDecimal valorAprazo = parse(sValorAprazo);
+        BigDecimal custo = parse(custoUN);
         if (valorAprazo.compareTo(BigDecimal.ZERO) == 0 || custo.compareTo(BigDecimal.ZERO) == 0) {
             return;
         }
         
         BigDecimal margem = valorAprazo.divide(custo, 4, BigDecimal.ROUND_HALF_UP).subtract(BigDecimal.ONE).multiply(new BigDecimal("100")).setScale(2);
-        txtMargem.setText(margem.toString());
+        txtMargem.setText(df.format(margem));
     }
 
     private void calculaValorVenda(BigDecimal margem, BigDecimal custoUN) {
         BigDecimal venda = custoUN.add(custoUN.multiply(margem.setScale(2, BigDecimal.ROUND_HALF_UP).divide(new BigDecimal("100")), new MathContext(3))).setScale(2);
-        txtValorAprazo.setText(venda.toString());
+        txtValorAprazo.setText(df.format(venda));
     }
     
     
@@ -212,26 +234,26 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private void preencheCampos(ItemEstoque ie) {
         if (ie != null) {
             BigDecimal custo = ie.getValorCusto().setScale(2, RoundingMode.HALF_UP);
-            txtValorAvista.setText(ie.getValorAvista().toString());
-            txtValorAprazo.setText(ie.getValorAprazo().toString());
+            txtValorAvista.setText(df.format(ie.getValorAvista()));
+            txtValorAprazo.setText(df.format(ie.getValorAprazo()));
             if (custo.compareTo(BigDecimal.ZERO) != 0) {
-                calculaMargem(ie.getValorAprazo().toString(), custo.toString());
+                calculaMargem(df.format(ie.getValorAprazo()), df.format(custo));
             }
-            txtCustoUN.setText(custo.setScale(2, RoundingMode.HALF_UP).toString());
-            txtCustoTotal.setText(custo.multiply(BigDecimal.valueOf(ie.getQuantidade())).setScale(2, RoundingMode.HALF_UP).toString());
+            txtCustoUN.setText(df.format(custo.setScale(2, RoundingMode.HALF_UP)));
+            txtCustoTotal.setText(df.format(custo.multiply(BigDecimal.valueOf(ie.getQuantidade())).setScale(2, RoundingMode.HALF_UP)));
             txtNumeroParcelas.setText("" + ie.getNumeroParcelas());
-            txtValorParcela.setText(ie.getValorParcelaSugerida().toPlainString());
+            txtValorParcela.setText(df.format(ie.getValorParcelaSugerida()));
             if (ie.getProduto() != null) {
                 EntityManager em = JPA.getEM();
                 Double quantidade = (Double) em.createQuery("SELECT sum(e.quantidade) FROM ItemEstoque e WHERE e.produto = :p")
                         .setParameter("p", ie.getProduto())
                         .getSingleResult();
-
+                em.close();
                 if (quantidade == null) {
                     quantidade = 0d;
                 }
                 quantidadeTotalOriginal = quantidade;
-                txtQuantidade.setText("" + quantidade);
+                txtQuantidade.setText(df.format(quantidade));
             }
             cmbProdutos.setSelectedItem(ie.getProduto());
             cmbFornecedor.setSelectedItem(ie.getFornecedor());
@@ -239,7 +261,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             cmbCor.setSelectedItem(ie.getCor());
             
             txtValidade.setDate(ie.getValidade());
-            txtQnt.setText("" + ie.getQuantidade());
+            txtQnt.setText(df.format(ie.getQuantidade()));
             if (ie.getCodigoBarras() != null) {
                 txtCodigoBarras.setText(ie.getCodigoBarras());
             } else {
@@ -769,17 +791,39 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             itemEstoque = new ItemEstoque();
             String id = ""+EntityService.getLastIDplus1(ItemEstoque.class);
             txtID.setText(id);
-            txtValidade.setDate(Calendar.getInstance().getTime());
+//            txtValidade.setDate(Calendar.getInstance().getTime());
             if (txtCodigoBarras.getText().matches("\\d+")) {
-                txtCodigoBarras.setText(""+ (Integer.valueOf(txtCodigoBarras.getText())+1));
+                txtCodigoBarras.setText(geraProximoCodigoBarras());
             }
         }
     }//GEN-LAST:event_btnClonarActionPerformed
 
+    String geraProximoCodigoBarras() {
+        EntityManager em = JPA.getEM();
+        String sCodigoBarras = (String) em.createQuery("SELECT max(e.codigoBarras) FROM ItemEstoque e")
+                .getSingleResult();
+
+        if (sCodigoBarras == null) {
+            sCodigoBarras = "1";
+        }
+//        char[] dados = sCodigoBarras.toCharArray();
+        int zerosAEsquesda = sCodigoBarras.length();
+//        for (int i = 0; i < dados.length; i++) {
+//            char dado = dados[i];
+//            if (dado != '0'){
+//                break;
+//            }
+//            zerosAEsquesda ++;
+//        }
+        int codigoBarras = Integer.valueOf(sCodigoBarras);
+        String proximo = String.format("%0"+zerosAEsquesda+"d", codigoBarras +1);
+        return proximo;
+    }
+    
     
 
     private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
-
+        
         if (salvarItemEstoque()){
             dispose();
         }
@@ -814,7 +858,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         item.setTamanho( (Tamanho) cmbTamanho.getSelectedItem());
         item.setValidade(txtValidade.getDate());
         
-        item.setQuantidade(Formatador.formatDouble(lblQuantidade.getText(), txtQnt.getText()));
+        item.setQuantidade(Formatador.formatDouble(lblQuantidade.getText(), ""+parse(txtQnt.getText()).doubleValue()));
         item.setValorCusto(Formatador.formatPreco(lblCustoUN.getText(), txtCustoUN.getText()));
         
         item.setValorAprazo(Formatador.formatPreco(lblValorAprazo.getText(), txtValorAprazo.getText()));
@@ -841,30 +885,26 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         Produto produtoSelecionado = (Produto) cmbProdutos.getSelectedItem();
 
-        TelaProduto telaProduto = new TelaProduto(this, produtoSelecionado);
-        telaProduto.setVisible(true);
-
+        TelaPesquisar telaProduto = new TelaPesquisar(new ProdutoTableModel(), custoOrdenado);
+        telaProduto.setSelecionado(produtoSelecionado);
+        Optional selecionado = telaProduto.getItemSelecionado();
         EntityManager em = JPA.getEM();
         TelaUtil.carregarObjetosNaComboBox(em, cmbProdutos, Produto.class);
         em.close();
-        cmbProdutos.setSelectedItem(Optional.ofNullable(produtoSelecionado)
-                .orElse(telaProduto.getProduto()));
+        cmbProdutos.setSelectedItem(selecionado.orElse(produtoSelecionado));
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Empresa fornecedorSelecionado = (Empresa) cmbFornecedor.getSelectedItem();
-        TelaEmpresa telaFornecedor = new TelaEmpresa(this, "Fornecedores");
-        if (fornecedorSelecionado == null) {
-            fornecedorSelecionado = new Empresa();
-            fornecedorSelecionado.setTipoEmpresa(TipoEmpresa.FORNECEDOR);
-        }
-        telaFornecedor.setEmpresa(fornecedorSelecionado);
-        telaFornecedor.setVisible(true);
+        
+        TelaPesquisar telaFornecedores  = new TelaPesquisar(new FornecedorTableModel(), false);
+        telaFornecedores.setSelecionado(fornecedorSelecionado);
+        Optional selecionado = telaFornecedores.getItemSelecionado();
+
         EntityManager em = JPA.getEM();
         TelaUtil.carregarEmpresaNaComboBox(em, cmbFornecedor, TipoEmpresa.FORNECEDOR);
         em.close();
-        cmbFornecedor.setSelectedItem(Optional.ofNullable(fornecedorSelecionado)
-                .orElse(telaFornecedor.getEmpresa()));
+        cmbFornecedor.setSelectedItem(selecionado.orElse(fornecedorSelecionado));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void salvarButtonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_salvarButtonFocusLost
@@ -943,7 +983,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         if (sValorAprazo.isEmpty()) {
             return;
         }
-        BigDecimal valorAprazo = new BigDecimal(sValorAprazo);
+        BigDecimal valorAprazo = parse(sValorAprazo);
         txtValorAvista.setText(formata(valorAprazo.multiply(Regras.DESCONTO_A_VISTA.divide(new BigDecimal("100")))));
     }//GEN-LAST:event_btnDescActionPerformed
 
@@ -964,7 +1004,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     }
     
     String formata(BigDecimal valor) {
-        return valor.setScale(2, RoundingMode.HALF_UP).toPlainString();
+        return df.format(valor.setScale(2, RoundingMode.HALF_UP));
     }
     
     private boolean codigoBarrasExiste() {

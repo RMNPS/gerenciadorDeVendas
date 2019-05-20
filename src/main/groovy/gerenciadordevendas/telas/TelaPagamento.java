@@ -6,7 +6,6 @@
 package gerenciadordevendas.telas;
 
 import gerenciadordevendas.JPA;
-import gerenciadordevendas.controller.CodigoBarrasJasperReports;
 import gerenciadordevendas.exception.TransacaoException;
 import gerenciadordevendas.model.FormaPagamento;
 import gerenciadordevendas.telas.listener.DecimalDocumentListener;
@@ -27,12 +26,11 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
-import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -42,17 +40,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -65,11 +58,16 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 public class TelaPagamento extends javax.swing.JDialog {
 
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+    
     private Venda venda;
     private ParcelaTableModel model;
 
     public TelaPagamento(Venda venda) {
         super(null, Dialog.DEFAULT_MODALITY_TYPE);
+        df.setParseBigDecimal(true);
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
         initComponents();
         this.venda = venda;
         new DecimalDocumentListener(txtPorcentagemDesconto, (e) -> atualizaDesconto(true, e)).inicializa();
@@ -103,6 +101,14 @@ public class TelaPagamento extends javax.swing.JDialog {
         }
     }
 
+    private BigDecimal parse(String value) {
+        try {
+            return (BigDecimal) df.parse(value);
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
     void setPanelEnabled(JPanel panel, Boolean isEnabled) {
         panel.setEnabled(isEnabled);
 
@@ -124,10 +130,10 @@ public class TelaPagamento extends javax.swing.JDialog {
         if (cmbCliente.getSelectedIndex() < 0) {
             radioCrediario.setVisible(false);
         }
-        txtSubTotal.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
-        txtTotal.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
-        txtJaPago.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
-        txtValorRecebido.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
+        txtSubTotal.setText(df.format(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP)));
+        txtTotal.setText(df.format(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP)));
+        txtJaPago.setText(df.format(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP)));
+        txtValorRecebido.setText(df.format(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP)));
         txtObservacoes.setText(venda.getObservacoes());
     }
 
@@ -136,7 +142,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         if (sValorRecebido.isEmpty()) {
             sValorRecebido = "0";
         }
-        BigDecimal valorRecebido = new BigDecimal(sValorRecebido);
+        BigDecimal valorRecebido = parse(sValorRecebido);
         if (valorRecebido.compareTo(BigDecimal.ZERO) == 0) {
             txtTroco.setText("0.00");
         }
@@ -144,7 +150,7 @@ public class TelaPagamento extends javax.swing.JDialog {
             txtValorRecebido.setBackground(Color.YELLOW);
         }
 
-        txtTroco.setText(valorRecebido.subtract(venda.getTotal().setScale(2)).setScale(2).toString());
+        txtTroco.setText(df.format(valorRecebido.subtract(venda.getTotal().setScale(2, RoundingMode.HALF_UP), new MathContext(2)).setScale(2)));
     }
 
     private void atualizaDesconto(boolean porcentagem, String e) {
@@ -154,20 +160,20 @@ public class TelaPagamento extends javax.swing.JDialog {
                 e = "0";
             }
 
-            BigDecimal desconto = new BigDecimal(e);
+            BigDecimal desconto = parse(e);
             if (porcentagem) {
                 txtPorcentagemDesconto.setToolTipText(e);
                 BigDecimal descontoReal = venda.setPorcentagemDesconto(desconto).setScale(2, RoundingMode.HALF_UP);
-                txtDescontoReal.setText(descontoReal.toString());
+                txtDescontoReal.setText(df.format(descontoReal));
             } else {
                 txtDescontoReal.setToolTipText(e);
                 BigDecimal valorPorcentagem = venda.setDescontoReal(desconto).setScale(2, RoundingMode.HALF_UP);
-                txtPorcentagemDesconto.setText(valorPorcentagem.toString());
+                txtPorcentagemDesconto.setText(df.format(valorPorcentagem));
             }
-            txtTotal.setText(venda.getTotal().setScale(2, RoundingMode.HALF_UP).toString());
+            txtTotal.setText(df.format(venda.getTotal().setScale(2, RoundingMode.HALF_UP)));
             atualizaTroco(txtValorRecebido.getText());
         } catch (TransacaoException ex) {
-            txtTotal.setText(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP).toString());
+            txtTotal.setText(df.format(venda.getSubTotal().setScale(2, RoundingMode.HALF_UP)));
             if (porcentagem) {
                 txtPorcentagemDesconto.setBackground(Color.YELLOW);
                 txtPorcentagemDesconto.setToolTipText(ex.getMessage());
@@ -234,7 +240,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         int intervalo = (int) txtIntervalo.getValue();
         int periodo = getPeriodo();
 
-        BigDecimal total = new BigDecimal(txtTotal.getText());
+        BigDecimal total = parse(txtTotal.getText());
         BigDecimal valorParcela = total.divide(BigDecimal.valueOf(numeroParcelas), 2, BigDecimal.ROUND_HALF_UP);
 
         Calendar instance = Calendar.getInstance();
@@ -258,7 +264,7 @@ public class TelaPagamento extends javax.swing.JDialog {
     }
 
     private List<Parcela> gerarParcelaUnicaPaga() {
-        BigDecimal valorParcela = new BigDecimal(txtTotal.getText());
+        BigDecimal valorParcela = parse(txtTotal.getText());
 
         Parcela parcela = new Parcela();
         FormaPagamento forma = getFormaFromRadio();
@@ -271,7 +277,7 @@ public class TelaPagamento extends javax.swing.JDialog {
 
     private void adicionarParcela() throws HeadlessException {
         Date dataParcela = txtIniciarEm.getDate();
-        BigDecimal valorParcela = new BigDecimal(txtValorParcela.getText());
+        BigDecimal valorParcela = parse(txtValorParcela.getText());
 
         Parcela parcela = new Parcela();
         parcela.setVencimento(dataParcela);
@@ -287,9 +293,9 @@ public class TelaPagamento extends javax.swing.JDialog {
         int intervalo = (int) txtIntervalo.getValue();
         int periodo = getPeriodo();
 
-        txtRestanteParcelamento.setText(model.getSaldo().toString());
+        txtRestanteParcelamento.setText(df.format(model.getSaldo()));
         txtValorParcela.setText(txtRestanteParcelamento.getText());
-        txtJaParcelado.setText(model.getTotalParcelas().toString());
+        txtJaParcelado.setText(df.format(model.getTotalParcelas()));
 
         Calendar instance = Calendar.getInstance();
         instance.setTime(dataParcela);
@@ -432,7 +438,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         lblTroco.setText("Troco R$");
 
         txtTroco.setEditable(false);
-        txtTroco.setText("0.00");
+        txtTroco.setText("0,00");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1073,9 +1079,9 @@ public class TelaPagamento extends javax.swing.JDialog {
                 txtTotalParcelamento.setText(txtTotal.getText());
                 BigDecimal jaPago = model.getTotalParcelas();
                 BigDecimal restante = model.getSaldo();
-                txtRestanteParcelamento.setText(restante.toString());
-                txtValorParcela.setText(restante.toString());
-                txtJaParcelado.setText(jaPago.toString());
+                txtRestanteParcelamento.setText(df.format(restante));
+                txtValorParcela.setText(df.format(restante));
+                txtJaParcelado.setText(df.format(jaPago));
             } else {
                 txtTotalParcelamento.setText(txtTotal.getText());
                 txtRestanteParcelamento.setText(txtTotal.getText());
@@ -1184,9 +1190,9 @@ public class TelaPagamento extends javax.swing.JDialog {
 
             BigDecimal jaPago = model.getTotalParcelas();
             BigDecimal restante = model.getSaldo();
-            txtRestanteParcelamento.setText(restante.toString());
-            txtValorParcela.setText(restante.toString());
-            txtJaParcelado.setText(jaPago.toString());
+            txtRestanteParcelamento.setText(df.format(restante));
+            txtValorParcela.setText(df.format(restante));
+            txtJaParcelado.setText(df.format(jaPago));
 
         }
     }//GEN-LAST:event_mnuEditarActionPerformed
@@ -1218,9 +1224,9 @@ public class TelaPagamento extends javax.swing.JDialog {
 
             BigDecimal jaPago = model.getTotalParcelas();
             BigDecimal restante = model.getSaldo();
-            txtRestanteParcelamento.setText(restante.toString());
-            txtValorParcela.setText(restante.toString());
-            txtJaParcelado.setText(jaPago.toString());
+            txtRestanteParcelamento.setText(df.format(restante));
+            txtValorParcela.setText(df.format(restante));
+            txtJaParcelado.setText(df.format(jaPago));
 
         }
     }//GEN-LAST:event_mnuRemoverActionPerformed

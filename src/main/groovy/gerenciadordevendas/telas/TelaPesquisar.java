@@ -33,6 +33,10 @@ public class TelaPesquisar extends javax.swing.JDialog {
         selecionarMenu.setVisible(selecionavel);
     }
 
+    public void setSelecionado(Object objeto) {
+        model.setSelected(objeto);
+    }
+    
     public Optional getItemSelecionado() {
         setVisible(true);
         if (objetoObtido == false) {

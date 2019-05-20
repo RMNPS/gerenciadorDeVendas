@@ -7,6 +7,8 @@ package gerenciadordevendas.formatador;
 
 import gerenciadordevendas.exception.FormatacaoException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat
+import java.text.ParseException
 
 /**
  *
@@ -14,8 +16,18 @@ import java.math.BigDecimal;
  */
 class FormatadorPreco extends Formatador<String, BigDecimal> {
 
+    private static DecimalFormat df
+    
+    private static DecimalFormat inicia() {
+        df = new DecimalFormat()
+        df.setParseBigDecimal(true)
+    }
+    
     @Override
     public BigDecimal formatar(String nomeCampo, String objeto) throws FormatacaoException {
+        if (df == null) {
+            inicia()
+        }
         if (objeto == null)
             throw new FormatacaoException(nomeCampo + " não pode ser NULL")
         
@@ -23,13 +35,14 @@ class FormatadorPreco extends Formatador<String, BigDecimal> {
             throw new FormatacaoException(nomeCampo + " não pode ser vazio")
         
         if (!objeto.matches("\\d+.?\\d*"))
-            throw new FormatacaoException(nomeCampo + " em formato inválido")
+        throw new FormatacaoException(nomeCampo + " em formato inválido")
         
         try {
-            BigDecimal preco = new BigDecimal(objeto)
-            return preco
-            
+            return (BigDecimal) df.parse(objeto);
         } catch (NumberFormatException ex){
+            throw new FormatacaoException("Ocorreu um erro na conversão de ${nomeCampo}:\n", ex)
+        }
+        catch (ParseException ex) {
             throw new FormatacaoException("Ocorreu um erro na conversão de ${nomeCampo}:\n", ex)
         }
     }

@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable
 import java.awt.Window;
 
-abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
+abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel<T> {
 
     List<T> dados = new ArrayList<>()
     List<T> dadosBackup = new ArrayList<>()
@@ -114,5 +114,14 @@ abstract class AbstractTableModelPesquisavel<T> extends TableModelPesquisavel {
 
     protected void remover(T campo) {
         JOptionPane.showMessageDialog(null, "Remover não está habilitado")
+    }
+    
+    @Override
+    void setSelected(T objeto) {
+        int row = dados.indexOf(objeto)
+        if (row > -1) {
+            getJTable().setRowSelectionInterval(row, row)
+        }
+        
     }
 }

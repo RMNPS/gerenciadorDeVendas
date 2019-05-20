@@ -43,6 +43,7 @@ abstract class CompleteTableModelPesquisavel<T> extends AbstractTableModelPesqui
         int row = getJTable().getSelectedRow()
         if (row > -1) {
             remover(parent, get(row))
+            carregar()
         }
 
     }

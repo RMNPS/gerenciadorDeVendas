@@ -12,7 +12,7 @@ import javax.swing.text.Document;
 
 class MoedaDocumentListener implements DocumentListener {
 
-    static final Pattern DIGITO_DECIMAL = Pattern.compile("\\d{0,10}(\\.\\d{0,2})?");
+    static final Pattern DIGITO_DECIMAL = Pattern.compile("\\d{0,10}(\\,\\d{0,2})?");
     final JTextField textField;
 
     final DocumentAtualizavel da;

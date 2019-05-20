@@ -137,7 +137,7 @@ class Venda extends RegistroDeFluxo {
             conta.addVenda(this);
 
             //ID da conta padrão
-            estado = conta.id == Conta.padrao().id ? Estado.PAGA : Estado.EM_CONTA
+            estado = parcelada ? Estado.EM_CONTA : Estado.PAGA
 
             EntityManager em = JPA.getEM();
             em.transaction.begin();

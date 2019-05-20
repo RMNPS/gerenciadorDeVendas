@@ -62,4 +62,6 @@ abstract class TableModelPesquisavel<T> extends AbstractTableModel implements Pe
     void setJTable(JTable table){}
     
     void atualizaEspacamentoColunas() { }
+    
+    void setSelected(T objeto) { }
 }

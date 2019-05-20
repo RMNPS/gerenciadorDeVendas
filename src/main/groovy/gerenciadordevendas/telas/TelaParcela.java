@@ -14,6 +14,8 @@ import gerenciadordevendas.telas.listener.MoedaDocumentListener;
 import gerenciadordevendas.telas.util.TelaUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -26,12 +28,15 @@ import javax.swing.JOptionPane;
  */
 public class TelaParcela extends javax.swing.JDialog {
 
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+    
     private final Parcela parcela;
     private final ParcelaTableModel model;
 
     public TelaParcela(Parcela parcela, ParcelaTableModel model) {
         super(null, Dialog.DEFAULT_MODALITY_TYPE);
         initComponents();
+        df.setParseBigDecimal(true);
         this.parcela = parcela;
         
         new MoedaDocumentListener(txtValor).inicializa();
@@ -42,8 +47,16 @@ public class TelaParcela extends javax.swing.JDialog {
         }
     }
     
+     private BigDecimal parse(String value) {
+        try {
+            return (BigDecimal) df.parse(value);
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
     private void preencheCampos() {
-        txtValor.setText(parcela.getValor().setScale(2, RoundingMode.HALF_UP).toString());
+        txtValor.setText(df.format(parcela.getValor().setScale(2, RoundingMode.HALF_UP)));
         EntityManager em = JPA.getEM();
         TelaUtil.carregarObjetosNaComboBox(em, cmbForma, FormaPagamento.class);
         em.close();
@@ -181,7 +194,7 @@ public class TelaParcela extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-        BigDecimal valor = new BigDecimal(txtValor.getText());
+        BigDecimal valor = parse(txtValor.getText());
         Date vencimento = txtVencimento.getDate();
         Date dataPagamento = txtDataPagamento.getDate();
         FormaPagamento forma = (FormaPagamento) cmbForma.getSelectedItem();

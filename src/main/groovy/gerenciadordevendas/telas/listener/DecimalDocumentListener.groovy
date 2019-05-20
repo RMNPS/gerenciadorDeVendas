@@ -12,7 +12,7 @@ import javax.swing.text.Document;
 
 class DecimalDocumentListener implements DocumentListener {
     
-    static final Pattern DIGITO_DECIMAL = Pattern.compile("\\d*\\.?\\d*");
+    static final Pattern DIGITO_DECIMAL = Pattern.compile("\\d*\\,?\\d*");
     final JTextField textField;
 
     final DocumentAtualizavel da;
