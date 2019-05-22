@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo_itens" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6a595fec-161e-4dd0-b086-d3caaa1e7db9">
 	<property name="ireport.zoom" value="1.1000000000000003"/>
-	<property name="ireport.x" value="9"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -28,18 +28,16 @@
 	<subDataset name="dataset1" uuid="3de455af-e914-49d3-bea2-f2746cc4c913"/>
 	<parameter name="SEQUENCIA" class="java.lang.Integer"/>
 	<parameter name="TOTAL_ITEM" class="java.math.BigDecimal">
-		<defaultValueExpression><![CDATA[$F{quantidade} * $F{valorAprazo}]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[$F{quantidade} * $F{itemEstoque.valorAprazo}]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBTOTAL" class="java.math.BigDecimal"/>
 	<parameter name="TOTAL" class="java.math.BigDecimal"/>
-	<field name="sequencia" class="java.lang.String"/>
-	<field name="codigoBarras" class="java.lang.String"/>
+	<field name="itemEstoque.codigoBarras" class="java.lang.String"/>
 	<field name="itemEstoque.produto.nome" class="java.lang.String"/>
-	<field name="tamanho.nome" class="java.lang.String"/>
-	<field name="cor.nome" class="java.lang.String"/>
+	<field name="itemEstoque.tamanho.nome" class="java.lang.String"/>
+	<field name="itemEstoque.cor.nome" class="java.lang.String"/>
 	<field name="quantidade" class="java.lang.Integer"/>
-	<field name="valorAprazo" class="java.math.BigDecimal"/>
-	<field name="Total" class="java.lang.String"/>
+	<field name="itemEstoque.valorAprazo" class="java.math.BigDecimal"/>
 	<variable name="QNT_TOTAL" class="java.lang.String" calculation="Sum"/>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
@@ -95,7 +93,7 @@
 			<textField>
 				<reportElement x="29" y="0" width="96" height="20" uuid="49982f8d-7090-4fa6-9d42-5655169c1a66"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{codigoBarras}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{itemEstoque.codigoBarras}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="126" y="0" width="176" height="20" uuid="5d2904b2-4e51-4591-b870-9decc1c4ff28"/>
@@ -105,12 +103,12 @@
 			<textField>
 				<reportElement x="303" y="0" width="34" height="20" uuid="bb63275c-9883-4949-8332-528e0f9c1e60"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{tamanho.nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{itemEstoque.tamanho.nome}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="338" y="0" width="69" height="20" uuid="ddaa2be0-9251-4f0a-977e-cd907cf42704"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{cor.nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{itemEstoque.cor.nome}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="408" y="0" width="26" height="20" uuid="4c88c611-320c-46c2-8575-bc85a21cf28a"/>
@@ -120,12 +118,12 @@
 			<textField pattern="¤ #,##0.00">
 				<reportElement x="435" y="0" width="58" height="20" uuid="e2f9dd6f-819f-484b-a7e4-70f97d5edaef"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{valorAprazo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{itemEstoque.valorAprazo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00">
 				<reportElement x="495" y="0" width="58" height="20" uuid="8ea5cb00-9eef-4f39-88ee-bef1adec88c0"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{TOTAL_ITEM}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{quantidade} * $F{itemEstoque.valorAprazo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

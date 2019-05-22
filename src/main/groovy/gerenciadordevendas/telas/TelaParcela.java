@@ -37,6 +37,8 @@ public class TelaParcela extends javax.swing.JDialog {
         super(null, Dialog.DEFAULT_MODALITY_TYPE);
         initComponents();
         df.setParseBigDecimal(true);
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
         this.parcela = parcela;
         
         new MoedaDocumentListener(txtValor).inicializa();

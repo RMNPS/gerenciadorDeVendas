@@ -105,7 +105,7 @@ class ItemVendaTableModel extends TableModelPesquisavel {
 
     void finalizarVenda() {
               
-        venda = new Venda(padrao.conta, vendedor);
+        venda = new Venda(null, vendedor)
         transacoes.clear();
         fireTableDataChanged();
     }

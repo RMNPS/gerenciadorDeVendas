@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="511" leftMargin="42" rightMargin="42" topMargin="56" bottomMargin="56" uuid="accac65e-43c8-4863-9513-7964efdea660">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="48"/>
 	<parameter name="PRIMEIRO_ENDERECO" class="java.lang.String">
 		<defaultValueExpression><![CDATA[$P{FILIAL}.enderecos.isEmpty() ?  "" : $P{FILIAL}.enderecos.get(0)]]></defaultValueExpression>
 	</parameter>
@@ -20,6 +20,7 @@
 	<field name="id" class="java.lang.String"/>
 	<field name="subTotal" class="java.math.BigDecimal"/>
 	<field name="total" class="java.math.BigDecimal"/>
+	<field name="listaProdutos" class="java.util.Collection"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -93,7 +94,7 @@
 				<subreportParameter name="TOTAL">
 					<subreportParameterExpression><![CDATA[$F{total}]]></subreportParameterExpression>
 				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaProdutos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "recibo_itens.jasper"]]></subreportExpression>
 			</subreport>
 			<frame>
@@ -110,7 +111,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Endereço]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="111" y="44" width="400" height="20" isPrintWhenDetailOverflows="true" uuid="22071e97-bf9c-4fd3-8265-700450b6390e"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{conta.cliente.enderecos}.empty
@@ -122,7 +123,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[CPF]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="111" y="66" width="141" height="20" uuid="a183d976-22cf-4c13-aee8-311b996159ce"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{conta.cliente.cpf}]]></textFieldExpression>
@@ -132,7 +133,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Nome]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="111" y="22" width="400" height="20" uuid="7c4df0a9-6d1e-4d64-ac7e-ea62d68f329e"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{conta.cliente.nome}]]></textFieldExpression>
@@ -142,7 +143,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[RG]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="370" y="66" width="141" height="20" uuid="6608c4ba-09e7-4241-a9ed-88df56ad91ea"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{conta.cliente.rg}]]></textFieldExpression>
@@ -152,7 +153,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Telefone]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="111" y="88" width="141" height="20" uuid="dd9b7d81-b892-461a-8014-ab632cf3e336"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{conta.cliente.telefone}]]></textFieldExpression>
@@ -162,7 +163,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Celular]]></text>
 				</staticText>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="371" y="88" width="140" height="20" uuid="d5e063a3-96ff-4c4e-b4c2-ca3aa0fa3eff"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{conta.cliente.celular}]]></textFieldExpression>

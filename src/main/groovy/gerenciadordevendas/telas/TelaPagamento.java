@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -62,6 +63,7 @@ public class TelaPagamento extends javax.swing.JDialog {
     
     private Venda venda;
     private ParcelaTableModel model;
+    private boolean finalizada;
 
     public TelaPagamento(Venda venda) {
         super(null, Dialog.DEFAULT_MODALITY_TYPE);
@@ -101,6 +103,10 @@ public class TelaPagamento extends javax.swing.JDialog {
         }
     }
 
+    public boolean isFinalizada() {
+        return finalizada;
+    }
+    
     private BigDecimal parse(String value) {
         try {
             return (BigDecimal) df.parse(value);
@@ -1102,6 +1108,7 @@ public class TelaPagamento extends javax.swing.JDialog {
             btnProximo.setText("Finalizar");
             btnAnterior.setEnabled(true);
         } else {
+            try {
             if (radioDinheiro.isSelected() || radioCreditoAvista.isSelected() || radioDebito.isSelected()) {
                 venda.setParcelas(gerarParcelaUnicaPaga());
             }
@@ -1126,7 +1133,12 @@ public class TelaPagamento extends javax.swing.JDialog {
                 }
             }
             em.close();
+            finalizada = true;
             dispose();
+            } catch (Exception ex) {
+                finalizada = false;
+                new TelaErro(ex).setVisible(true);
+            }
 
         }
     }//GEN-LAST:event_btnProximoActionPerformed
@@ -1141,7 +1153,8 @@ public class TelaPagamento extends javax.swing.JDialog {
             try {
                 JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JRBeanCollectionDataSource(Collections.singletonList(venda)));
 
-                JasperPrintManager.printReport(print, true);
+//                JasperPrintManager.printReport(print, true);
+                JasperViewer.viewReport(print, false);
             } catch (JRException ex) {
                 new TelaErro(ex).setVisible(true);
             }

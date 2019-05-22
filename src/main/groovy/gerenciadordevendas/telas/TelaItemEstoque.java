@@ -42,7 +42,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private ItemEstoque itemEstoque;
     private List<Produto> produtos;
     private List<Empresa> fornecedores;
-    private boolean custoOrdenado = true;
+    private boolean custoOrdenado = false;
     private double quantidadeTotalOriginal;
     
     public TelaItemEstoque(java.awt.Window parent) {
@@ -52,6 +52,8 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     public TelaItemEstoque(java.awt.Window parent, ItemEstoque itemEstoque) {
         super(parent, java.awt.Dialog.DEFAULT_MODALITY_TYPE);
         df.setParseBigDecimal(true);
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
         initComponents();
 
         EntityManager em = JPA.getEM();
@@ -159,9 +161,9 @@ public class TelaItemEstoque extends javax.swing.JDialog {
     private void atualizaQuantidadeIE(String text) {
         if (text.isEmpty()) {
             if (!txtCustoTotal.getText().isEmpty() && custoOrdenado) {
-                txtCustoUN.setText("0");
+                txtCustoUN.setText("0,00");
             } else if (!txtCustoUN.getText().isEmpty()) {
-                txtCustoTotal.setText("0");
+                txtCustoTotal.setText("0,00");
             }
             return;
         }
@@ -199,7 +201,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         BigDecimal margem = parse(text);
         
         if (txtCustoUN.getText().isEmpty()) {
-            txtValorAprazo.setText("0");
+            txtValorAprazo.setText("0,00");
         } else {
             BigDecimal custo = parse(txtCustoUN.getText());
             calculaValorVenda(margem, custo);
@@ -210,7 +212,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
 
     private void calculaMargem(String sValorAprazo, String custoUN) {
         if (sValorAprazo.isEmpty() || custoUN.isEmpty()) {
-            txtMargem.setText("0.00");
+            txtMargem.setText("0,00");
             return;
         }
         BigDecimal valorAprazo = parse(sValorAprazo);
@@ -365,7 +367,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         lblCustoUN.setText("Custo UN R$");
 
         txtCustoUN.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtCustoUN.setText("0");
+        txtCustoUN.setText("0,00");
         txtCustoUN.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCustoUNFocusGained(evt);
@@ -373,7 +375,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         });
 
         txtMargem.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtMargem.setText("120");
+        txtMargem.setText("120,00");
         txtMargem.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtMargemFocusLost(evt);
@@ -392,7 +394,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         lblValorAvista.setText("Valor à Vista (UN) R$");
 
         txtValorAvista.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtValorAvista.setText("0");
+        txtValorAvista.setText("0,00");
 
         lblCustoTotal.setText("Valor de Custo Total R$");
 
@@ -413,7 +415,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         lblValorAprazo.setText("Valor à Prazo (UN) R$");
 
         txtValorAprazo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtValorAprazo.setText("0");
+        txtValorAprazo.setText("0,00");
 
         lblNumeroParcelas.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNumeroParcelas.setText("Número de Parcelas");
@@ -425,7 +427,7 @@ public class TelaItemEstoque extends javax.swing.JDialog {
         lblValorParcela.setText("Valor Parcela R$");
 
         txtValorParcela.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtValorParcela.setText("0");
+        txtValorParcela.setText("0,00");
 
         btnCalculaVenda.setText("=");
         btnCalculaVenda.addActionListener(new java.awt.event.ActionListener() {
@@ -922,7 +924,8 @@ public class TelaItemEstoque extends javax.swing.JDialog {
             if (quantidade == null) {
                 quantidade = 0d;
             }
-            txtQuantidade.setText("" + quantidade);
+            quantidadeTotalOriginal = quantidade;
+            txtQuantidade.setText(df.format(quantidade));
 
         } else {
             lblProduto.setText("Produto");

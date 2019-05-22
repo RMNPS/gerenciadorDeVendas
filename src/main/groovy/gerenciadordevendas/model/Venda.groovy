@@ -134,15 +134,15 @@ class Venda extends RegistroDeFluxo {
     def finalizarVenda() {
         if (isAlteravel()) {
 
-            conta.addVenda(this);
+            conta?.addVenda(this);
 
             //ID da conta padrão
             estado = parcelada ? Estado.EM_CONTA : Estado.PAGA
 
-            EntityManager em = JPA.getEM();
-            em.transaction.begin();
-            removeItensVendidosDoEstoque(em);
-            em.transaction.commit();
+            EntityManager em = JPA.getEM()
+            em.transaction.begin()
+            removeItensVendidosDoEstoque(em)
+            em.transaction.commit()
             em.close();
         }
     }

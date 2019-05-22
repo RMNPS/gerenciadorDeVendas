@@ -306,7 +306,7 @@ public class TelaPDV extends javax.swing.JFrame {
 
         if (evt.getKeyCode() == KeyEvent.VK_F1) {
             if (!model.getTransacoes().isEmpty()) {
-                finalizarVenda();
+                informarPagamento();
             } else {
                 JOptionPane.showMessageDialog(this, "Adicione pelo menos um item para finalizar a venda");
             }
@@ -336,10 +336,13 @@ public class TelaPDV extends javax.swing.JFrame {
     }//GEN-LAST:event_panelPrincipalKeyPressed
 
 
-    private void finalizarVenda() {
-        new TelaPagamento(model.getVenda()).setVisible(true);
-        model.finalizarVenda();
-        limpaCampos();
+    private void informarPagamento() {
+        TelaPagamento tela = new TelaPagamento(model.getVenda());
+        tela.setVisible(true);
+        if (tela.isFinalizada()) {
+            model.finalizarVenda();
+            limpaCampos();
+        }
     }
 
     private void introduzirProduto(ItemVenda iv) {
