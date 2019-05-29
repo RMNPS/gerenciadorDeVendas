@@ -6,6 +6,7 @@
 package gerenciadordevendas.telas.util;
 
 import gerenciadordevendas.JPA;
+import gerenciadordevendas.model.Conta
 import gerenciadordevendas.model.FormaPagamento
 import gerenciadordevendas.model.Vendedor
 import javax.persistence.EntityManager
@@ -100,7 +101,16 @@ public class DataCreator {
                 admin.nome = "Administrador"
             })
         
-        
+        em.createQuery("SELECT f FROM Conta f WHERE f.uuid = :x AND f.deleted = FALSE")
+            .setParameter("x", "1335a2f0-4aaa-401e-b2d4-02240a0474bf")
+            .getResultStream().findAny().orElseGet({
+                Conta padrao = new Conta()
+                em.persist(padrao)
+                padrao.limite = null;
+                padrao.vendas = new TreeSet<>();
+                padrao.saldo = 0g;
+                padrao.uuid = "1335a2f0-4aaa-401e-b2d4-02240a0474bf"
+            })
         em.transaction.commit();
         em.close();
     }

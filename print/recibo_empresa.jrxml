@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo_empresa" language="groovy" pageWidth="511" pageHeight="802" columnWidth="511" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="99eb96a3-4287-49e4-a9b2-a4932663f598">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="enderecos" class="java.util.Collection"/>
+	<field name="celular" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="cnpj" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="inscricaoEstadual" class="java.lang.String"/>
+	<field name="inscricaoMunicipal" class="java.lang.String"/>
+	<detail>
+		<band height="157" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="511" height="157" uuid="2e69abc4-fad7-4cd4-8080-d5b1d0928fb8"/>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="511" height="20" backcolor="#CCCCFF" uuid="0098dc76-e6b6-44b4-a27d-83054f40e88b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dados do Cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="44" width="100" height="20" backcolor="#CCCCFF" uuid="2c485a6d-05e2-4b58-9698-3dd6ed608a88"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Endereço]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="111" y="44" width="400" height="20" isPrintWhenDetailOverflows="true" uuid="4b10a5df-7849-4e54-bd6d-2112f800c827"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{enderecos}.empty
+    ? ""
+    :$F{enderecos}.get(0)]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="110" width="100" height="20" backcolor="#CCCCFF" uuid="66c69c1a-4de6-4980-a01a-1bc6ca462ab8"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[CNPJ]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="111" y="110" width="141" height="20" uuid="42f90327-bb3b-4050-bc39-dfd02556167b"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="22" width="100" height="20" backcolor="#CCCCFF" uuid="d3fe1bb2-7e8b-4bc5-ad87-f53f87ba0798"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Nome]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="111" y="22" width="400" height="20" uuid="df927a8a-9d84-40af-8336-18e6acbf91f6"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="132" width="100" height="20" backcolor="#CCCCFF" uuid="72ede34c-0513-403f-b13b-529ceeccae4c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Telefone]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="111" y="132" width="141" height="20" uuid="7ce06fda-8654-407a-bb12-201b8d28d590"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="259" y="110" width="100" height="20" backcolor="#CCCCFF" uuid="647eb79b-5181-48bd-a91f-95e2107b016d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Celular]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="371" y="110" width="140" height="20" uuid="01430dd2-0291-432c-bca3-4465325ff049"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="111" y="66" width="400" height="20" isPrintWhenDetailOverflows="true" uuid="825b9fed-d9cf-4a15-a008-4f4721bb5337"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="66" width="100" height="20" backcolor="#CCCCFF" uuid="f6b0f860-e129-4f91-b7b5-18cbb109d58f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[E-mail]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="111" y="88" width="141" height="20" uuid="1eddf912-bea1-4021-903e-0746eed1d475"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{inscricaoEstadual}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="88" width="100" height="20" backcolor="#CCCCFF" uuid="e51b6b06-77bc-42f3-bb5d-5e119169ca57"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Inscrição Estadual]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="259" y="88" width="100" height="20" backcolor="#CCCCFF" uuid="f4fc83a1-ef76-4154-bf70-7101d01a3f20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Inscrição Municipal]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="370" y="88" width="141" height="20" uuid="267e46bf-6c8b-4383-8c8f-e8c0c2d8c145"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{inscricaoMunicipal}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

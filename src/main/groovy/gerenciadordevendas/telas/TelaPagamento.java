@@ -49,7 +49,6 @@ import javax.swing.SwingUtilities;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -1119,7 +1118,12 @@ public class TelaPagamento extends javax.swing.JDialog {
             }
 
             EntityManager em = JPA.getEM();
-
+            Cliente cliente = (Cliente) cmbCliente.getSelectedItem();
+            if (cliente == null) {
+                venda.setConta(Conta.padrao());
+            } else {
+                venda.setConta(cliente.getConta());
+            }
             venda.setObservacoes(txtObservacoes.getText());
             venda.finalizarVenda();
 
@@ -1151,7 +1155,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         if (matriz.isPresent()) {
             parametros.put("FILIAL", matriz.get());
             try {
-                JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JRBeanCollectionDataSource(Collections.singletonList(venda)));
+                JasperPrint print = JasperFillManager.fillReport("./print/recibo.jasper", parametros, new JRBeanCollectionDataSource(java.util.Collections.singletonList(venda)));
 
 //                JasperPrintManager.printReport(print, true);
                 JasperViewer.viewReport(print, false);

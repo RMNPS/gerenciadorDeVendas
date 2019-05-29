@@ -99,10 +99,12 @@ class Conta extends BaseEntity {
         if (padrao == null) {
             
             EntityManager em = JPA.getEM();
-            padrao =  em.createQuery("SELECT f FROM Conta f WHERE f.uuid = :x AND f.deleted = FALSE", Vendedor.class)
+            em.transaction.begin()
+            padrao =  em.createQuery("SELECT f FROM Conta f WHERE f.uuid = :x AND f.deleted = FALSE", Conta.class)
             .setParameter("x", "1335a2f0-4aaa-401e-b2d4-02240a0474bf")
             .getResultStream().findAny().orElseGet{
-                padrao = new Conta();
+                Conta padrao = new Conta()
+                em.persist(padrao)
                 padrao.limite = null;
                 padrao.vendas = new TreeSet<>();
                 padrao.saldo = 0g;
@@ -110,6 +112,7 @@ class Conta extends BaseEntity {
 
                 em.merge(padrao);
             }
+            em.transaction.commit();
             em.close();
         }
         return padrao;
