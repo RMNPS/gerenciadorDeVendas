@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="56" bottomMargin="56" isIgnorePagination="true" uuid="accac65e-43c8-4863-9513-7964efdea660">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="PRIMEIRO_ENDERECO" class="java.lang.String">
 		<defaultValueExpression><![CDATA[$P{FILIAL}.enderecos.isEmpty() ?  "" : $P{FILIAL}.enderecos.get(0)]]></defaultValueExpression>
 	</parameter>
@@ -80,7 +80,7 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="143" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<staticText>
 				<reportElement x="311" y="5" width="100" height="20" uuid="e6ad5b3d-2ebb-4076-8076-7259c5c3dfcf"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -109,20 +109,24 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
+		</band>
+		<band height="112">
+			<printWhenExpression><![CDATA[$F{conta}.cliente.pessoaFisica != null]]></printWhenExpression>
 			<subreport>
-				<reportElement x="0" y="31" width="555" height="112" uuid="dab5fe93-fd65-4bde-956d-149503506680"/>
+				<reportElement x="0" y="0" width="555" height="112" uuid="dab5fe93-fd65-4bde-956d-149503506680"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource([$F{conta}.cliente.pessoaFisica])]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "recibo_pessoa_fisica.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="112">
+			<printWhenExpression><![CDATA[$F{conta}.cliente.empresa != null]]></printWhenExpression>
 			<subreport>
 				<reportElement x="0" y="0" width="555" height="112" uuid="4cf579d2-228f-408b-878e-e67aef7b0b3d"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource([$F{conta}.cliente.empresa])]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "recibo_empresa.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="160">
+		<band height="126">
 			<subreport>
 				<reportElement x="0" y="0" width="555" height="112" uuid="e102a7dc-9315-4ed9-8d88-88e9d4b8c7b6"/>
 				<subreportParameter name="SUBTOTAL">
