@@ -22,9 +22,7 @@ public class ImageService {
         String caminhoImagem = panel.getCaminhoImagem();
         
 
-        if (entidade.getImagem() != null) {
-            deletarImagem(entidade);
-        }
+        
 
         if (caminhoImagem != null) {
             String pastaImagens = entidade.getClass().getSimpleName();
@@ -41,9 +39,14 @@ public class ImageService {
             }
             String caminhoImagemProjeto = "\\" + pastaImagens + "\\" + id + "." + fileExtension;
             if (!caminhoImagem.equals(caminhoProjeto + caminhoImagemProjeto)) {
+                if (entidade.getImagem() != null) {
+                    deletarImagem(entidade);
+                }
                 Files.copy(new File(caminhoImagem), new File(caminhoProjeto + caminhoImagemProjeto));
             }
             return caminhoImagemProjeto;
+        } else if (entidade.getImagem() != null) {
+            deletarImagem(entidade);
         }
         return null;
     }

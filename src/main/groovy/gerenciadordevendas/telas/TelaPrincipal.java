@@ -13,6 +13,7 @@ import gerenciadordevendas.tablemodel.FilialTableModel;
 import gerenciadordevendas.tablemodel.VendaTableModel;
 import java.awt.Toolkit;
 import java.util.Optional;
+import java.util.TimeZone;
 import javax.persistence.EntityManager;
 
 public class TelaPrincipal extends javax.swing.JFrame {
@@ -24,7 +25,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         initComponents();
         new DataCreator().create();
         Regras.load();
-        
+        TimeZone.getDefault();
         EntityManager em = JPA.getEM();
 //        Cliente clientePadrao = em.find(Cliente.class, Cliente.padrao().getId());
         Vendedor operadorPadrao = em.find(Vendedor.class, Vendedor.padrao().getId());

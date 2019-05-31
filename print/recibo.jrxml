@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="56" bottomMargin="56" isIgnorePagination="true" uuid="accac65e-43c8-4863-9513-7964efdea660">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="169"/>
+	<property name="ireport.y" value="96"/>
 	<parameter name="PRIMEIRO_ENDERECO" class="java.lang.String">
 		<defaultValueExpression><![CDATA[$P{FILIAL}.enderecos.isEmpty() ?  "" : $P{FILIAL}.enderecos.get(0)]]></defaultValueExpression>
 	</parameter>
@@ -26,14 +26,14 @@
 				<imageExpression><![CDATA[$P{FILIAL}.imagem]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="111" y="11" width="400" height="60" uuid="68c306df-1982-4368-a8d8-f84748a958f1"/>
+				<reportElement x="111" y="11" width="444" height="33" uuid="68c306df-1982-4368-a8d8-f84748a958f1"/>
 				<textElement verticalAlignment="Top">
 					<font size="18" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{FILIAL}.nome]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="119" width="511" height="20" uuid="b43a2720-a699-4e02-9b82-b4a61fbe5a07"/>
+				<reportElement x="0" y="114" width="511" height="20" uuid="b43a2720-a699-4e02-9b82-b4a61fbe5a07"/>
 				<textElement>
 					<font fontName="SansSerif" size="12"/>
 				</textElement>
@@ -58,7 +58,7 @@
 				<imageExpression><![CDATA["./icons/whats-icon.png"]]></imageExpression>
 			</image>
 			<line>
-				<reportElement x="0" y="1" width="511" height="1" uuid="c838b8c1-d8f9-4014-882a-e7dec49fc45b"/>
+				<reportElement x="0" y="1" width="555" height="1" uuid="c838b8c1-d8f9-4014-882a-e7dec49fc45b"/>
 			</line>
 			<textField>
 				<reportElement x="336" y="70" width="175" height="20" uuid="8cec2540-1569-40ac-96f2-ed1e317d3647"/>
@@ -68,7 +68,7 @@
 				<textFieldExpression><![CDATA["CNPJ: " +$P{FILIAL}.cnpj]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="148" width="511" height="1" uuid="3df65c2b-ba2b-44ec-b5b0-f6a192fd823f"/>
+				<reportElement x="0" y="148" width="555" height="1" uuid="3df65c2b-ba2b-44ec-b5b0-f6a192fd823f"/>
 			</line>
 			<textField>
 				<reportElement x="111" y="71" width="225" height="20" uuid="f47b8cc8-b85f-40a6-9c6b-558340bd40ce"/>
@@ -82,14 +82,14 @@
 	<detail>
 		<band height="143" splitType="Stretch">
 			<staticText>
-				<reportElement x="301" y="5" width="100" height="20" uuid="e6ad5b3d-2ebb-4076-8076-7259c5c3dfcf"/>
+				<reportElement x="311" y="5" width="100" height="20" uuid="e6ad5b3d-2ebb-4076-8076-7259c5c3dfcf"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="411" y="5" width="100" height="20" uuid="9502a4c5-7a1f-4c87-8587-781a23174a1e"/>
+				<reportElement x="425" y="5" width="100" height="20" uuid="9502a4c5-7a1f-4c87-8587-781a23174a1e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>

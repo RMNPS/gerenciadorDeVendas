@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo_pessoa_fisica" language="groovy" pageWidth="511" pageHeight="802" columnWidth="511" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="22d8b5a4-d73b-4ed8-a45d-b2d2d16d1229">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo_pessoa_fisica" language="groovy" pageWidth="595" pageHeight="802" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="22d8b5a4-d73b-4ed8-a45d-b2d2d16d1229">
 	<property name="ireport.zoom" value="1.2100000000000009"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="19"/>
 	<property name="ireport.y" value="0"/>
 	<field name="nome" class="java.lang.String"/>
 	<field name="enderecos" class="java.util.Collection"/>
@@ -13,9 +13,9 @@
 	<detail>
 		<band height="134" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="511" height="134" uuid="fcd7ab5f-fe18-408f-ba3a-72be45828023"/>
+				<reportElement x="0" y="0" width="595" height="134" uuid="fcd7ab5f-fe18-408f-ba3a-72be45828023"/>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="0" width="511" height="20" backcolor="#CCCCFF" uuid="d2465d96-c11d-4d94-9f51-389eadeda760"/>
+					<reportElement mode="Opaque" x="0" y="0" width="595" height="20" backcolor="#CCCCFF" uuid="d2465d96-c11d-4d94-9f51-389eadeda760"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
@@ -27,7 +27,7 @@
 					<text><![CDATA[Endereço]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="111" y="44" width="400" height="20" isPrintWhenDetailOverflows="true" uuid="b4ce1e3e-61dd-4d99-b89e-3c17fa4330b4"/>
+					<reportElement x="111" y="44" width="484" height="20" isPrintWhenDetailOverflows="true" uuid="b4ce1e3e-61dd-4d99-b89e-3c17fa4330b4"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{enderecos}.empty
     ? ""
@@ -39,7 +39,7 @@
 					<text><![CDATA[CPF]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="111" y="88" width="141" height="20" uuid="f73bb490-b4b4-4e99-9d91-14b7645a49e9"/>
+					<reportElement x="111" y="88" width="181" height="20" uuid="f73bb490-b4b4-4e99-9d91-14b7645a49e9"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
 				</textField>
@@ -49,17 +49,17 @@
 					<text><![CDATA[Nome]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="111" y="22" width="400" height="20" uuid="e73ab2ae-d4e5-4a2a-a315-1b8e9169bcd5"/>
+					<reportElement x="111" y="22" width="484" height="20" uuid="e73ab2ae-d4e5-4a2a-a315-1b8e9169bcd5"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement mode="Opaque" x="259" y="88" width="100" height="20" backcolor="#CCCCFF" uuid="abf2f9a8-5a33-4c74-aa9e-d789e10434f2"/>
+					<reportElement mode="Opaque" x="303" y="88" width="100" height="20" backcolor="#CCCCFF" uuid="abf2f9a8-5a33-4c74-aa9e-d789e10434f2"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[RG]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="370" y="88" width="141" height="20" uuid="07165059-6abb-42a1-b0a7-0e324037bb6e"/>
+					<reportElement x="414" y="88" width="181" height="20" uuid="07165059-6abb-42a1-b0a7-0e324037bb6e"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{rg}]]></textFieldExpression>
 				</textField>
@@ -69,22 +69,22 @@
 					<text><![CDATA[Telefone]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="111" y="110" width="141" height="20" uuid="432edc18-66d0-4650-ac9e-1c1b51be666e"/>
+					<reportElement x="111" y="110" width="181" height="20" uuid="432edc18-66d0-4650-ac9e-1c1b51be666e"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement mode="Opaque" x="259" y="110" width="100" height="20" backcolor="#CCCCFF" uuid="12508bdc-a356-477e-807d-f47fde005ac0"/>
+					<reportElement mode="Opaque" x="303" y="110" width="100" height="20" backcolor="#CCCCFF" uuid="12508bdc-a356-477e-807d-f47fde005ac0"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Celular]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="371" y="110" width="140" height="20" uuid="985eea35-deb3-4ab3-97b1-6a6b6e4cc379"/>
+					<reportElement x="415" y="110" width="180" height="20" uuid="985eea35-deb3-4ab3-97b1-6a6b6e4cc379"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="111" y="66" width="400" height="20" isPrintWhenDetailOverflows="true" uuid="f1b2752a-4432-4de8-9a33-eaaed051483f"/>
+					<reportElement x="111" y="66" width="484" height="20" isPrintWhenDetailOverflows="true" uuid="f1b2752a-4432-4de8-9a33-eaaed051483f"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 				</textField>

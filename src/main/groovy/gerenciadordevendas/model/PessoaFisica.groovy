@@ -36,6 +36,7 @@ class PessoaFisica extends BaseEntity implements Comparable<PessoaFisica>, Entid
     String imagem
     @OneToMany(mappedBy = "pessoaFisica", cascade = CascadeType.ALL)
     List<Endereco> enderecos
+    String email
 
     @Override
     String toString() { nome }

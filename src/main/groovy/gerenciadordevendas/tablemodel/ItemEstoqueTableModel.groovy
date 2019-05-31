@@ -12,6 +12,8 @@ import java.awt.Window
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent
+import javax.swing.event.ListSelectionListener
 
 class ItemEstoqueTableModel extends CompleteTableModelPesquisavel<ItemEstoque> {
 
@@ -31,6 +33,13 @@ class ItemEstoqueTableModel extends CompleteTableModelPesquisavel<ItemEstoque> {
     @Override
     void atualizaEspacamentoColunas() {
         setJTableColumnsWidth(5, 7, 37, 15, 5, 10, 10, 10)
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+                public void valueChanged(ListSelectionEvent event) {
+                    // do some actions here, for example
+                    // print first column value from selected row
+                    System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
+                }
+            });
     }
 
     @Override

@@ -84,7 +84,7 @@ class VendaTableModel extends AbstractTableModelPesquisavel<Venda> {
         switch (colunas[columnIndex]) {
             case "id": return v.id
             case "Data": return v.dataCriacao ? sdf.format(v.dataCriacao) : ""
-            case "Cliente": return v.conta.cliente.nome
+            case "Cliente": return v.conta.cliente? v.conta.cliente.nome : ""
             case "Total": return df.format(v.total ?: 0g)
             case "Estado": return v.estado
             case "Última Alteração": return v.dataAtualizacao ? sdf.format(v.dataAtualizacao) : ""
