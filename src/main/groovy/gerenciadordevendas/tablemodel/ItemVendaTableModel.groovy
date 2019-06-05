@@ -47,7 +47,7 @@ class ItemVendaTableModel extends TableModelPesquisavel {
     ItemVendaTableModel() {
         super(Colunas.values()*.nome)
 
-        venda = new Venda(null, Vendedor.padrao())
+        venda = new Venda(null)
     }
     
     ItemVendaTableModel(Venda venda){
@@ -105,7 +105,8 @@ class ItemVendaTableModel extends TableModelPesquisavel {
 
     void finalizarVenda() {
               
-        venda = new Venda(null, vendedor)
+        venda = new Venda(null)
+        venda.vendedor = vendedor
         transacoes.clear();
         fireTableDataChanged();
     }

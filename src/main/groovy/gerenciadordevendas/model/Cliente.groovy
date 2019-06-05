@@ -60,7 +60,14 @@ class Cliente extends BaseEntity implements Comparable<Cliente> {
             empresa.nome
         }
     }
-
+    
+    String getCPFouCNPJ() {
+        if (pessoaFisica) {
+            pessoaFisica.cpf
+        } else {
+            empresa.cnpj
+        }
+    }
 }
 
 

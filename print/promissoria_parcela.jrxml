@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="promissoria_parcela" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="990c3ba4-ead2-408c-ba8e-78977fc5fd8c">
+	<property name="ireport.zoom" value="1.3310000000000026"/>
+	<property name="ireport.x" value="37"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="EXTENSO" class="java.lang.Object"/>
+	<field name="vencimento" class="java.util.Date"/>
+	<field name="id" class="java.lang.String"/>
+	<field name="venda" class="java.lang.Object"/>
+	<field name="valor" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="278">
+			<textField pattern="dd &apos;de&apos; MMMMM &apos;de&apos; yyyy">
+				<reportElement x="397" y="0" width="158" height="20" uuid="8e6b3dfb-a9db-443d-9b80-2c1a26459b5c"/>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="0" width="265" height="20" uuid="cd61e4e6-9259-46d6-a9b2-910d82cedfad"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NOTA PROMISSÓRIA Nº" + $F{venda}.id + " " + $V{REPORT_COUNT} + "/" + $F{venda}.parcelas.size()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="319" y="0" width="78" height="20" uuid="69dafde1-8bb0-4aef-a2d9-674e1cd27df6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Vencimento "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="50" width="501" height="137" forecolor="#333333" uuid="12568817-e8dd-459c-b2d4-20eab9ebf83a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda}.filial.nome ]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="11" y="193" width="31" height="31" uuid="54cd5a3e-de83-4589-9ad9-8d241334a496"/>
+				<imageExpression><![CDATA["C:\\Users\\gabri_p\\Desktop\\Ramon\\Exemplos\\GerenciadorDeVendas\\print\\icons\\Coat_of_arms_of_Brazil.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="11" y="20" width="31" height="173" uuid="add481be-45c1-412c-8f56-e87daf5864bd"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font size="11" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[República Federativa do Brasil]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="54" y="193" width="501" height="18" forecolor="#000000" uuid="2ea67834-accc-433d-913f-d54e729bab6e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda}.filial.enderecos[0].cidade + ", " + new SimpleDateFormat("dd 'do mês de' MMMMM 'do ano de' yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="211" width="58" height="28" uuid="de817aee-b956-45f3-beba-fe81b85bc67e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Emitente"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="116" y="235" width="439" height="1" uuid="66a3f7fa-34a9-42ee-85a6-7652853a1c28"/>
+			</line>
+			<textField>
+				<reportElement x="116" y="239" width="439" height="39" forecolor="#333333" uuid="15ba0651-87a1-4d94-b917-2715f09de98b"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda}.conta.cliente.nome+"\n"+$F{venda}.conta.cliente.getCPFouCNPJ()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

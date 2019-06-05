@@ -6,6 +6,7 @@
 package gerenciadordevendas.telas;
 
 import gerenciadordevendas.JPA;
+import gerenciadordevendas.conversao.ExtensoPortugues;
 import gerenciadordevendas.exception.TransacaoException;
 import gerenciadordevendas.model.FormaPagamento;
 import gerenciadordevendas.telas.listener.DecimalDocumentListener;
@@ -14,6 +15,7 @@ import gerenciadordevendas.telas.listener.MoedaDocumentListener;
 import gerenciadordevendas.telas.listener.ParcelaDocumentListener;
 import gerenciadordevendas.model.Cliente;
 import gerenciadordevendas.model.Conta;
+import gerenciadordevendas.model.Empresa;
 import gerenciadordevendas.model.Parcela;
 import gerenciadordevendas.model.TipoEmpresa;
 import gerenciadordevendas.model.Venda;
@@ -380,6 +382,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         btnProximo = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        btnImprimirPromissoria = new javax.swing.JButton();
 
         mnuEditar.setText("Editar");
         mnuEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -1000,6 +1003,13 @@ public class TelaPagamento extends javax.swing.JDialog {
             }
         });
 
+        btnImprimirPromissoria.setText("Imprimir Promissória");
+        btnImprimirPromissoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirPromissoriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1009,6 +1019,8 @@ public class TelaPagamento extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnImprimirPromissoria)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1026,7 +1038,8 @@ public class TelaPagamento extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnProximo)
                     .addComponent(btnAnterior)
-                    .addComponent(btnEditar))
+                    .addComponent(btnEditar)
+                    .addComponent(btnImprimirPromissoria))
                 .addContainerGap())
         );
 
@@ -1263,6 +1276,43 @@ public class TelaPagamento extends javax.swing.JDialog {
         cmbCliente.setSelectedItem(op.orElse(anterior));
     }//GEN-LAST:event_btnTamanhoActionPerformed
 
+    private void btnImprimirPromissoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirPromissoriaActionPerformed
+        Cliente cliente = (Cliente) cmbCliente.getSelectedItem();
+        if (cliente == null) {
+            venda.setConta(Conta.padrao());
+        } else {
+            venda.setConta(cliente.getConta());
+        }
+
+        EntityManager em = JPA.getEM();
+        imprimirpromissoria(em);
+        em.close();
+    }//GEN-LAST:event_btnImprimirPromissoriaActionPerformed
+
+    
+    private void imprimirpromissoria(EntityManager em) throws HeadlessException {
+        Map<String, Object> parametros = new HashMap<>();
+        Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x")
+                .setParameter("x", TipoEmpresa.MATRIZ)
+                .getResultStream().findAny();
+        if (matriz.isPresent()) {
+            parametros.put("FILIAL", matriz.get());
+            parametros.put("EXTENSO", new ExtensoPortugues());
+            venda.setFilial((Empresa) matriz.get());
+            try {
+                JasperPrint print = JasperFillManager.fillReport("./print/promissoria.jasper", parametros, new JRBeanCollectionDataSource(java.util.Collections.singletonList(venda)));
+
+//                JasperPrintManager.printReport(print, true);
+                JasperViewer.viewReport(print, false);
+            } catch (JRException ex) {
+                new TelaErro(ex).setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Não foi possível imprimir, pois não há nenhuma matriz cadastrada");
+        }
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -1289,7 +1339,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Venda v = new Venda(Conta.padrao(), Vendedor.padrao());
+                Venda v = new Venda(Conta.padrao());
                 v.setSubTotal(BigDecimal.TEN);
                 v.setTotal(BigDecimal.TEN);
                 TelaPagamento dialog = new TelaPagamento(v);
@@ -1310,6 +1360,7 @@ public class TelaPagamento extends javax.swing.JDialog {
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnImprimirPromissoria;
     private javax.swing.JButton btnProximo;
     private javax.swing.JButton btnTamanho;
     private javax.swing.JComboBox<Cliente> cmbCliente;

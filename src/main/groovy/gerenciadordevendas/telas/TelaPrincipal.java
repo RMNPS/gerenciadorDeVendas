@@ -27,14 +27,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Regras.load();
         TimeZone.getDefault();
         EntityManager em = JPA.getEM();
-//        Cliente clientePadrao = em.find(Cliente.class, Cliente.padrao().getId());
-        Vendedor operadorPadrao = em.find(Vendedor.class, Vendedor.padrao().getId());
-        if (operadorPadrao == null) {
-            em.getTransaction().begin();
-//            em.merge(Cliente.padrao());
-            em.merge(Vendedor.padrao());
-            em.getTransaction().commit();
-        }
+
 //        Optional matriz = em.createQuery("SELECT e FROM Empresa e WHERE e.tipoEmpresa = :x")
 //                .setParameter("x", TipoEmpresa.MATRIZ)
 //                .getResultStream().findAny();

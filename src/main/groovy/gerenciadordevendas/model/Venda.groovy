@@ -52,16 +52,16 @@ class Venda extends RegistroDeFluxo {
     @OneToMany(mappedBy = "venda", cascade = CascadeType.REMOVE)
     List<Parcela> parcelas
     String observacoes
+    Empresa filial
 
     protected Venda() {  }
     
-    Venda(Conta conta, Vendedor vendedor) {
+    Venda(Conta conta) {
         this.listaProdutos = new ArrayList<>()
 
         this.subTotal = 0
         this.estado = Estado.ABERTA;
         this.conta = conta
-        this.vendedor = vendedor
     }
 
     List<ItemVenda> getListaProdutos() {
