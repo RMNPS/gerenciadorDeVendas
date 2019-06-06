@@ -6,6 +6,7 @@ import javax.persistence.Entity
 class Usuario extends BaseEntity {
 
     PessoaFisica pessoaFisica
+    Empresa empresa
     String login
     String senha
 

@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.swing.AbstractButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -1004,6 +1005,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         });
 
         btnImprimirPromissoria.setText("Imprimir Promissória");
+        btnImprimirPromissoria.setEnabled(false);
         btnImprimirPromissoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnImprimirPromissoriaActionPerformed(evt);
@@ -1119,6 +1121,7 @@ public class TelaPagamento extends javax.swing.JDialog {
             tabPagamento.setSelectedComponent(tabParcelamento);
             btnProximo.setText("Finalizar");
             btnAnterior.setEnabled(true);
+            btnImprimirPromissoria.setEnabled(true);
         } else {
             try {
             if (radioDinheiro.isSelected() || radioCreditoAvista.isSelected() || radioDebito.isSelected()) {
@@ -1204,6 +1207,7 @@ public class TelaPagamento extends javax.swing.JDialog {
         tabPagamento.setEnabledAt(1, false);
         tabPagamento.setSelectedComponent(tabDadosGerais);
         btnAnterior.setEnabled(false);
+        btnImprimirPromissoria.setEnabled(false);
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void txtValorParcelaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorParcelaKeyPressed
@@ -1279,7 +1283,7 @@ public class TelaPagamento extends javax.swing.JDialog {
     private void btnImprimirPromissoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirPromissoriaActionPerformed
         Cliente cliente = (Cliente) cmbCliente.getSelectedItem();
         if (cliente == null) {
-            venda.setConta(Conta.padrao());
+            JOptionPane.showMessageDialog(this, "É preciso que seja informado um cliente para imprimir a promissória");
         } else {
             venda.setConta(cliente.getConta());
         }
@@ -1303,7 +1307,18 @@ public class TelaPagamento extends javax.swing.JDialog {
                 JasperPrint print = JasperFillManager.fillReport("./print/promissoria.jasper", parametros, new JRBeanCollectionDataSource(java.util.Collections.singletonList(venda)));
 
 //                JasperPrintManager.printReport(print, true);
-                JasperViewer.viewReport(print, false);
+                setModal(false);
+
+                JasperViewer jasperViewer = new JasperViewer(print, false);
+                JDialog dialog = new JDialog(this);//the owner
+                dialog.setContentPane(jasperViewer.getContentPane());
+                dialog.setSize(jasperViewer.getSize());
+                dialog.setLocationRelativeTo(null);
+                dialog.setTitle(jasperViewer.getTitle());
+                dialog.setIconImage(jasperViewer.getIconImage());
+                dialog.setVisible(true);
+//                JasperViewer.viewReport(print, false);
+                setModal(true);
             } catch (JRException ex) {
                 new TelaErro(ex).setVisible(true);
             }

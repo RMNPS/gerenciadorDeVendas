@@ -48,6 +48,7 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnFiliais" pref="106" max="32767" attributes="0"/>
                   <Component id="estoqueButton" max="32767" attributes="0"/>
+                  <Component id="clientesButton3" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="93" max="32767" attributes="0"/>
           </Group>
@@ -72,6 +73,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="dadosButton" min="-2" pref="100" max="-2" attributes="0"/>
                   <Component id="configButton" min="-2" pref="100" max="-2" attributes="0"/>
+                  <Component id="clientesButton3" min="-2" pref="100" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="42" max="32767" attributes="0"/>
           </Group>
@@ -214,6 +216,19 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fornecedoresButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="clientesButton3">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/icons/ic_person_black_24dp_2x.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Vendedores"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientesButton3ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
