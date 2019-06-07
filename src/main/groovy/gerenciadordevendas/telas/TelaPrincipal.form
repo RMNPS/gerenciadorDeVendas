@@ -48,7 +48,7 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnFiliais" pref="106" max="32767" attributes="0"/>
                   <Component id="estoqueButton" max="32767" attributes="0"/>
-                  <Component id="clientesButton3" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnUsuarios" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="93" max="32767" attributes="0"/>
           </Group>
@@ -73,7 +73,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="dadosButton" min="-2" pref="100" max="-2" attributes="0"/>
                   <Component id="configButton" min="-2" pref="100" max="-2" attributes="0"/>
-                  <Component id="clientesButton3" min="-2" pref="100" max="-2" attributes="0"/>
+                  <Component id="btnUsuarios" min="-2" pref="100" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="42" max="32767" attributes="0"/>
           </Group>
@@ -88,6 +88,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="PDV"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="name" type="java.lang.String" value="pdv" noResource="true"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
@@ -110,6 +111,7 @@
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[81, 75]"/>
         </Property>
+        <Property name="name" type="java.lang.String" value="filiais" noResource="true"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[81, 75]"/>
         </Property>
@@ -126,6 +128,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Estoque"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="name" type="java.lang.String" value="estoque" noResource="true"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
@@ -139,6 +142,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Clientes"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="name" type="java.lang.String" value="clientes" noResource="true"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
@@ -158,6 +162,7 @@
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[81, 75]"/>
         </Property>
+        <Property name="name" type="java.lang.String" value="configuracoes" noResource="true"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[81, 75]"/>
         </Property>
@@ -174,6 +179,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Dados"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="name" type="java.lang.String" value="dados" noResource="true"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
@@ -187,6 +193,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Vendas"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="name" type="java.lang.String" value="vendas" noResource="true"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
@@ -209,6 +216,7 @@
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[81, 75]"/>
         </Property>
+        <Property name="name" type="java.lang.String" value="fornecedores" noResource="true"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[81, 75]"/>
         </Property>
@@ -218,17 +226,18 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fornecedoresButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="clientesButton3">
+    <Component class="javax.swing.JButton" name="btnUsuarios">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/icons/ic_person_black_24dp_2x.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Vendedores"/>
+        <Property name="text" type="java.lang.String" value="Usu&#xe1;rios"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="name" type="java.lang.String" value="usuarios" noResource="true"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clientesButton3ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUsuariosActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

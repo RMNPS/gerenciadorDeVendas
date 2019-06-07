@@ -4,16 +4,19 @@ import gerenciadordevendas.InicializadorBaseDeDados;
 import gerenciadordevendas.JPA;
 import gerenciadordevendas.Regras;
 import gerenciadordevendas.telas.util.DataCreator;
+import gerenciadordevendas.model.Acesso;
 import gerenciadordevendas.model.Empresa;
 import gerenciadordevendas.model.TipoEmpresa;
-import gerenciadordevendas.model.Vendedor;
 import gerenciadordevendas.tablemodel.ClienteTableModel;
 import gerenciadordevendas.tablemodel.FornecedorTableModel;
 import gerenciadordevendas.tablemodel.FilialTableModel;
 import gerenciadordevendas.tablemodel.VendaTableModel;
+import java.awt.Component;
 import java.awt.Toolkit;
+import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 
 public class TelaPrincipal extends javax.swing.JFrame {
@@ -38,6 +41,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //            telaEmpresa.setEmpresa(empresa);
 //            telaEmpresa.setVisible(true);
 //        }
+        List<Acesso> acessos = em.createQuery("SELECT * FROM Acesso a where a.tela = :x").setParameter("x", this.getClass().getSimpleName()).getResultList();
+        
+        for (Component component : getComponents()) {
+            for (Acesso acesso : acessos) {
+                if (acesso.getCampo().equals(component.getName())) {
+                    component.setVisible(false);
+                    break;
+                }
+            }
+        }
+        
+        
         em.close();
         
     }
@@ -54,7 +69,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         dadosButton = new javax.swing.JButton();
         btnVendas = new javax.swing.JButton();
         fornecedoresButton = new javax.swing.JButton();
-        clientesButton3 = new javax.swing.JButton();
+        btnUsuarios = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gerenciador De Vendas");
@@ -71,6 +86,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnPDV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/baseline_shopping_basket_black_24dp.png"))); // NOI18N
         btnPDV.setText("PDV");
         btnPDV.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPDV.setName("pdv"); // NOI18N
         btnPDV.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPDV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,6 +99,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnFiliais.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnFiliais.setMaximumSize(new java.awt.Dimension(81, 75));
         btnFiliais.setMinimumSize(new java.awt.Dimension(81, 75));
+        btnFiliais.setName("filiais"); // NOI18N
         btnFiliais.setPreferredSize(new java.awt.Dimension(81, 75));
         btnFiliais.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnFiliais.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +111,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         estoqueButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_dashboard_black_24dp_2x.png"))); // NOI18N
         estoqueButton.setText("Estoque");
         estoqueButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        estoqueButton.setName("estoque"); // NOI18N
         estoqueButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         estoqueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,6 +122,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         clientesButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_person_black_24dp_2x.png"))); // NOI18N
         clientesButton2.setText("Clientes");
         clientesButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        clientesButton2.setName("clientes"); // NOI18N
         clientesButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         clientesButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,6 +135,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         configButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         configButton.setMaximumSize(new java.awt.Dimension(81, 75));
         configButton.setMinimumSize(new java.awt.Dimension(81, 75));
+        configButton.setName("configuracoes"); // NOI18N
         configButton.setPreferredSize(new java.awt.Dimension(81, 75));
         configButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         configButton.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +147,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         dadosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_timeline_black_24dp_2x.png"))); // NOI18N
         dadosButton.setText("Dados");
         dadosButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        dadosButton.setName("dados"); // NOI18N
         dadosButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         dadosButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,6 +158,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_shopping_cart_black_24dp_2x.png"))); // NOI18N
         btnVendas.setText("Vendas");
         btnVendas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnVendas.setName("vendas"); // NOI18N
         btnVendas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnVendas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,6 +171,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         fornecedoresButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         fornecedoresButton.setMaximumSize(new java.awt.Dimension(81, 75));
         fornecedoresButton.setMinimumSize(new java.awt.Dimension(81, 75));
+        fornecedoresButton.setName("fornecedores"); // NOI18N
         fornecedoresButton.setPreferredSize(new java.awt.Dimension(81, 75));
         fornecedoresButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         fornecedoresButton.addActionListener(new java.awt.event.ActionListener() {
@@ -157,13 +180,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        clientesButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_person_black_24dp_2x.png"))); // NOI18N
-        clientesButton3.setText("Vendedores");
-        clientesButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        clientesButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        clientesButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_person_black_24dp_2x.png"))); // NOI18N
+        btnUsuarios.setText("Usuários");
+        btnUsuarios.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnUsuarios.setName("usuarios"); // NOI18N
+        btnUsuarios.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientesButton3ActionPerformed(evt);
+                btnUsuariosActionPerformed(evt);
             }
         });
 
@@ -186,7 +210,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnFiliais, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                     .addComponent(estoqueButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clientesButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -206,7 +230,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dadosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(configButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clientesButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -274,9 +298,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         new TelaPesquisar(new FornecedorTableModel(), false).setVisible(true);
     }//GEN-LAST:event_fornecedoresButtonActionPerformed
 
-    private void clientesButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesButton3ActionPerformed
+    private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         
-    }//GEN-LAST:event_clientesButton3ActionPerformed
+    }//GEN-LAST:event_btnUsuariosActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -303,9 +327,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFiliais;
     private javax.swing.JButton btnPDV;
+    private javax.swing.JButton btnUsuarios;
     private javax.swing.JButton btnVendas;
     private javax.swing.JButton clientesButton2;
-    private javax.swing.JButton clientesButton3;
     private javax.swing.JButton configButton;
     private javax.swing.JButton dadosButton;
     private javax.swing.JButton estoqueButton;
